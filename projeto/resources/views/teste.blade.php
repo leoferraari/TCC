@@ -1,5 +1,7 @@
-<?php 
-echo 'Hello World!';
-echo '<br>';
-echo '<h1>SEU PROJETO SERÁ CONCLUÍDO COM SUCESSO!</h1>'
-?>
+
+@extends("body")
+@extends("header")
+<!-- <?php 
+
+?> -->
+

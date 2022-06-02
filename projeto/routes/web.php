@@ -10,7 +10,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/motivacao', function () {
     return view('teste');
 });

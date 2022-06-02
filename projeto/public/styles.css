@@ -1,0 +1,167 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/**********************************/
+/* Variáveis
+/**********************************/
+
+:root {  /** Representa o nível mais alto do HTML. */
+	--ff-primary: "Nunito", Helvetica, Arial, sans-serif;
+
+	--clr-black: black;
+	--clr-purpple-light: #bad6ff;
+	--clr-purpple-dark: #7485ff;
+	--clr-white: #F5F5F5;
+}
+
+/**********************************/
+/* Estilos gerais
+/**********************************/
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: var(--clr-white);
+	font-family: var(--ff-primary);
+}
+
+li {
+    list-style:none ;
+}
+
+/**
+hover   - quando passa por cima do elemento
+active  - quando clica no elemento
+link    - o próprio link
+visited - se foi visitado alguma vez
+*/
+a,
+a:hover,
+a:active,
+a:link,
+a:visited {
+	text-decoration: none;
+	color: var(--clr-white);
+}
+
+hr {
+	border: none;
+	background-color: var(--clr-purpple-dark);
+	height: 2px;
+	width: 140px;
+	margin: 20px auto; /** auto deixa centralizado */
+}
+
+p {
+	line-height: 20px;
+	padding: 0 10px;
+}
+
+.section__titulo {
+	text-align: center;
+	font-size: 3rem;
+	margin-bottom: 10px;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+	border-radius: 50%;
+}
+
+#logo__nasa {
+	width: 80px;
+}
+
+/**********************************/
+/* Menu
+/**********************************/
+
+.menu-bg {
+	background-color: var(--clr-black);
+}
+
+.menu {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 960px;
+	margin: 0 auto;
+	flex-wrap: wrap;
+}
+
+.menu__logo {
+	margin: 10px;
+}
+
+.nav__list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.nav__link {
+	padding: 20px 10px; /** sup inf left right */
+}
+
+/**********************************/
+/* Header
+/**********************************/
+
+.intro {
+	font-weight: bold;
+	font-size: 3rem;
+	text-align: center;
+	margin: 0 auto;
+	padding: 25px 0;
+}
+
+/**********************************/
+/* Teste
+/**********************************/
+
+.somos {
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.somos-c {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.somos-c__texto {
+	/* 
+		flex: flex-grow - O espaço do texto deve ocupar uma área 6x maior que a imagem.
+		flex-shrink - Permite que o item reduzada o tamanho pra caber no flex container
+		flex-basis - Tamanho inicial de 160px */
+	flex: 6 1 160px;
+}
+
+.somos-c__img {
+	 flex: 1 1 350px;
+}
+
+/**********************************/
+/* Footer
+/**********************************/
+
+.footer {
+	background-color: var(--clr-black);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 55px calc((100% - 960px) / 2);
+}
+
+.footer_copyright {
+	padding-left: 10px;
+	padding-right: 10px;
+	color: var(--clr-white);
+}
+
