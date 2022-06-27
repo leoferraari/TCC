@@ -1,0 +1,2 @@
+JWT
+composer require tymon/jwt-auth

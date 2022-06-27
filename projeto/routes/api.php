@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get ( '/', function() {
+    return response()->json(['api_name' => 'laravel-jwt', 'api_version' => '1.0.0']);
 });
+
+Route::prefix('V1')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+});
+
+// Route::post('login', [AuthController::class, 'login']);
+// Route::post('logout', 'AuthController@logout');
+// Route::post('refresh', 'AuthController@refresh');
+// Route::post('me', 'AuthController@me');
