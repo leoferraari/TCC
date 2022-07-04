@@ -4,7 +4,7 @@
         <label for="validationCustom03">Estado</label>
         <select wire:model="estado" class="custom-select" id="estado" name="estado" required>
         <option value="" selected>Selecione um Estado</option>
-        @foreach ($estados as $estado) 
+        @foreach ($this->estados as $estado) 
             <option value="{{ $estado->sigla }}">{{ $estado->nome }}</option>
         @endforeach
         </select>
@@ -20,7 +20,7 @@
   
         @if($this->estado)
     
-        @foreach ($municipios as $municipio) 
+        @foreach ($cidades as $municipio) 
             <option value="{{ $municipio->id }}">{{ $municipio->nome }}</option>
         @endforeach
         @endif
