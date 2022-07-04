@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static array getEstados()
- * @method static array getMunicipios()
+ * @method static array getMunicipios(string $siglaEstado)
  */
 class Locations extends Facade {
 
