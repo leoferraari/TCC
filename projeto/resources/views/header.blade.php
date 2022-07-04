@@ -22,7 +22,7 @@
                     <li><a href="#projetos" class="nav__link">Projetos</a></li>
                     <li><a href="#teste" class="nav__link">Teste 1</a></li>
                     <li><a href="#teste" class="nav__link">Teste 2</a></li>
-                    <li><a href="#teste" class="nav__link">Teste 3</a></li>
+                    <li><a href="{{route('dynamic-dropdown')}}" class="nav__link">Dropdown</a></li>
                     <li><a href="{{route('logout')}}" class="nav__link">Sair</a></li>
                 </ul> <!-- .nav__list -->
             </nav> <!-- .nav -->

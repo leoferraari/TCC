@@ -21,9 +21,7 @@ class apiProtectedRoute extends BaseMiddleware
     public function handle($request, Closure $next)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-            // dd($user);
-            
+            $user = JWTAuth::parseToken()->authenticate();         
         } catch (Exception $exception) {
             dd('caiu');
             if ($exception instanceof TokenInvalidException){
