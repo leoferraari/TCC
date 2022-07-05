@@ -16,6 +16,4 @@ class Estado extends Model
     public function municipios(): HasMany {
         return $this->hasMany(Municipio::class);
     }
-
-
 }

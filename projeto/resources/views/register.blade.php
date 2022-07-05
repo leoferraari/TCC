@@ -22,40 +22,75 @@
                     <form class="needs-validation" novalidate>
                         <div class="form-row">
                             <div class="col-md-4 mb-3">
-                            <label for="validationCustom01">Primeiro nome</label>
-                            <input type="text" class="form-control" id="validationCustom01" placeholder="Nome" required>
-                            <!-- <div class="valid-feedback">
-                                Tudo certo!
-                            </div> -->
+                                <label for="validationCustom01">Primeiro nome</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="Nome" required>
+                                <!-- <div class="valid-feedback">
+                                    Tudo certo!
+                                </div> -->
                             </div>
-                            <div class="col-md-4 mb-3">
-                            <label for="validationCustom02">Sobrenome</label>
-                            <input type="text" class="form-control" id="validationCustom02" placeholder="Sobrenome" required>
-                            <div class="valid-feedback">
-                                Tudo certo!
+                            <div class="col-md-8 mb-3">
+                                <label for="validationCustom02">Sobrenome</label>
+                                <input type="text" class="form-control" id="validationCustom02" placeholder="Sobrenome" required>
+                                <div class="valid-feedback">
+                                    Tudo certo!
+                                </div>
                             </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationCustomUsername">Apelido</label>
+                     
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-3 mb-3">
+                                <label for="validationCustom03">Apelido</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="validationCustomUsername" placeholder="Usuário">
+                                    <input type="text" class="form-control" id="validationCustom03" placeholder="Usuário">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom04">E-mail</label>
+                                <input type="text" class="form-control" id="validationCustom04" placeholder="E-mail" required>
+                                <div class="valid-feedback">
+                                    Tudo certo!
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="validationCustom04">Data de Nascimento</label>
+                                <input type="data" class="form-control" id="validationCustom04" placeholder="Data de Nascimento" required>
+                                <div class="valid-feedback">
+                                    Tudo certo!
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-row">
-                        <livewire:dynamic-dropdown></livewire:dynamic-dropdown>
-                        
-                      
-                        
-                            <div class="col-md-3 mb-3">
-                            <label for="validationCustom05">CEP</label>
-                            <input type="text" class="form-control" id="validationCustom05" placeholder="CEP" required>
-                            <div class="invalid-feedback">
-                                Por favor, informe um CEP válido.
+                            <div class="col-md-4 mb-3">
+                                    <label for="validationCustom05">CPF</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="CPF" required>
+                                    <!-- <div class="valid-feedback">
+                                        Tudo certo!
+                                    </div> -->
                             </div>
+                            <div class="col-md-4 mb-3">
+                                    <label for="validationCustom06">Senha</label>
+                                    <input type="text" class="form-control" id="validationCustom06" placeholder="Senha" required>
+                                    <!-- <div class="valid-feedback">
+                                        Tudo certo!
+                                    </div> -->
                             </div>
-                            @livewireScripts
+                            <div class="col-md-4 mb-3">
+                                    <label for="validationCustom07">Confirmação de Senha</label>
+                                    <input type="text" class="form-control" id="validationCustom07" placeholder="Confirme sua senha" required>
+                                    <!-- <div class="valid-feedback">
+                                        Tudo certo!
+                                    </div> -->
+                            </div>
                         </div>
+
+                       
+                        <livewire:dynamic-dropdown></livewire:dynamic-dropdown>
+                        @livewireScripts
+                   
+
+                  
     
                         <button class="btn btn-primary" type="submit">Enviar</button>
                     </form>
