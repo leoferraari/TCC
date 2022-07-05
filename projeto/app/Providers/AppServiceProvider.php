@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\LocationsService;
+use App\Services\LocationsDbService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->singleton('Locations', function () {
-            return new LocationsService();
+            return new LocationsDbService();
         });
     }
 }
