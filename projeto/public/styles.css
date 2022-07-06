@@ -165,3 +165,7 @@ img {
 	color: var(--clr-white);
 }
 
+#buttonEnviar {
+	display: flex;
+	justify-content: center;
+}

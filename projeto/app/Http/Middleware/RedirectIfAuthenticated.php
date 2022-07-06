@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Hash;
 
 class RedirectIfAuthenticated
 {
@@ -28,9 +29,9 @@ class RedirectIfAuthenticated
 
         if (count(User::all()) == 0) {
             User::create([
-                'name'     => 'Leonardo da Rocha Ferrari',
-                'birth'    => '1999-05-04',
-                'password' => Hash::make('123456'),
+                'nome'     => 'Leonardo da Rocha Ferrari',
+                'data_nasc'    => '1999-05-04',
+                'password' => bcrypt('123456'),
                 'email'    => 'leonardo.ferrari@unidavi.edu.br',
             ]);
         }

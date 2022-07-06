@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Estado;
 use App\Models\Municipio;
+
 use Illuminate\Support\Facades\Http;
 
 class LocationsSeeder extends Seeder
