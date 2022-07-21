@@ -14,15 +14,15 @@
     <div class="menu-bg">	<!-- card - Bloco -->
         <div class="menu"> <!-- Elemento modificador -->
             <div class="menu__logo">
-                <a href="index.html"><img src="img/nasa.png" alt="logo" id="logo__nasa"></a>
+                <a href="/motivacao"><img src="{{ asset('/img/arq.png') }}" alt="logos" id="logo__nasa"></a>
 
             </div> <!-- .menu__logo -->
             <nav class="nav">
                 <ul class="nav__list"> <!-- Elemento modificador -->
-                    <li><a href="#projetos" class="nav__link">Projetos</a></li>
-                    <li><a href="#teste" class="nav__link">Teste 1</a></li>
+                    <li><a href="{{route('projeto.create')}}" class="nav__link">Novo Projeto</a></li>
+                    <li><a href="{{route('check_list.create')}}" class="nav__link">Check-List</a></li>
                     <li><a href="#teste" class="nav__link">Teste 2</a></li>
-                    <li><a href="{{route('dynamic-dropdown')}}" class="nav__link">Dropdown</a></li>
+                    <li><a href="#meu_perfil" class="nav__link">Meu Perfil</a></li>
                     <li><a href="{{route('logout')}}" class="nav__link">Sair</a></li>
                 </ul> <!-- .nav__list -->
             </nav> <!-- .nav -->

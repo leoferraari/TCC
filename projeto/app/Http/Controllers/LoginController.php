@@ -38,8 +38,6 @@ class LoginController extends Controller
 
     public function logout()
     {
-        // auth()->logout(true);
-        // session(['jwt-token' => false]);
         session()->forget('jwt-token');
         return redirect()->route('login');
     }

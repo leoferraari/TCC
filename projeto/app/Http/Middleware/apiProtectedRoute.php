@@ -20,18 +20,17 @@ class apiProtectedRoute extends BaseMiddleware
      */
     public function handle($request, Closure $next)
     {
-        try {
-            $user = JWTAuth::parseToken()->authenticate();         
-        } catch (Exception $exception) {
-            dd('caiu');
-            if ($exception instanceof TokenInvalidException){
-                return response()->json(['message' => 'Token is Invalid'], 401);
-            }else if ($exception instanceof TokenExpiredException){
-                return response()->json(['message' => 'Token is Expired'], 401);
-            }else{
-                return response()->json(['message' => $exception->getMessage()], 401);
-            }
-        }
+        // try {
+        //     $user = JWTAuth::parseToken()->authenticate();         
+        // } catch (Exception $exception) {
+        //     if ($exception instanceof TokenInvalidException){
+        //         return response()->json(['message' => 'Token is Invalid'], 401);
+        //     }else if ($exception instanceof TokenExpiredException){
+        //         return response()->json(['message' => 'Token is Expired'], 401);
+        //     }else{
+        //         return response()->json(['message' => $exception->getMessage()], 401);
+        //     }
+        // }
         return $next($request);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use EnderecoUser;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -15,12 +16,6 @@ class User extends Authenticatable implements JWTSubject
 
     protected $primaryKey = 'id';
 
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'nome',
         'sobrenome',
@@ -33,6 +28,14 @@ class User extends Authenticatable implements JWTSubject
         'telefone_fixo',
         'password',
     ];
+
+    public function endereco() {
+        return $this->hasOne(EnderecoUser::class, 'id_usuario');
+    }
+
+    public function municipios() {
+        return $this->belongsToMany(Municipio::class, 'usuario_atendimentos', 'id_usuario', 'id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

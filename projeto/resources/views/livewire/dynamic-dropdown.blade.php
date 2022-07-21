@@ -13,7 +13,7 @@
 
         <div class="col-md-6 mb-3">
             <label for="validationCustom13">Cidade</label>
-                <select class="custom-select" id="municipio" name="municipio" required>
+                <select class="custom-select" onchange="onChangeMunicipio()" id="municipio" name="municipio" required>
                 <option value="" selected>Selecione um Município</option>
         
                 @if($this->estado)
