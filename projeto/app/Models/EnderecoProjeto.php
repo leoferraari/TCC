@@ -13,6 +13,6 @@ class EnderecoProjeto extends Model
     protected $fillable = ['complemento', 'numero_endereco', 'bairro', 'cidade', 'cep', 'id_projeto'];
 
     public function projeto() {
-        return $this->belongsTo(Projeto::class, 'id_projeto', 'id');
+        return $this->hasMany(Projeto::class, 'id_projeto', 'id');
     }
 }

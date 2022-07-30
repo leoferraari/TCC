@@ -7,6 +7,7 @@ use App\Http\Controllers\UsuarioAtendimentoController;
 use App\Http\Controllers\DynamicDropdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CheckListController;
+use App\Http\Controllers\ComodoController;
 use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\ProjetoController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -30,7 +31,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('/check_list_atividade', [CheckListAtividadeController::class, 'store'])->name('check_list_atividade.store');
 
     Route::post('/projeto', [ProjetoController::class, 'store'])->name('projeto.store');
-
+    Route::post('/comodo', [ComodoController::class, 'store'])->name('comodo.store');
 });
 
 
@@ -50,6 +51,8 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/check_list/create', [CheckListController::class, 'create'])->name('check_list.create');
 
     Route::get('/check_list_atividade/create', [CheckListAtividadeController::class, 'create'])->name('check_list_atividade.create');
+
+    Route::get('/comodo/create/{id_projeto}', [ComodoController::class, 'create'])->name('comodo.create');
 });
 
 
