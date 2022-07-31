@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\apiProtectedRoute;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\UsuarioAtendimentoController;
 
 /*
@@ -26,6 +27,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
 });
 
 Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok
+Route::get('/cidades/{id_estado}',   [MunicipioController::class, 'cidades'])->name('cidades.getMunicipiosFromEstado'); //Ok
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 

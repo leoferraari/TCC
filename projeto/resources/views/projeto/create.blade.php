@@ -131,7 +131,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="validationCustom8">Projeto Terceirizado:</label>
 
-                                    <input onclick="projetoTerceirizado({{$iUsuario}})" type="checkbox" id="is_autorizado" name="is_autorizado" disabled>
+                                    <input onclick="projetoTerceirizado({{$iUsuario}})" type="checkbox" id="is_terceirizado" name="is_terceirizado" disabled>
                                 </div>
 
                                 <div class="col-md-6 mb-3" id="div_terceirizado">
@@ -160,16 +160,16 @@
             function onChangeMunicipio() {
         
                 var bMunicipioPreenchido = document.getElementById("municipio").value != '';
-                document.getElementById("is_autorizado").disabled = !bMunicipioPreenchido;
+                document.getElementById("is_terceirizado").disabled = !bMunicipioPreenchido;
 
                 if(!bMunicipioPreenchido) {
-                    document.getElementById("is_autorizado").checked = false;
+                    document.getElementById("is_terceirizado").checked = false;
                     projetoTerceirizado();
                 }
             }
 
             function projetoTerceirizado($id_user) {
-                if (document.getElementById("is_autorizado").checked) {
+                if (document.getElementById("is_terceirizado").checked) {
                     adicionaCampoTerceirizado();
                     carregaCampoTerceirizado($id_user);   
                 } else {
@@ -196,7 +196,7 @@
             }
             
             function carregaCampoTerceirizado($id_user) {
-                    $.ajax({
+                $.ajax({
                     url: '/api/cidade_atendimento/'+document.getElementById("municipio").value+'/'+$id_user,
                     type: 'GET',
                     success: function(result) {

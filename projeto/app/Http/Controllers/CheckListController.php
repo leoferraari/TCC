@@ -25,9 +25,9 @@ class CheckListController extends Controller
     public function index()
         //VER
     {
-        $oUsuariosAtendimentos = $this->getUsuarioAtendimento();
+        $oCheckLists = $this->getCheckListsByUsuario();
 
-        return view('usuario_atendimento.index', compact('oUsuariosAtendimentos'));
+        return view('checklist.index', compact('oCheckLists'));
     }
 
     public function create()
@@ -57,9 +57,7 @@ class CheckListController extends Controller
         return redirect()->route('usuario_atendimento.index');
     }
 
-    private function getUsuarioAtendimento() {
-        $oQuery = UsuarioAtendimento::query()->join('users', 'usuario_atendimentos.id_usuario', '=', 'users.id')
-                                            ->where('users.id', '=', session('id_user'));
-        return $oQuery->get();
+    private function getCheckListsByUsuario() {
+        return CheckList::query()->where('id_usuario', '=', session('id_user'))->get();
     }
 }

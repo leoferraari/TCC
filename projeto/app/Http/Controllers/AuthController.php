@@ -71,6 +71,7 @@ class AuthController extends Controller
             'cpf' => 'required|between:2,11',
             'crea' => 'required|between:2,10',
             'celular' => 'required|between:0,11',
+            'telefone_fixo' => 'required|between:0,11',
             'password' => 'required|string|confirmed|min:6',
             'password_confirmation' => 'required ',
         ]);
@@ -146,5 +147,9 @@ class AuthController extends Controller
             'user' => auth('api')->user()
         ]);
     }
+
+//     public function update(Request $request){
+// dd('oi');
+//     }
 
 }

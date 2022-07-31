@@ -8,6 +8,7 @@ use App\Http\Controllers\DynamicDropdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\ComodoController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\ProjetoController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -15,6 +16,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 
 Route::get('/login', [LoginController::class, 'login'])        ->name('login');
 Route::get('/register', [LoginController::class, 'register'])        ->name('register');
+
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
@@ -32,11 +34,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::post('/projeto', [ProjetoController::class, 'store'])->name('projeto.store');
     Route::post('/comodo', [ComodoController::class, 'store'])->name('comodo.store');
+
+    Route::put('/usuario/update/{iCodigoUsuario}', [PerfilController::class, 'update'])->name('usuario/update');
 });
 
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
+    Route::get('/perfil', [PerfilController::class, 'perfil'])->name('perfil');
     Route::get('/motivacao', [DashboardController::class, 'motivacao'])->name('motivacao');
 
     Route::get('/usuario_atendimento',                 [UsuarioAtendimentoController::class, 'index'])->name('usuario_atendimento.index');
@@ -48,6 +53,7 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
     Route::get('/projeto/create', [ProjetoController::class, 'create'])->name('projeto.create');
     
+    Route::get('/check_list', [CheckListController::class, 'index'])->name('check_list');
     Route::get('/check_list/create', [CheckListController::class, 'create'])->name('check_list.create');
 
     Route::get('/check_list_atividade/create', [CheckListAtividadeController::class, 'create'])->name('check_list_atividade.create');
