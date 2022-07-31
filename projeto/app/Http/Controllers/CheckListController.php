@@ -47,14 +47,14 @@ class CheckListController extends Controller
         // return redirect()->route('usuario_atendimento.index');
     }
 
-    public function destroy($id_municipio)
+    public function destroy($iCodigoCheckList)
     {
-        $users = DB::table('usuario_atendimentos')->where([
+        $users = DB::table('check_lists')->where([
             ['id_usuario', '=', session('id_user')],
-            ['id_municipio', '=', $id_municipio],
+            ['id', '=', $iCodigoCheckList],
         ])->delete();
 
-        return redirect()->route('usuario_atendimento.index');
+        return redirect()->route('check_list');
     }
 
     private function getCheckListsByUsuario() {

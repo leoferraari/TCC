@@ -1,31 +1,36 @@
 
 
-
+@include("header")
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('aaaa) }}</div>
+           
                     <div class="card-body">
-                        <a href="{{route('usuario_atendimento.create')}}" class="btn btn-lg btn-success">sssd</a>
+                        <a href="{{route('check_list_atividade.create', ['iCodigoCheckList'=>$iCodigoCheckList])}}" class="btn btn-lg btn-success">Adicionar</a>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                     <!-- VER -->
                                 <tr>
-                                    <th>Estado</th>
-                                    <th>Cidade</th>
-                                    <th>Ações</th>
+                                    <th>CheckList</th>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                    <th>Açõess</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($oUsuariosAtendimentos as $oUsuarioAtendimento)
+                           
+                                @foreach($oAtividades as $oAtividade)
+                                     @isset($oAtividade->id)
                                     <tr>
-                                        <td>{{$oUsuarioAtendimento->id_usuario}}</td>
-                                        <td>{{$oUsuarioAtendimento->id_municipio}}</td>
+                                   
+                                        <td>{{$oAtividade->id}}</td>
+                                        <td>{{$oAtividade->descricao}}</td>
+                                   
                                         <td>
                                             <div class="btn-group">
-                                                <form action="{{route('usuario_atendimento.destroy', ['id_municipio'=>$oUsuarioAtendimento->id_municipio])}}" method="POST">
+                                                <form action="{{route('checklist_atividade.destroy', ['iCodigoCheckList'=>$oAtividade->id_checklist, $iCodigoAtividade => $oAtividade->id])}}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger">Deletar</button>
@@ -33,7 +38,9 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @endisset
                                 @endforeach
+                            
                                 </tbody>
                             </table>
                         </div>

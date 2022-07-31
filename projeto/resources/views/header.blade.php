@@ -21,7 +21,7 @@
                 <ul class="nav__list"> <!-- Elemento modificador -->
                     <li><a href="{{route('projeto.create')}}" class="nav__link">Novo Projeto</a></li>
                     <li><a href="{{route('check_list.create')}}" class="nav__link">Check-List</a></li>
-                    <li><a href="{{route('check_list_atividade.create')}}" class="nav__link">CheckList Atividade</a></li>
+                    
                     <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></li>
                     <li><a href="/comodo/create/1" class="nav__link">Cômodos</a></li>  <!-- Não vai ficar no MENU -->
                 

@@ -66,7 +66,7 @@ class UsuarioAtendimentoController extends Controller
             ['id_municipio', '=', $id_municipio],
         ])->delete();
 
-        return redirect()->route('usuario_atendimento.index');
+        return redirect()->route('check_list');
     }
 
     private function getUsuarioAtendimento() {

@@ -23,12 +23,16 @@ use Exception;
 class CheckListAtividadeController extends Controller
 {
 
-    public function index()
+    public function index($iCodigoCheckList)
     {
-        return view('checklistatividade.index');
+        $oAtividades = $this->getAtividadesFromCheckList($iCodigoCheckList);
+        return view('checklistatividade.index', [
+            'iCodigoCheckList' => $iCodigoCheckList,
+            'oAtividades' => compact('oAtividades')
+        ]);
     }
 
-    public function create()
+    public function create($iCodigoCheckList)
     {
         $oCheckListUsuario = $this->getCheckListUsuario();
         return view('checklistatividade.create', compact('oCheckListUsuario'));
@@ -78,5 +82,9 @@ class CheckListAtividadeController extends Controller
         return DB::table('check_list_atividades')->where([
             ['id_checklist', '=',$iIdCheckList]
         ])->groupBy(['id_checklist'])->max('id');
+    }
+
+    private function getAtividadesFromCheckList($iCodigoCheckList) {
+        return CheckListAtividade::query()->where('id_checklist', '=', $iCodigoCheckList)->get();
     }
 }

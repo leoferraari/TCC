@@ -30,7 +30,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::delete('/usuario_atendimento/destroy/{id_municipio}', [UsuarioAtendimentoController::class, 'destroy'])->name('usuario_atendimento.destroy');
 
     Route::post('/check_list', [CheckListController::class, 'store'])->name('check_list.store');
+    Route::delete('/check_list/destroy/{iCodigoCheckList}', [CheckListController::class, 'destroy'])->name('check_list.destroy');
+
     Route::post('/check_list_atividade', [CheckListAtividadeController::class, 'store'])->name('check_list_atividade.store');
+
 
     Route::post('/projeto', [ProjetoController::class, 'store'])->name('projeto.store');
     Route::post('/comodo', [ComodoController::class, 'store'])->name('comodo.store');
@@ -56,7 +59,8 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/check_list', [CheckListController::class, 'index'])->name('check_list');
     Route::get('/check_list/create', [CheckListController::class, 'create'])->name('check_list.create');
 
-    Route::get('/check_list_atividade/create', [CheckListAtividadeController::class, 'create'])->name('check_list_atividade.create');
+    Route::get('/check_list_atividade/{iCodigoCheckList}', [CheckListAtividadeController::class, 'index'])->name('check_list_atividade');
+    Route::get('/check_list_atividade/create/{iCodigoCheckList}', [CheckListAtividadeController::class, 'create'])->name('check_list_atividade.create');
 
     Route::get('/comodo/create/{id_projeto}', [ComodoController::class, 'create'])->name('comodo.create');
 });
