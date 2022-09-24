@@ -6,9 +6,16 @@
  
                 <div class="card mt-5">
                 <div style="background-color: black">
-                    <ul class="nav__list">
-                        <li><a href="{{route('check_list')}}" class="nav__link">CheckLists's</a></li>
-                        <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></li>
+                    <ul class="nav__list" id="nav_perfil">
+                        <li>
+                            <button type="button" class="btn btn-secondary btn-sm"> <a href="{{route('check_list')}}" class="nav__link">CheckList's</a></button>
+                        </li>
+
+                        @if ($oUsuario->permite_projeto_terceirizado)
+                            <li id="nav_atendimento">
+                                <button type="button"  class="btn btn-secondary btn-sm"> <a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></button>
+                            </li>
+                        @endif
                     </ul>
                 </div>
                     <h1 style="text-align: center">Altere seu Cadastro</h1>
@@ -114,6 +121,21 @@
                                     <input name="complemento" type="text" class="form-control" id="validationCustom15" value="{{$oEndereco->complemento}}">
                                 </div>
                             </div>
+
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom8">Terceirizar projeto:</label>
+                                    @if ($oUsuario->permite_projeto_terceirizado)
+                                        <input type="checkbox" id="permite_projeto_terceirizado" name="permite_projeto_terceirizado" checked onchange="teste()">
+                                    @endif
+
+                                    @if (!$oUsuario->permite_projeto_terceirizado)
+                                        <input type="checkbox" id="permite_projeto_terceirizado" name="permite_projeto_terceirizado" onchange="teste()">
+                                    @endif
+
+                               
+                                </div>
+                            </div>
                     
                             <div id="buttonEnviar" class="col-md-12 mb-3">
                                 <button  class="btn btn-primary" type="submit">Alterar</button>
@@ -160,7 +182,6 @@
                                     
                                 }, false);
                             })();
-                            
 
                             function getMunicipios() {
                                 var aEstados = document.getElementById('estado'),
@@ -174,8 +195,6 @@
                                        break;
                                    }
                                 }   
-
-                                debugger;
                           
                                 $.ajax({
                                     url: '/api/cidades/'+iCodigoEstado,
@@ -213,6 +232,35 @@
                                 });
                             }
 
+
+                            function teste() {
+                                var oPermiteTerceirizacao = document.getElementById("permite_projeto_terceirizado"),
+                                    oNavPerfil = document.getElementById('nav_perfil');
+
+                                if (oPermiteTerceirizacao.checked) {
+                                    let oItem = document.createElement("li"); //nav_atendimento
+                                        oButton = document.createElement("button"),
+                                        a = document.createElement('a'); 
+
+                                        a.href = "{{route('usuario_atendimento.create')}}"; 
+                                        a.setAttribute('class', 'nav__link');
+                                        a.innerHTML = 'Atendimento';
+
+                                        oItem.setAttribute('id', 'nav_atendimento');
+
+                                        oButton.setAttribute('class', 'btn btn-secondary btn-sm');
+                                        oButton.setAttribute('type', 'button');
+
+                                        oButton.appendChild(a);
+
+                                        oItem.appendChild(oButton);
+
+                                        oNavPerfil.appendChild(oItem);
+                
+                                } else {
+                                    document.getElementById('nav_atendimento').remove();
+                                }
+                            }
                         </script>
                     </article>
                 </div>

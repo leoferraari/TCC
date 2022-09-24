@@ -20,9 +20,7 @@
                                     <textarea name="descricao" id="validationCustom2" class="form-control"></textarea>
                                 </div>
                             </div>
-
-   
-                                 
+           
                             <div class="form-row">
                                 <div class="col-md-12 mb-3">
                                     <label for="validationCustom3">Nome Cliente</label>
@@ -41,10 +39,7 @@
                                 </div>
                             </div>
 
-               
-                      
-
-                            <div class="form-row">
+                            <!-- <div class="form-row">
                                 <div class="col-md-12 mb-3">
                                 <label for="validationCustom5">Situação</label>
                                     <select id="validationCustom5" class="form-control" name="situacao" required>
@@ -55,8 +50,7 @@
                                         <option value="5">Concluído</option>
                                     </select>
                                 </div>
-                            </div>
-
+                            </div> -->
                     
 
                             <div class="form-row">
@@ -86,8 +80,6 @@
                                     </select>
                                 </div>
                             </div>
-
-                     
 
                             <livewire:dynamic-dropdown></livewire:dynamic-dropdown>
                         @livewireScripts
@@ -125,9 +117,6 @@
                         
                                 </div>
                             </div>
-
-        
-
                             
                             <div id="buttonEnviar" class="col-md-12 mb-3">
                                 <button class="btn btn-primary" type="submit">Cadastrar</button>
@@ -142,6 +131,8 @@
         @yield('javaScript')
         <!-- <label for="validationCustom3">Profissional</label>
                                     <input type="text" name="id_terceirizado" id="validationCustom3" class="form-control"></input> -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
 
             function onChangeMunicipio() {

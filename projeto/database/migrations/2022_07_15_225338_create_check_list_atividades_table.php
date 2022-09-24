@@ -16,7 +16,7 @@ class CreateCheckListAtividadesTable extends Migration
         Schema::create('check_list_atividades', function (Blueprint $table) {
             $table->integer('id');
             $table->integer('id_checklist');
-            $table->string('descricao');
+            $table->string('descricao', 60);
 
             $table->primary(['id', 'id_checklist']);
 

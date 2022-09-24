@@ -26,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'crea',
         'celular',
         'telefone_fixo',
+        'permite_projeto_terceirizado',
         'password',
     ];
 

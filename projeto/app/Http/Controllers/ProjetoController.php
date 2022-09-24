@@ -24,7 +24,14 @@ use Exception;
  */
 class ProjetoController extends Controller
 {
-  
+
+    const PENDENTE_AGUARDANDO_ACEITACAO_TERCEIRO = 1,
+          PENDENTE_AGUARDANDO_MINHA_ACEITACAO = 2,
+          EM_ANDAMENTO = 3,
+          EM_ALTERACAO = 4,
+          CANCELADO = 5,
+          CONCLUIDO = 6,
+          RECUSADO = 7;
 
     public function index()
     {

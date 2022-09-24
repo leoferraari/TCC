@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\apiProtectedRoute;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\UsuarioAtendimentoController;
 
 /*
@@ -23,12 +24,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['apiJwt']], function () {
+
+Route::group(['prefix' => 'check_listt'], function () {
+    Route::post('', [CheckListController::class, 'addCheckList']);
 });
 
 Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok
 Route::get('/cidades/{id_estado}',   [MunicipioController::class, 'cidades'])->name('cidades.getMunicipiosFromEstado'); //Ok
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+
+// Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 
 
 // Route::middleware([apiProtectedRoute::class])->group(function() {

@@ -16,12 +16,11 @@ class CreateEnderecoUsersTable extends Migration
         Schema::create('endereco_users', function (Blueprint $table) {
             $table->id();
             $table->string('complemento')->nullable();
-            $table->integer('numero_endereco');
+            $table->unsignedBigInteger('numero_endereco');
             $table->string('bairro');
             $table->unsignedBigInteger('cidade');
             $table->string('cep');
             $table->unsignedBigInteger('id_usuario');
-
             $table->timestamps();
         });
 

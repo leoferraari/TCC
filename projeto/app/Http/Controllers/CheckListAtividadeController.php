@@ -41,6 +41,8 @@ class CheckListAtividadeController extends Controller
     public function store(Request $request)
     {
         $oData = $request->all();
+
+        dd('oi');
      
         if (isset($oData['descricao'])) {
 

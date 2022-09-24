@@ -52,18 +52,7 @@
 
                         </div>
 
-                        <div class="form-row ml-4 pl-3">
-
-                            <div class="form-group">
-
-                                <input type="checkbox" class="form-check-input" name="rememberme">
-                                <label for="rememberme">
-                                    Lembrar senha
-                                </label>
-
-                            </div>
-
-                        </div>
+                  
 
                         <div class="form-row mx-3 my-2">
 
@@ -85,10 +74,6 @@
 
                     <div class="row mx-3 my-2">
                         <a href="/register"> Registre-se </a>
-                    </div>
-
-                    <div class="row mx-3 my-2">
-                        <a href=""> Esqueceu a Senha? </a>
                     </div>
 
                 </div>

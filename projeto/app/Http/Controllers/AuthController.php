@@ -53,7 +53,7 @@ class AuthController extends Controller
 
       
         // return response()->json($token, 200);
-        return redirect()->route('motivacao');
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -147,9 +147,4 @@ class AuthController extends Controller
             'user' => auth('api')->user()
         ]);
     }
-
-//     public function update(Request $request){
-// dd('oi');
-//     }
-
 }

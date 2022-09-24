@@ -41,7 +41,6 @@ class UsuarioAtendimentoController extends Controller
 
         $oData = $request->all();
     
-        // dd($oData);
         if (isset($oData['municipios'])) {
             foreach ($oData['municipios'] as $iCidade) {
 

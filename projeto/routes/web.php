@@ -30,6 +30,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::delete('/usuario_atendimento/destroy/{id_municipio}', [UsuarioAtendimentoController::class, 'destroy'])->name('usuario_atendimento.destroy');
 
     Route::post('/check_list', [CheckListController::class, 'store'])->name('check_list.store');
+    Route::post('/check_listt', [CheckListController::class, 'store'])->name('api.check_list.store');
     Route::delete('/check_list/destroy/{iCodigoCheckList}', [CheckListController::class, 'destroy'])->name('check_list.destroy');
 
     Route::post('/check_list_atividade', [CheckListAtividadeController::class, 'store'])->name('check_list_atividade.store');
@@ -45,7 +46,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
     Route::get('/perfil', [PerfilController::class, 'perfil'])->name('perfil');
-    Route::get('/motivacao', [DashboardController::class, 'motivacao'])->name('motivacao');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/usuario_atendimento',                 [UsuarioAtendimentoController::class, 'index'])->name('usuario_atendimento.index');
     Route::get('/usuario_atendimento/create',          [UsuarioAtendimentoController::class, 'create'])->name('usuario_atendimento.create');

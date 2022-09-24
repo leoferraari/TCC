@@ -24,7 +24,7 @@
                             </div>                    
 
                             <div id="buttonEnviar" class="col-md-12 mb-3">
-                                <button class="btn btn-primary" type="submit">Cadastrar</button>
+                                <button id="checklist" class="btn btn-primary" type="submit">Cadastrar</button>
                             </div>
                         </form>
 
@@ -32,8 +32,7 @@
                 </div>
             </div>
         </div>
-
-
         @yield('javaScript')
+
 
 

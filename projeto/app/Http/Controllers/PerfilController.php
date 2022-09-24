@@ -57,6 +57,13 @@ class PerfilController extends Controller
     public function update(Request $request, $iCodigoUsuario){
         $oData = $request->all();
         $oUsuario = User::find($iCodigoUsuario);
+
+        if (isset($oData['permite_projeto_terceirizado'])) {
+            $oData['permite_projeto_terceirizado'] = 1;
+        } else {
+            $oData['permite_projeto_terceirizado'] = 0;
+        }
+        
         $oUsuario->update($oData);
 
         $this->updateEndereco($request, $iCodigoUsuario);

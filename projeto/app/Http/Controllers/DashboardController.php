@@ -14,8 +14,28 @@ use Illuminate\Support\Facades\Hash;
 class DashboardController extends Controller
 {
 
-    public function motivacao()
+    public function dashboard()
     {
-        return view('teste');
+        $aInfoProjetos = $this->getInformacoesProjetoDashboard();
+  
+        return view('body', compact('aInfoProjetos'));
+    }
+
+
+    private function getInformacoesProjetoDashboard() {
+        return DB::select(sprintf('
+                                    with situacoes as (
+                                        select unnest(ARRAY[1,2,3,4,5,6,7]) as situacao
+                                    )
+                                    
+                                    select *,
+                                        coalesce((select count(*)
+                                        from projeto
+                                            where id_usuario = %d	
+                                                and situacao = situacoes.situacao
+                                            group by situacao
+                                        ), 0) as numero_projetos
+                                    from situacoes 
+                        ', session('id_user')));
     }
 }

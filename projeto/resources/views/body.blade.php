@@ -1,3 +1,4 @@
+@include("header")
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,11 +13,126 @@
     <title>@yield('titulo')</title>
   </head>
 
-	<section class="somos" id="somos">
-		<h2 class="section__titulo">Projeto TOP</h2>
-		<div class="somos-c">
-			<div class="somos-c__texto">
-			</div> <!-- .somos-c__texto -->
-		</div> <!-- .somos-c -->
-	</section>	<!-- section -->
+	<body>
+    <main class="mt-5 pt-3">
+      <div class="container-fluid">
+        
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Dashboard</h4>
+      
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <div class="card bg-primary text-white h-100">
+              <div class="card-body py-5" id="numero_projeto">  
+                {{$aInfoProjetos[0]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                1 - Pendente (Aguardando aceitação de terceiros)
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="card bg-dark text-white h-100">
+              <div class="card-body py-5" id="numero_projeto">
+                {{$aInfoProjetos[1]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+              2- Pendente (Aguardando minha aceitação)
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="card bg-info text-white h-100">
+              <div class="card-body py-5" id="numero_projeto">
+              {{$aInfoProjetos[2]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                3 - Em Andamento
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="card bg-warning text-dark h-100">
+              <div class="card-body py-5" id="numero_projeto">
+                {{$aInfoProjetos[3]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                4 - Em Alteração 
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="card bg-danger text-white h-100">
+              <div class="card-body py-5" id="numero_projeto">
+                {{$aInfoProjetos[4]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                5 - Cancelado
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white h-100">
+              <div class="card-body py-5" id="numero_projeto"> 
+                {{$aInfoProjetos[5]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                6 - Concluído 
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <div class="card bg-secondary text-white h-100">
+              <div class="card-body py-5" id="numero_projeto">
+              {{$aInfoProjetos[6]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                7 - Recusado 
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+        </div>
+      </div>
+    </main>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <script src="./js/jquery-3.5.1.js"></script>
+    <script src="./js/jquery.dataTables.min.js"></script>
+    <script src="./js/dataTables.bootstrap5.min.js"></script>
+    <script src="./js/script.js"></script>
+  </body>
 </html>

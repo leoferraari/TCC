@@ -18,7 +18,7 @@ class CreateEnderecoProjetosTable extends Migration
             $table->string('complemento')->nullable();
             $table->integer('numero_endereco');
             $table->string('bairro');
-            $table->string('cidade');
+            $table->unsignedBigInteger('cidade');
             $table->string('cep');
             $table->unsignedBigInteger('id_projeto');
 
