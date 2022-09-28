@@ -67,6 +67,8 @@ class PerfilController extends Controller
         $oUsuario->update($oData);
 
         $this->updateEndereco($request, $iCodigoUsuario);
+
+        return redirect()->route('perfil');
     }
 
 

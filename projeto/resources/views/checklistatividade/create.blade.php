@@ -8,7 +8,6 @@
                         <form method="POST" action="{{route('check_list_atividade.store')}}">
                         {!! csrf_field() !!}
                   
-                  
                             <div class="form-row">
                                 <div class="col-md-12 mb-3">
                                 <label>CheckList</label>
@@ -27,9 +26,8 @@
                                 </div>
                             </div>
 
-                            <div onclick="adicionarAtividade()" style="background-color: red" id="addAtividade" class="row mx-3 my-2">
-                                <p>Adicionar Atividade</a>
-                            </div>
+                            <button onclick="adicionarAtividade()" type="button" class="btn btn-outline-success">Adicionar</button>
+                        
 
                             <div id="buttonEnviar" class="col-md-12 mb-3">
                                 <button class="btn btn-primary" type="submit">Cadastrar</button>

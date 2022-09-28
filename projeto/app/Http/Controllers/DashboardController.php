@@ -17,8 +17,9 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $aInfoProjetos = $this->getInformacoesProjetoDashboard();
+        $bPermiteTerceirizacao = (bool)$this->permiteTerceirizacao()->permite_projeto_terceirizado;
   
-        return view('body', compact('aInfoProjetos'));
+        return view('body', ['bPermiteTerceirizacao' => $bPermiteTerceirizacao, 'aInfoProjetos' => $aInfoProjetos]);
     }
 
 
@@ -37,5 +38,12 @@ class DashboardController extends Controller
                                         ), 0) as numero_projetos
                                     from situacoes 
                         ', session('id_user')));
+    }
+
+    private function permiteTerceirizacao() {
+        return DB::select(sprintf('select permite_projeto_terceirizado 
+                                      from users
+                                     where id = %d
+        ', session('id_user')))[0];
     }
 }

@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\apiProtectedRoute;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\ProjetoController;
 use App\Http\Controllers\CheckListController;
+use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\UsuarioAtendimentoController;
 
 /*
@@ -25,24 +27,37 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['prefix' => 'check_listt'], function () {
+Route::group(['prefix' => 'check_list_js'], function () {
     Route::post('', [CheckListController::class, 'addCheckList']);
+    Route::delete('/{id_checklist}/{id_usuario}', [CheckListController::class, 'destroy']);
+    Route::get('/{id_checklist}/{id_usuario}', [CheckListController::class, 'getCheckList']);
+    Route::put('', [CheckListController::class, 'update']);
 });
+
+
+Route::group(['prefix' => 'check_list_atividade'], function () {
+    Route::post('', [CheckListAtividadeController::class, 'addAtividadeCheckList']);
+    Route::get('/{id_checklist}/{id_atividade}', [CheckListAtividadeController::class, 'getAtividadeCheckList']);
+    Route::delete('/{id_checklist}/{id_atividade}', [CheckListAtividadeController::class, 'destroy']);
+    Route::put('', [CheckListAtividadeController::class, 'update']);
+});
+
+Route::group(['prefix' => 'usuario_atendimento_js'], function () {
+    Route::delete('/{id_municipio}/{id_usuario}',  [UsuarioAtendimentoController::class, 'delete'])->name('api.usuario_atendimento_js.delete');
+});
+
+Route::group(['prefix' => 'usuario_atendimento_remove_todos'], function () {
+    Route::delete('/{id_usuario}',  [UsuarioAtendimentoController::class, 'delete_todos'])->name('api.usuario_atendimento_remove_todos.delete_todos');
+});
+
 
 Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok
 Route::get('/cidades/{id_estado}',   [MunicipioController::class, 'cidades'])->name('cidades.getMunicipiosFromEstado'); //Ok
+Route::get('/projeto/{id_situacao}/{id_usuario}', [ProjetoController::class, 'index'])->name('projeto.index'); //Ok
+
+Route::get('/check_list_atividade/{iCodigoCheckList}', [CheckListAtividadeController::class, 'index'])->name('check_list_atividade.index');
 
 
-// Route::post('/login', [AuthController::class, 'login'])->name('login');
-
-
-
-// Route::middleware([apiProtectedRoute::class])->group(function() {
-    // Route::post('/user-profile', [AuthController::class, 'userProfile'])->name('userProfile');
-    // Route::post('usuario_atendimento', [UsuarioAtendimentoController::class, 'store'])->name('api.usuario_atendimento.store');
-    // Route::post('/usuario_atendimento', [UsuarioAtendimentoController::class, 'store'])    ->name('usuario_atendimento.store');
-    // Route::post('/logout',     [LoginController::class, 'logout'])->name('logout');
-// });
 
 
 

@@ -195,3 +195,5 @@
         </script>
 
 
+@yield('javaScript')
+<script type="module" src="{{ URL::asset('/js/projeto/maintenance.js')}}"></script>

@@ -16,16 +16,15 @@
 	<body>
     <main class="mt-5 pt-3">
       <div class="container-fluid">
-        
         <div class="row">
           <div class="col-md-12">
             <h4>Dashboard</h4>
-      
+   
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(1, {{session('id_user')}})">
             <div class="card bg-primary text-white h-100">
               <div class="card-body py-5" id="numero_projeto">  
                 {{$aInfoProjetos[0]->numero_projetos}}
@@ -39,21 +38,23 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3">
-            <div class="card bg-dark text-white h-100">
-              <div class="card-body py-5" id="numero_projeto">
-                {{$aInfoProjetos[1]->numero_projetos}}
-              </div>
-              <div class="card-footer d-flex">
-              2- Pendente (Aguardando minha aceitação)
-                <span class="ms-auto">
-                  <i class="bi bi-chevron-right"></i>
-                </span>
+          @if($bPermiteTerceirizacao)
+            <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(2, {{session('id_user')}})">
+              <div class="card bg-dark text-white h-100">
+                <div class="card-body py-5" id="numero_projeto">
+                  {{$aInfoProjetos[1]->numero_projetos}}
+                </div>
+                <div class="card-footer d-flex">
+                2- Pendente (Aguardando minha aceitação)
+                  <span class="ms-auto">
+                    <i class="bi bi-chevron-right"></i>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          @endif
 
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(3, {{session('id_user')}})">
             <div class="card bg-info text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
               {{$aInfoProjetos[2]->numero_projetos}}
@@ -67,7 +68,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(4, {{session('id_user')}})">
             <div class="card bg-warning text-dark h-100">
               <div class="card-body py-5" id="numero_projeto">
                 {{$aInfoProjetos[3]->numero_projetos}}
@@ -81,7 +82,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(5, {{session('id_user')}})">
             <div class="card bg-danger text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
                 {{$aInfoProjetos[4]->numero_projetos}}
@@ -95,7 +96,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(6, {{session('id_user')}})">
             <div class="card bg-success text-white h-100">
               <div class="card-body py-5" id="numero_projeto"> 
                 {{$aInfoProjetos[5]->numero_projetos}}
@@ -109,7 +110,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(7, {{session('id_user')}})">
             <div class="card bg-secondary text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
               {{$aInfoProjetos[6]->numero_projetos}}
@@ -134,5 +135,10 @@
     <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/dataTables.bootstrap5.min.js"></script>
     <script src="./js/script.js"></script>
+    <script>
+      function redirecionaConsultaProjeto(iCodigoSituacao, iUsuario) {
+        window.location.href = 'http://localhost:8000/api/projeto/'+iCodigoSituacao+'/'+iUsuario;
+      }
+    </script>
   </body>
 </html>

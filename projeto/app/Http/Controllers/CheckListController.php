@@ -61,14 +61,10 @@ class CheckListController extends Controller
         return redirect()->route('check_list');
     }
 
-    public function destroy($iCodigoCheckList)
+    public function destroy($iCodigoCheckList, $iCodigoUsuario)
     {
-        $users = DB::table('check_lists')->where([
-            ['id_usuario', '=', session('id_user')],
-            ['id', '=', $iCodigoCheckList],
-        ])->delete();
-
-        return redirect()->route('check_list');
+        $users = DB::table('check_lists')->where('id', '=', $iCodigoCheckList)->where('id_usuario', '=', $iCodigoUsuario)->delete();        
+        return response()->json($iCodigoCheckList, 200)->header('Content-Type', 'application/json');
     }
 
     private function getCheckListsByUsuario() {
@@ -90,5 +86,25 @@ class CheckListController extends Controller
         }
 
         // response()->json($this->checklist->addCheckList($request), 201)->header('Content-Type', 'application/json');
+    }
+
+    public function getCheckList($iCheckList, $iUsuario) {
+        return DB::select(sprintf('select *
+                                    from check_lists
+                                   where id = %d
+                                     and id_usuario = %d 
+                            ', $iCheckList, $iUsuario))[0];
+    }
+
+    public function update(Request $request) {
+
+        $update = CheckList::where('id', $request->id)->where('id_usuario', $request->id_usuario)
+                        
+        ->update([
+            'nome'     => $request->nome,
+            'descricao' => $request->descricao,
+        ]);
+
+        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
     }
 }

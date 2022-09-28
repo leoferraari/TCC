@@ -28,7 +28,7 @@ class UsuarioAtendimentoController extends Controller
         //VER
     {
         $oUsuariosAtendimentos = $this->getUsuarioAtendimento();
-        return view('usuario_atendimento.index', compact('oUsuariosAtendimentos'));
+        return view('usuario_atendimento.index', ['iUsuario' => session('id_user'), 'oUsuarioAtendimentos' => $oUsuariosAtendimentos]);
     }
 
     public function create()
@@ -58,20 +58,52 @@ class UsuarioAtendimentoController extends Controller
         return redirect()->route('usuario_atendimento.create');
     }
 
-    public function destroy($id_municipio)
+    // public function destroy($id_municipio, $id_usuario)
+    // {
+    //     $users = DB::table('usuario_atendimentos')->where([
+    //         ['id_usuario', '=', $id_usuario],
+    //         ['id_municipio', '=', $id_municipio],
+    //     ])->delete();
+
+    //     // return response()->json($users, 200)
+    //     // ->header('Content-Type', 'application/json');
+    // }
+
+    
+    public function delete($id_municipio, $id_usuario)
     {
         $users = DB::table('usuario_atendimentos')->where([
-            ['id_usuario', '=', session('id_user')],
+            ['id_usuario', '=', $id_usuario],
             ['id_municipio', '=', $id_municipio],
         ])->delete();
 
-        return redirect()->route('check_list');
+        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
     }
 
+    public function delete_todos($id_usuario)
+    {
+        $users = DB::table('usuario_atendimentos')->where([
+            ['id_usuario', '=', $id_usuario],
+        ])->delete();
+
+        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
+    }
+
+
+
     private function getUsuarioAtendimento() {
-        $oQuery = UsuarioAtendimento::query()->join('users', 'usuario_atendimentos.id_usuario', '=', 'users.id')
-                                            ->where('users.id', '=', session('id_user'));
-        return $oQuery->get();
+        return DB::select('
+                          select municipios.id as codigo_cidade,
+                                 municipios.nome as nome_cidade,
+                                 estados.nome as nome_estado,
+                                 estados.sigla as sigla_estado
+                            from usuario_atendimentos
+                            join municipios 
+                                on municipios.id = usuario_atendimentos.id_municipio
+                            join estados 
+                                on estados.id = municipios.estado_id
+                            where id_usuario = '. session('id_user').'
+                        ');
     }
 
     public function cid_atendimento($iCidCodigo, $iUsuario) {

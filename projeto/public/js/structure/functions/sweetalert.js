@@ -1,17 +1,18 @@
-export function deletedSuccessSweetAlert(sTexto) {
-    return Swal.fire(
-        'Removido!',
-        sTexto,
-        'success'
-    );
-}
-
-export function insertedSuccessSweetAlert(sTexto) {
+export function deletedSuccessSweetAlert(sTexto, sRoute) {
     return Swal.fire({
         icon: 'success',
         title: sTexto,
         showConfirmButton: false,
-        footer: '<button type="button" class="btn btn-dark"><a href="/check_list" style="color: black" >OK</a></button> '
+        footer: '<button type="button" class="btn btn-dark"><a href="'+sRoute+'" style="color: white" >OK</a></button> '
+    });
+}
+
+export function insertedSuccessSweetAlert(sTexto, sRoute) {
+    return Swal.fire({
+        icon: 'success',
+        title: sTexto,
+        showConfirmButton: false,
+        footer: '<button type="button" class="btn btn-dark"><a href="'+sRoute+'" style="color: white" >OK</a></button> '
     });
 
 }
@@ -25,10 +26,11 @@ export function loadingScreenSweetAlert(sTexto) {
     });
 }
 
-export function updatedSuccessSweetAlert(sTexto) {
-    return Swal.fire(
-        'Atualizado!',
-        sTexto,
-        'success'
-    );
+export function updatedSuccessSweetAlert(sTexto, sRoute) {
+    return Swal.fire({
+        icon: 'success',
+        title: sTexto,
+        showConfirmButton: false,
+        footer: '<button type="button" class="btn btn-dark"><a href="'+sRoute+'" style="color: white" >OK</a></button> '
+    });
 }

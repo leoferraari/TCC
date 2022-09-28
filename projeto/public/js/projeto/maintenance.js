@@ -7,7 +7,7 @@ import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSwee
 
 $(document).ready(function () {
 
-    const SECTION  = 'check_listt';
+    const SECTION  = 'projeto';
     const NAME_INPUTS = ['nome', 'descricao', 'usuario'];
 
     $(function () {

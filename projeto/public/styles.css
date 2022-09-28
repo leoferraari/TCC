@@ -172,8 +172,8 @@ img {
 
 
 .modal_leo {
-	width: 500px;
-	height: 500px;
+	width: auto;
+	height: auto;
 	background-color: darkgray;
 	position: absolute;
 	top: 50%;
@@ -194,4 +194,8 @@ img {
   #numero_projeto {
 	font-size: 50px;
 	text-align: center;
+  }
+
+  #card_projeto {
+	cursor: pointer;
   }

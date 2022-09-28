@@ -33,10 +33,10 @@ class ProjetoController extends Controller
           CONCLUIDO = 6,
           RECUSADO = 7;
 
-    public function index()
+    public function index($iCodigoSituacao, $iUsuario)
     {
-        $oUsuariosAtendimentos = $this->getUsuarioAtendimento();
-        return view('projeto.index', compact('oUsuariosAtendimentos'));
+        $oProjetos = $this->getProjetosUsuario($iCodigoSituacao, $iUsuario);
+        return view('projeto.index', ['iSituacao' => $iCodigoSituacao, 'oProjetos' => $oProjetos]);
     }
 
     public function create()
@@ -106,5 +106,14 @@ class ProjetoController extends Controller
         $oQuery = CheckList::query()->select(['check_lists.id', 'check_lists.nome'])->join('users', 'check_lists.id_usuario', '=', 'users.id')
                                             ->where('users.id', '=', session('id_user'));
         return $oQuery->get();
+    }
+
+    private function getProjetosUsuario($iCodigoSituacao, $iUsuario) {
+        return DB::select(sprintf('select *
+                                     from projeto
+                                    where situacao = %d
+                                      and id_usuario = %d 
+                                    order by data_hora_atendimento
+                            ', $iCodigoSituacao, $iUsuario));
     }
 }

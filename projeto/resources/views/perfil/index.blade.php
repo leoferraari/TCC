@@ -13,7 +13,7 @@
 
                         @if ($oUsuario->permite_projeto_terceirizado)
                             <li id="nav_atendimento">
-                                <button type="button"  class="btn btn-secondary btn-sm"> <a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></button>
+                                <button type="button"  class="btn btn-secondary btn-sm"> <a href="{{route('usuario_atendimento.index')}}" class="nav__link">Atendimento</a></button>
                             </li>
                         @endif
                     </ul>

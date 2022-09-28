@@ -26,23 +26,22 @@ class CheckListAtividadeController extends Controller
     public function index($iCodigoCheckList)
     {
         $oAtividades = $this->getAtividadesFromCheckList($iCodigoCheckList);
+
         return view('checklistatividade.index', [
             'iCodigoCheckList' => $iCodigoCheckList,
-            'oAtividades' => compact('oAtividades')
+            'oAtividades' => $oAtividades
         ]);
     }
 
     public function create($iCodigoCheckList)
     {
-        $oCheckListUsuario = $this->getCheckListUsuario();
+        $oCheckListUsuario = $this->getCheckListUsuario($iCodigoCheckList);
         return view('checklistatividade.create', compact('oCheckListUsuario'));
     }
 
     public function store(Request $request)
     {
         $oData = $request->all();
-
-        dd('oi');
      
         if (isset($oData['descricao'])) {
 
@@ -60,24 +59,15 @@ class CheckListAtividadeController extends Controller
             return response()->json( 'Nenhuma atividade foi informada!');
         }
 
-        return redirect()->route('usuario_atendimento.index');
+
+        return redirect()->route('check_list');
     }
 
-    public function destroy($id_municipio)
-    {
-        //fazer
-        $users = DB::table('usuario_atendimentos')->where([
-            ['id_usuario', '=', session('id_user')],
-            ['id_municipio', '=', $id_municipio],
-        ])->delete();
-
-        return redirect()->route('checklistatividade.index');
-    }
-
-    private function getCheckListUsuario() {
-        $oQuery = CheckList::query()->select(['check_lists.id', 'check_lists.nome'])->join('users', 'check_lists.id_usuario', '=', 'users.id')
-                                            ->where('users.id', '=', session('id_user'));
-        return $oQuery->get();
+    private function getCheckListUsuario($iCodigoCheckList) {
+        return DB::select(sprintf('select *
+                                     from check_lists
+                                    where id = %d
+                            ', $iCodigoCheckList));
     }
 
     private function getMaxCodigo($iIdCheckList) {
@@ -87,6 +77,58 @@ class CheckListAtividadeController extends Controller
     }
 
     private function getAtividadesFromCheckList($iCodigoCheckList) {
-        return CheckListAtividade::query()->where('id_checklist', '=', $iCodigoCheckList)->get();
+        return DB::select(sprintf('select *
+                                     from check_list_atividades
+                                    where id_checklist = %d
+                                    order by id
+                            ', $iCodigoCheckList));
+    }
+
+    public function addAtividadeCheckList(Request $request) {
+        foreach ($request->atividades as $value) {
+
+            DB::table('check_list_atividades')->insert(
+                [
+                    'id' => $this->getMaxCodigo($request->id_checklist)+1,
+                    'id_checklist' => $request->id_checklist,
+                    'descricao' => $value,
+                ]
+            );
+
+        }
+
+        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
+    }
+
+    public function getAtividadeCheckList($iCheckList, $iAtividade) {
+        return DB::select(sprintf('select *
+                                    from check_list_atividades
+                                where id = %d
+                                    and id_checklist = %d 
+                            ', $iAtividade, $iCheckList))[0];
+    }
+
+    public function update(Request $request) {
+        $update = CheckListAtividade::where('id', $request->atividade)->where('id_checklist', $request->id_checklist)
+                        
+        ->update([
+            'descricao' => $request->descricao,
+        ]);
+
+        return response()->json('Alterado com sucesso!', 200)->header('Content-Type', 'application/json');
+    }
+
+    public function destroy($iCodigoCheckList, $iAtividade) {
+
+
+        $users = DB::table('check_list_atividades')->where([
+            ['id_checklist', '=', $iCodigoCheckList],
+            ['id', '=', $iAtividade],
+           
+        ])->delete();
+
+
+        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
+    
     }
 }

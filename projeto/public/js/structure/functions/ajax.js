@@ -26,6 +26,7 @@ export function ajaxRequest(ajax, options = null) {
             ajax.success(success);
         },
         error: function (xhr, ajaxOptions, thrownError) {
+
             console.log('Houve um erro no seu Ajax!')
             console.log(xhr.responseJSON)
             if (typeof xhr.responseJSON.message !== 'undefined') {
@@ -42,7 +43,6 @@ export function ajaxRequest(ajax, options = null) {
             if (typeof ajax.error !== 'undefined') {
                 ajax.error(xhr.responseJSON, ajaxOptions, thrownError);
             }
-
 
             Swal.fire('Ops...', xhr.responseJSON.message, 'error');
         }
