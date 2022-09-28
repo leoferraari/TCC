@@ -25,19 +25,25 @@ class DashboardController extends Controller
 
     private function getInformacoesProjetoDashboard() {
         return DB::select(sprintf('
-                                    with situacoes as (
-                                        select unnest(ARRAY[1,2,3,4,5,6,7]) as situacao
-                                    )
-                                    
-                                    select *,
-                                        coalesce((select count(*)
-                                        from projeto
-                                            where id_usuario = %d	
-                                                and situacao = situacoes.situacao
-                                            group by situacao
-                                        ), 0) as numero_projetos
-                                    from situacoes 
-                        ', session('id_user')));
+        with situacoes as (
+            select unnest(ARRAY[1,2,3,4,5,7,8]) as situacao
+            )
+                                        
+        select *,
+        coalesce((select count(*)
+               from projeto
+            where
+                case when (situacoes.situacao = 7) then 
+                 (projeto.situacao = 6 and id_terceirizado <> id_usuario and id_terceirizado is not null)
+                     when (situacoes.situacao = 8) then 
+                 (projeto.situacao = 6 and id_terceirizado = id_usuario )
+                    else 
+                 situacao = situacoes.situacao
+                end
+                and id_usuario = %d
+                  group by situacao
+        ), 0) as numero_projetos
+        from situacoes', session('id_user')));
     }
 
     private function permiteTerceirizacao() {

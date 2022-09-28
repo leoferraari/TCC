@@ -7,25 +7,25 @@
                     <h3>
                     @switch($iSituacao)
                         @case(1)
-                            Pendente (Aguardando aceitação de terceiros)
-                            @break
-                        @case(2)
-                            Pendente (Aguardando minha aceitação)
-                            @break
-                        @case(3)
                             Em andamento
                             @break
-                        @case(4)
+                        @case(2)
                             Em alteração
                             @break
-                        @case(5)
+                        @case(3)
                             Cancelado
                             @break
-                        @case(6)
+                        @case(4)
                             Concluído
                             @break
-                        @case(7)
+                        @case(5)
                             Recusado 
+                            @break
+                        @case(7)
+                        Pendente (Aguardando aceitação de terceiros)
+                            @break
+                        @case(8)
+                        Pendente (Aguardando minha aceitação)
                             @break
                     @endswitch
 

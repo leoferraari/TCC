@@ -25,13 +25,14 @@ use Exception;
 class ProjetoController extends Controller
 {
 
-    const PENDENTE_AGUARDANDO_ACEITACAO_TERCEIRO = 1,
-          PENDENTE_AGUARDANDO_MINHA_ACEITACAO = 2,
-          EM_ANDAMENTO = 3,
-          EM_ALTERACAO = 4,
-          CANCELADO = 5,
-          CONCLUIDO = 6,
-          RECUSADO = 7;
+    const PENDENTE_AGUARDANDO_ACEITACAO_TERCEIRO = 7,
+          PENDENTE_AGUARDANDO_MINHA_ACEITACAO = 8,
+          EM_ANDAMENTO = 1,
+          EM_ALTERACAO = 2,
+          CANCELADO = 3,
+          CONCLUIDO = 4,
+          RECUSADO = 5,
+          AGUARDANDO_ACEITACAO = 6;
 
     public function index($iCodigoSituacao, $iUsuario)
     {
@@ -109,11 +110,18 @@ class ProjetoController extends Controller
     }
 
     private function getProjetosUsuario($iCodigoSituacao, $iUsuario) {
-        return DB::select(sprintf('select *
-                                     from projeto
-                                    where situacao = %d
-                                      and id_usuario = %d 
+        return DB::select(sprintf(' select *
+                                        from projeto
+                                    where id_usuario = %2$d
+                                        and  case when (%1$d = 7) then 
+                                        (situacao = 6 and id_terceirizado <> id_usuario and id_terceirizado is not null)
+                                        when (%1$d = 8) then 
+                                        (situacao = 6 and id_terceirizado = id_usuario )
+                                        else 
+                                            situacao = %1$d
+                                        end
                                     order by data_hora_atendimento
+
                             ', $iCodigoSituacao, $iUsuario));
     }
 }

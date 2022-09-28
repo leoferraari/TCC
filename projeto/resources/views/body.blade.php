@@ -24,13 +24,13 @@
         </div>
 
         <div class="row">
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(1, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(7, {{session('id_user')}})">
             <div class="card bg-primary text-white h-100">
               <div class="card-body py-5" id="numero_projeto">  
-                {{$aInfoProjetos[0]->numero_projetos}}
+                {{$aInfoProjetos[5]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                1 - Pendente (Aguardando aceitação de terceiros)
+                6 - Pendente (Aguardando aceitação de terceiros)
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -39,13 +39,13 @@
           </div>
 
           @if($bPermiteTerceirizacao)
-            <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(2, {{session('id_user')}})">
+            <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(8, {{session('id_user')}})">
               <div class="card bg-dark text-white h-100">
                 <div class="card-body py-5" id="numero_projeto">
-                  {{$aInfoProjetos[1]->numero_projetos}}
+                  {{$aInfoProjetos[6]->numero_projetos}}
                 </div>
                 <div class="card-footer d-flex">
-                2- Pendente (Aguardando minha aceitação)
+                6- Pendente (Aguardando minha aceitação)
                   <span class="ms-auto">
                     <i class="bi bi-chevron-right"></i>
                   </span>
@@ -54,13 +54,41 @@
             </div>
           @endif
 
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(3, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(1, {{session('id_user')}})">
             <div class="card bg-info text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
-              {{$aInfoProjetos[2]->numero_projetos}}
+              {{$aInfoProjetos[0]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                3 - Em Andamento
+                1 - Em Andamento
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(2, {{session('id_user')}})">
+            <div class="card bg-warning text-dark h-100">
+              <div class="card-body py-5" id="numero_projeto">
+                {{$aInfoProjetos[1]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                2 - Em Alteração 
+                <span class="ms-auto">
+                  <i class="bi bi-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(3, {{session('id_user')}})">
+            <div class="card bg-danger text-white h-100">
+              <div class="card-body py-5" id="numero_projeto">
+                {{$aInfoProjetos[2]->numero_projetos}}
+              </div>
+              <div class="card-footer d-flex">
+                3 - Cancelado
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -69,12 +97,12 @@
           </div>
 
           <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(4, {{session('id_user')}})">
-            <div class="card bg-warning text-dark h-100">
-              <div class="card-body py-5" id="numero_projeto">
+            <div class="card bg-success text-white h-100">
+              <div class="card-body py-5" id="numero_projeto"> 
                 {{$aInfoProjetos[3]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                4 - Em Alteração 
+                4 - Concluído 
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -83,40 +111,12 @@
           </div>
 
           <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(5, {{session('id_user')}})">
-            <div class="card bg-danger text-white h-100">
-              <div class="card-body py-5" id="numero_projeto">
-                {{$aInfoProjetos[4]->numero_projetos}}
-              </div>
-              <div class="card-footer d-flex">
-                5 - Cancelado
-                <span class="ms-auto">
-                  <i class="bi bi-chevron-right"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(6, {{session('id_user')}})">
-            <div class="card bg-success text-white h-100">
-              <div class="card-body py-5" id="numero_projeto"> 
-                {{$aInfoProjetos[5]->numero_projetos}}
-              </div>
-              <div class="card-footer d-flex">
-                6 - Concluído 
-                <span class="ms-auto">
-                  <i class="bi bi-chevron-right"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(7, {{session('id_user')}})">
             <div class="card bg-secondary text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
-              {{$aInfoProjetos[6]->numero_projetos}}
+              {{$aInfoProjetos[4]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                7 - Recusado 
+                5 - Recusado 
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
