@@ -22,13 +22,11 @@ class CheckList extends Model
         return $this->belongsTo(User::class, 'id_usuario', 'id');
     }
 
-    public function addCheckList($request) {
+    // public function addCheckList($request) {
         
-
-
-        $oValores = $request->all();
-        $checklist = new CheckList($oValores);
-        $checklist->save();
-        return $checklist;
-    }
+    //     $oValores = $request->all();
+    //     $checklist = new CheckList($oValores);
+    //     $checklist->save();
+    //     return $checklist;
+    // }
 }

@@ -21,14 +21,12 @@ $(document).ready(function () {
                 atividades.push(document.getElementById(i).value);
             }
 
-            console.log(document.getElementById('id_checklist'));
-
             ajaxRequest({
                 url: `${URL_PATH_API}/${SECTION}`,
                 type: 'POST',
                 data: {_token: CSRF_TOKEN, id_checklist: document.getElementById('id_checklist').value, atividades: atividades},
                 success: function (response) {
-                    insertedSuccessSweetAlert(response.message, 'check_list');
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/api/check_list_atividade/'+document.getElementById('id_checklist').value);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);
@@ -42,6 +40,7 @@ $(document).ready(function () {
             event.preventDefault();
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content'),
                 oFormulario = document.getElementById('formulario'),
+                id_checklist    = this.getAttribute('check_list'),
                 dataValues = getInputValues(NAME_INPUTS);
                 dataValues['atividade'] = oFormulario.getAttribute('atividade');
 
@@ -55,7 +54,7 @@ $(document).ready(function () {
                     ...dataValues
                 },
                 success: function (response) {
-                    updatedSuccessSweetAlert('Atualizado!', 'check_list_atividade');
+                    updatedSuccessSweetAlert('Atualizado!', 'http://localhost:8000/api/check_list_atividade/'+document.getElementById('id_checklist').value);
                 }
             }, {
                 inputs: NAME_INPUTS
@@ -79,7 +78,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     console.log(response);
-                    deletedSuccessSweetAlert('Removido!', 'check_list_atividade');
+                    deletedSuccessSweetAlert('Removido!', 'http://localhost:8000/api/check_list_atividade/'+id_checklist);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);

@@ -53,12 +53,13 @@ class ProjetoController extends Controller
         $oData = $request->all();
 
         $aInsert = [
+            'id' => $this->getMaxCodigo() +1,
             'nome' => $request['nome'],
             'descricao' => $request['descricao'],
             'nome_cliente' => $request['nome_cliente'],
             'email_cliente' => $request['email_cliente'],
             'numero_tel_cliente' => $request['numero_tel_cliente'],
-            'situacao'=> $request['situacao'],
+            'situacao'=> $request['id_terceirizado'] ? 6 : 1,
             'data_hora_atendimento'=> $request['data_hora_atendimento'],
             'prazo_final' => $request['prazo_final'],
             'data_conclusao' => $request['data_conclusao'],
@@ -112,16 +113,20 @@ class ProjetoController extends Controller
     private function getProjetosUsuario($iCodigoSituacao, $iUsuario) {
         return DB::select(sprintf(' select *
                                         from projeto
-                                    where id_usuario = %2$d
-                                        and  case when (%1$d = 7) then 
-                                        (situacao = 6 and id_terceirizado <> id_usuario and id_terceirizado is not null)
+                                        where
+                                          case when (%1$d = 7) then 
+                                        (situacao = 6 and id_terceirizado <> id_usuario and id_terceirizado is not null and id_usuario = %2$d)
                                         when (%1$d = 8) then 
-                                        (situacao = 6 and id_terceirizado = id_usuario )
+                                        (situacao = 6 and id_terceirizado = %2$d)
                                         else 
-                                            situacao = %1$d
+                                            (situacao = %1$d and id_usuario = %2$d) 
                                         end
                                     order by data_hora_atendimento
 
                             ', $iCodigoSituacao, $iUsuario));
+    }
+
+    private function getMaxCodigo() {
+        return DB::table('projeto')->max('id');
     }
 }

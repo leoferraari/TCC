@@ -34,16 +34,16 @@ class DashboardController extends Controller
                from projeto
             where
                 case when (situacoes.situacao = 7) then 
-                 (projeto.situacao = 6 and id_terceirizado <> id_usuario and id_terceirizado is not null)
+                 (projeto.situacao = 6 and id_terceirizado <> id_usuario and id_terceirizado is not null and id_usuario = %1$d)
                      when (situacoes.situacao = 8) then 
-                 (projeto.situacao = 6 and id_terceirizado = id_usuario )
+                 (projeto.situacao = 6 and id_terceirizado = %1$d)
                     else 
-                 situacao = situacoes.situacao
+                  (projeto.situacao = situacoes.situacao and id_usuario = %1$d)
                 end
-                and id_usuario = %d
                   group by situacao
         ), 0) as numero_projetos
-        from situacoes', session('id_user')));
+        from situacoes
+    ', session('id_user')));
     }
 
     private function permiteTerceirizacao() {

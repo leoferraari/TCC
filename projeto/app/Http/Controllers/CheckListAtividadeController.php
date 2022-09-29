@@ -59,8 +59,7 @@ class CheckListAtividadeController extends Controller
             return response()->json( 'Nenhuma atividade foi informada!');
         }
 
-
-        return redirect()->route('check_list');
+        return redirect()->route('check_list_atividade',['iCodigoCheckList'=>$request['id_checklist']]);
     }
 
     private function getCheckListUsuario($iCodigoCheckList) {
@@ -97,7 +96,10 @@ class CheckListAtividadeController extends Controller
 
         }
 
-        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
+        return $this->responseJsonSuccess([
+            'message' => 'Atividade inserida com sucesso!',
+            'data'    => $request
+        ]);
     }
 
     public function getAtividadeCheckList($iCheckList, $iAtividade) {
@@ -119,7 +121,6 @@ class CheckListAtividadeController extends Controller
     }
 
     public function destroy($iCodigoCheckList, $iAtividade) {
-
 
         $users = DB::table('check_list_atividades')->where([
             ['id_checklist', '=', $iCodigoCheckList],
