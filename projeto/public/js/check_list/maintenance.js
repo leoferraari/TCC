@@ -36,24 +36,20 @@ $(document).ready(function () {
 
         $(document).on('click', '#button_update', function(event){
             event.preventDefault();
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content'),
-                oFormulario = document.getElementById('formulario'),
+            var oFormulario = document.getElementById('formulario'),
                 dataValues = getInputValues(NAME_INPUTS);
                 dataValues['id_usuario'] = oFormulario.getAttribute('usuario');
                 dataValues['id'] = oFormulario.getAttribute('checklist');
-            console.log(this);
+
             ajaxRequest({
                 url: `${URL_PATH_API}/${SECTION}`,
                 type: 'PUT',
                 data: {
-                    _token: CSRF_TOKEN,
                     ...dataValues
                 },
                 success: function (response) {
                     updatedSuccessSweetAlert('Atualizado!', 'check_list');
                 }
-            }, {
-                inputs: NAME_INPUTS
             });
         });
 
@@ -62,7 +58,7 @@ $(document).ready(function () {
             var id_usuario  = this.getAttribute('id_usuario'),
                 id_checklist    = this.getAttribute('id_checklist'),
                 CSRF_TOKEN    = $('meta[name="csrf-token"]').attr('content');
-                console.log(this);
+     
             ajaxRequest({
                 url: '/api/check_list_js/'+id_checklist+'/'+id_usuario,
                 type: 'DELETE',

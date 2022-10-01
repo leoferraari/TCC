@@ -26,7 +26,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: {_token: CSRF_TOKEN, id_checklist: document.getElementById('id_checklist').value, atividades: atividades},
                 success: function (response) {
-                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/api/check_list_atividade/'+document.getElementById('id_checklist').value);
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/check_list_atividade/'+document.getElementById('id_checklist').value);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);
@@ -44,7 +44,6 @@ $(document).ready(function () {
                 dataValues = getInputValues(NAME_INPUTS);
                 dataValues['atividade'] = oFormulario.getAttribute('atividade');
 
-            console.log(this);
 
             ajaxRequest({
                 url: `${URL_PATH_API}/${SECTION}`,
@@ -54,7 +53,7 @@ $(document).ready(function () {
                     ...dataValues
                 },
                 success: function (response) {
-                    updatedSuccessSweetAlert('Atualizado!', 'http://localhost:8000/api/check_list_atividade/'+document.getElementById('id_checklist').value);
+                    updatedSuccessSweetAlert('Atualizado!', 'http://localhost:8000/check_list_atividade/'+document.getElementById('id_checklist').value);
                 }
             }, {
                 inputs: NAME_INPUTS
@@ -64,21 +63,15 @@ $(document).ready(function () {
         $(document).on('click', '#button_delete', function(event){
             event.preventDefault();
             var id_atividade  = this.getAttribute('atividade'),
-                id_checklist    = this.getAttribute('check_list'),
-                CSRF_TOKEN    = $('meta[name="csrf-token"]').attr('content');
-
-                console.log(id_atividade);
-                console.log(id_checklist);
+                id_checklist    = this.getAttribute('check_list');
   
             ajaxRequest({
                 url: '/api/check_list_atividade/'+id_checklist+'/'+id_atividade,
                 type: 'DELETE',
-                data: {
-                    _token: CSRF_TOKEN
-                },
+         
                 success: function (response) {
                     console.log(response);
-                    deletedSuccessSweetAlert('Removido!', 'http://localhost:8000/api/check_list_atividade/'+id_checklist);
+                    deletedSuccessSweetAlert('Removido!', 'http://localhost:8000/check_list_atividade/'+id_checklist);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);

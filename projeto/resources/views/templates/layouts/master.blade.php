@@ -44,7 +44,7 @@
 </head>
 
 <body>
-    @include('templates.layouts.menu')
+
    
 
     <section id="content">

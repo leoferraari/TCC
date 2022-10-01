@@ -8,14 +8,15 @@ use App\Http\Controllers\DynamicDropdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\ComodoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\ProjetoController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 
-Route::get('/login', [LoginController::class, 'login'])        ->name('login');
-Route::get('/register', [LoginController::class, 'register'])        ->name('register');
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/register', [LoginController::class, 'register'])->name('register');
 
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
@@ -41,6 +42,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::put('/usuario/update/{iCodigoUsuario}', [PerfilController::class, 'update'])->name('usuario/update');
 
+    Route::put('/projeto/update/{iProjeto}', [ProjetoController::class, 'update'])->name('projeto/update');
 });
 
 
@@ -61,14 +63,19 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/check_list', [CheckListController::class, 'index'])->name('check_list');
     Route::get('/check_list/create', [CheckListController::class, 'create'])->name('check_list.create');
 
+    Route::get('/check_list_atividade/{iCodigoCheckList}', [CheckListAtividadeController::class, 'index'])->name('check_list_atividade');
 
-    Route::get('/check_list_atividade/{iCodigoCheckList}', [CheckListAtividadeController::class, 'index'])->name('check_list_atividade'); //precisa
     Route::get('/check_list_atividade/create/{iCodigoCheckList}', [CheckListAtividadeController::class, 'create'])->name('check_list_atividade.create');
+    Route::get('/projeto/{id_situacao}/{id_usuario}', [ProjetoController::class, 'index'])->name('projeto.index'); //Ok
+
+    Route::get('/projeto_alteracao/{iCodigoProjeto}',  [ProjetoController::class, 'alterar'])->name('projeto.alterar');
 
     Route::get('/comodo/create/{id_projeto}', [ComodoController::class, 'create'])->name('comodo.create');
 });
 
 
+
+Route::get('/home', [HomeController::class, 'home'])->name('home'); //Ok
 /*
 Rotas da aplicação.
 */

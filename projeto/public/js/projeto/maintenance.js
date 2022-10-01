@@ -10,7 +10,25 @@ $(document).ready(function () {
     const SECTION  = 'projeto';
     const NAME_INPUTS = ['nome', 'descricao', 'usuario'];
 
+    
+
     $(function () {
+
+        $(document).on('click', '#cancelar_projeto', function(event){
+            event.preventDefault();  
+            ajaxRequest({
+                url: `${URL_PATH_API}/${SECTION}/cancelar`,
+                type: 'PATCH',
+                data: {id_projeto: this.getAttribute('id_projeto')},
+                success: function (response) {
+                    insertedSuccessSweetAlert(response.message, );
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        });
+
 
         $(document).on('click', '#checklist', function(event){
             event.preventDefault();
@@ -34,23 +52,8 @@ $(document).ready(function () {
             });
         });
 
-        $(document).on('click', '#update-modal', function(event){
-            let dataValues = getInputValues(NAME_INPUTS);
-
-            ajaxRequest({
-                url: `${URL_PATH_API}/${SECTION}`,
-                type: 'PUT',
-                data: {
-                    id: ID_FROM_URL_CRUD,
-                    ...dataValues
-                },
-                success: function (response) {
-                    hideModal('#modalUpdate');
-                    updatedSuccessSweetAlert(response.message);
-                }
-            }, {
-                inputs: NAME_INPUTS
-            });
+        $(document).on('click', '#button_alterar', function(event){
+            window.location.href = 'http://localhost:8000/projeto/'+this.getElementById('button_alterar').value;
         });
 
         $(document).on('click', '#button-confirm-delete', function(event){
@@ -70,5 +73,4 @@ $(document).ready(function () {
             });
         });
     });
-
 });

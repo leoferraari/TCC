@@ -48,9 +48,9 @@ class AuthController extends Controller
         }
 
         $token = $this->createNewToken($token);
+
         session(['jwt-token' => $token]);
         session(['id_user' => auth()->user()->id]);
-
       
         // return response()->json($token, 200);
         return redirect()->route('dashboard');

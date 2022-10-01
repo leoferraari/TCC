@@ -10,6 +10,8 @@ use App\Models\Projeto;
 use App\Models\EnderecoProjeto;
 use Illuminate\Support\Facades\DB;
 use App\Models\CheckList;
+use App\Models\Estado;
+use App\Models\Municipio;
 use App\Http\Requests\States\StatesStoreRequest;
 use App\Http\Requests\States\StatesUpdateRequest;
 
@@ -24,7 +26,6 @@ use Exception;
  */
 class ProjetoController extends Controller
 {
-
     const PENDENTE_AGUARDANDO_ACEITACAO_TERCEIRO = 7,
           PENDENTE_AGUARDANDO_MINHA_ACEITACAO = 8,
           EM_ANDAMENTO = 1,
@@ -36,8 +37,27 @@ class ProjetoController extends Controller
 
     public function index($iCodigoSituacao, $iUsuario)
     {
+ 
         $oProjetos = $this->getProjetosUsuario($iCodigoSituacao, $iUsuario);
         return view('projeto.index', ['iSituacao' => $iCodigoSituacao, 'oProjetos' => $oProjetos]);
+    }
+
+    public function alterar($iCodigoProjeto) {
+
+        $oProjeto = Projeto::find($iCodigoProjeto);
+        $oEndereco = $this->getEnderecoProjeto($iCodigoProjeto);     
+        $oEstados = Estado::all();
+        $oCheckListUsuario = $this->getCheckListUsuario($oProjeto->id_usuario);
+
+        $oMunicipios = $this->getMunicipiosEstado($oEndereco->estado_usuario);
+        return view('projeto.alteracao', [
+            'oProjeto' => $oProjeto,
+            'oEndereco' => $oEndereco,
+            'oEstados' => $oEstados,
+            'oMunicipios' => $oMunicipios,
+            'oCheckListUsuario' => $oCheckListUsuario,
+            'iUsuario' => $oProjeto->id_usuario
+        ]);
     }
 
     public function create()
@@ -104,14 +124,20 @@ class ProjetoController extends Controller
         return $oQuery->get();
     }
 
-    private function getCheckListUsuario() {
+    private function getCheckListUsuario($iCodigoUsuario = null) {
         $oQuery = CheckList::query()->select(['check_lists.id', 'check_lists.nome'])->join('users', 'check_lists.id_usuario', '=', 'users.id')
-                                            ->where('users.id', '=', session('id_user'));
+                                            ->where('users.id', '=', session('id_user') ?: $iCodigoUsuario);
         return $oQuery->get();
     }
 
     private function getProjetosUsuario($iCodigoSituacao, $iUsuario) {
-        return DB::select(sprintf(' select *
+        return DB::select(sprintf(' select id,
+                                           nome,
+                                           nome_cliente,
+                                           numero_tel_cliente,
+                                           to_char(data_hora_atendimento, \'DD/MM/YYYY\') as data_hora_atendimento,
+                                           to_char(prazo_final, \'DD/MM/YYYY\')  as prazo_final,
+                                           (id_usuario = %2$d) as permite_alterar
                                         from projeto
                                         where
                                           case when (%1$d = 7) then 
@@ -119,7 +145,7 @@ class ProjetoController extends Controller
                                         when (%1$d = 8) then 
                                         (situacao = 6 and id_terceirizado = %2$d)
                                         else 
-                                            (situacao = %1$d and id_usuario = %2$d) 
+                                            (situacao = %1$d and (id_usuario = %2$d or id_terceirizado = %2$d)) 
                                         end
                                     order by data_hora_atendimento
 
@@ -128,5 +154,44 @@ class ProjetoController extends Controller
 
     private function getMaxCodigo() {
         return DB::table('projeto')->max('id');
+    }
+
+    private function getEnderecoProjeto($iCodigoProjeto) {
+        return DB::select('
+            select cep,
+                   complemento,
+                   numero_endereco,
+                   bairro,
+                   endereco_projetos.cidade,
+                   estados.sigla,
+                   estados.id as estado_usuario
+            from endereco_projetos
+            join municipios
+                on endereco_projetos.cidade = municipios.id
+            join estados
+                on estados.id = municipios.estado_id
+            where id_projeto = '. $iCodigoProjeto.'
+        ')[0];
+    }
+
+    private function getMunicipiosEstado($iEstado) {
+        $oQuery = Municipio::query()->
+        where('estado_id', '=', $iEstado);
+        return $oQuery->get();
+    }
+
+    public function update($iProjeto) {
+        dd('entrou');
+    }
+
+    public function cancelar(Request $request) {
+        $update = Projeto::where('id', $request->id_projeto)->update([
+            'situacao' => 3,
+        ]);
+
+        return $this->responseJsonSuccess([
+            'message' => 'Projeto Cancelado!',
+            'data'    => $request
+        ]);
     }
 }

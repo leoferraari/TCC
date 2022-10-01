@@ -30,7 +30,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <button type="submit" id_usuario="{{$id_usuario}}" id_checklist="{{$oCheckList->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
-                                                <button type="button" class="btn btn-outline-warning btn-sm" onclick="criaFormulario({{$id_usuario}}, {{$oCheckList->id}})">Alterar</button>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="criaFormulario({{$id_usuario}}, {{$oCheckList->id}})">Alterar</button>
                                                 <button type="button" class="btn btn-sm btn-primary" onclick="consultaAtividades({{$oCheckList->id}})">Atividades</button>
                                             </div>
                                         </td>
@@ -137,7 +137,7 @@
     }
 
     function consultaAtividades(iCheckList) {
-        window.location.href = 'http://localhost:8000/api/check_list_atividade/'+iCheckList;
+        window.location.href = 'http://localhost:8000/check_list_atividade/'+iCheckList;
     }
 
     function fechar() {

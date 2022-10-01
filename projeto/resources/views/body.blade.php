@@ -19,7 +19,6 @@
         <div class="row">
           <div class="col-md-12">
             <h4>Dashboard</h4>
-   
           </div>
         </div>
 
@@ -137,7 +136,7 @@
     <script src="./js/script.js"></script>
     <script>
       function redirecionaConsultaProjeto(iCodigoSituacao, iUsuario) {
-        window.location.href = 'http://localhost:8000/api/projeto/'+iCodigoSituacao+'/'+iUsuario;
+        window.location.href = 'http://localhost:8000/projeto/'+iCodigoSituacao+'/'+iUsuario;
       }
     </script>
   </body>

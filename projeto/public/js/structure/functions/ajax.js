@@ -6,8 +6,8 @@ import { resetInputs  } from './functions.js';
 export function ajaxRequest(ajax, options = null) {
     let tSwal;
 
-
     $.ajax({
+  
         url: ajax.url,
         type: ajax.type,
         dataType: "json",

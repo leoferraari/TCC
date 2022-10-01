@@ -10,7 +10,8 @@ use App\Http\Controllers\ProjetoController;
 use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\UsuarioAtendimentoController;
-
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\HomeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,12 +35,15 @@ Route::group(['prefix' => 'check_list_js'], function () {
     Route::put('', [CheckListController::class, 'update']);
 });
 
-
 Route::group(['prefix' => 'check_list_atividade'], function () {
     Route::post('', [CheckListAtividadeController::class, 'addAtividadeCheckList']);
     Route::get('/{id_checklist}/{id_atividade}', [CheckListAtividadeController::class, 'getAtividadeCheckList']);
     Route::delete('/{id_checklist}/{id_atividade}', [CheckListAtividadeController::class, 'destroy']);
     Route::put('', [CheckListAtividadeController::class, 'update']);
+});
+
+Route::group(['prefix' => 'projeto'], function () {
+     Route::patch('/cancelar', [ProjetoController::class, 'cancelar']);
 });
 
 Route::group(['prefix' => 'usuario_atendimento_js'], function () {
@@ -51,11 +55,16 @@ Route::group(['prefix' => 'usuario_atendimento_remove_todos'], function () {
 });
 
 
-Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok
-Route::get('/cidades/{id_estado}',   [MunicipioController::class, 'cidades'])->name('cidades.getMunicipiosFromEstado'); //Ok
-Route::get('/projeto/{id_situacao}/{id_usuario}', [ProjetoController::class, 'index'])->name('projeto.index'); //Ok
 
-Route::get('/check_list_atividade/{iCodigoCheckList}', [CheckListAtividadeController::class, 'index'])->name('check_list_atividade.index');
+Route::group(['middleware' => ['apiJwt']], function () {
+    Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok
+    Route::get('/cidades/{id_estado}',   [MunicipioController::class, 'cidades'])->name('cidades.getMunicipiosFromEstado'); //Ok
+});
+  
+
+
+
+
 
 
 
