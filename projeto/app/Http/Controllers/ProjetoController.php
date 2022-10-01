@@ -35,10 +35,10 @@ class ProjetoController extends Controller
           RECUSADO = 5,
           AGUARDANDO_ACEITACAO = 6;
 
-    public function index($iCodigoSituacao, $iUsuario)
+    public function index($iCodigoSituacao)
     {
  
-        $oProjetos = $this->getProjetosUsuario($iCodigoSituacao, $iUsuario);
+        $oProjetos = $this->getProjetosUsuario($iCodigoSituacao);
         return view('projeto.index', ['iSituacao' => $iCodigoSituacao, 'oProjetos' => $oProjetos]);
     }
 
@@ -130,7 +130,7 @@ class ProjetoController extends Controller
         return $oQuery->get();
     }
 
-    private function getProjetosUsuario($iCodigoSituacao, $iUsuario) {
+    private function getProjetosUsuario($iCodigoSituacao) {
         return DB::select(sprintf(' select id,
                                            nome,
                                            nome_cliente,
@@ -149,7 +149,7 @@ class ProjetoController extends Controller
                                         end
                                     order by data_hora_atendimento
 
-                            ', $iCodigoSituacao, $iUsuario));
+                            ', $iCodigoSituacao, session('id_user')));
     }
 
     private function getMaxCodigo() {

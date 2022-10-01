@@ -23,7 +23,7 @@
         </div>
 
         <div class="row">
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(7, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(7)">
             <div class="card bg-primary text-white h-100">
               <div class="card-body py-5" id="numero_projeto">  
                 {{$aInfoProjetos[5]->numero_projetos}}
@@ -38,7 +38,7 @@
           </div>
 
           @if($bPermiteTerceirizacao)
-            <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(8, {{session('id_user')}})">
+            <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(8)">
               <div class="card bg-dark text-white h-100">
                 <div class="card-body py-5" id="numero_projeto">
                   {{$aInfoProjetos[6]->numero_projetos}}
@@ -53,7 +53,7 @@
             </div>
           @endif
 
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(1, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(1)">
             <div class="card bg-info text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
               {{$aInfoProjetos[0]->numero_projetos}}
@@ -67,7 +67,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(2, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(2)">
             <div class="card bg-warning text-dark h-100">
               <div class="card-body py-5" id="numero_projeto">
                 {{$aInfoProjetos[1]->numero_projetos}}
@@ -81,7 +81,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(3, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(3)">
             <div class="card bg-danger text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
                 {{$aInfoProjetos[2]->numero_projetos}}
@@ -95,7 +95,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(4, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(4)">
             <div class="card bg-success text-white h-100">
               <div class="card-body py-5" id="numero_projeto"> 
                 {{$aInfoProjetos[3]->numero_projetos}}
@@ -109,7 +109,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(5, {{session('id_user')}})">
+          <div class="col-md-3 mb-3" id="card_projeto" onclick="redirecionaConsultaProjeto(5)">
             <div class="card bg-secondary text-white h-100">
               <div class="card-body py-5" id="numero_projeto">
               {{$aInfoProjetos[4]->numero_projetos}}
@@ -135,8 +135,8 @@
     <script src="./js/dataTables.bootstrap5.min.js"></script>
     <script src="./js/script.js"></script>
     <script>
-      function redirecionaConsultaProjeto(iCodigoSituacao, iUsuario) {
-        window.location.href = 'http://localhost:8000/projeto/'+iCodigoSituacao+'/'+iUsuario;
+      function redirecionaConsultaProjeto(iCodigoSituacao) {
+        window.location.href = 'http://localhost:8000/projeto/'+iCodigoSituacao;
       }
     </script>
   </body>

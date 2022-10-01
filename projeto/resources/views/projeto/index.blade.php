@@ -1,7 +1,7 @@
 @include("header")
     <div class="container">
  
-        <div class="row justify-content-center">
+        <div id="listagem_projeto" class="row justify-content-center" id_situacao="{{$iSituacao}}">
             <div class="col-md-12">
                 <div class="card">
                     <h3>

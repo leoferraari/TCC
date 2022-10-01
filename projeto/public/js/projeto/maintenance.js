@@ -16,12 +16,13 @@ $(document).ready(function () {
 
         $(document).on('click', '#cancelar_projeto', function(event){
             event.preventDefault();  
+            var oListagem = document.getElementById('listagem_projeto');
             ajaxRequest({
                 url: `${URL_PATH_API}/${SECTION}/cancelar`,
                 type: 'PATCH',
                 data: {id_projeto: this.getAttribute('id_projeto')},
                 success: function (response) {
-                    insertedSuccessSweetAlert(response.message, );
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/projeto/'+oListagem.getAttribute('id_situacao'));
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);

@@ -66,7 +66,7 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/check_list_atividade/{iCodigoCheckList}', [CheckListAtividadeController::class, 'index'])->name('check_list_atividade');
 
     Route::get('/check_list_atividade/create/{iCodigoCheckList}', [CheckListAtividadeController::class, 'create'])->name('check_list_atividade.create');
-    Route::get('/projeto/{id_situacao}/{id_usuario}', [ProjetoController::class, 'index'])->name('projeto.index'); //Ok
+    Route::get('/projeto/{id_situacao}', [ProjetoController::class, 'index'])->name('projeto.index'); //Ok
 
     Route::get('/projeto_alteracao/{iCodigoProjeto}',  [ProjetoController::class, 'alterar'])->name('projeto.alterar');
 
