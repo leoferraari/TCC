@@ -137,7 +137,9 @@ class ProjetoController extends Controller
                                            numero_tel_cliente,
                                            to_char(data_hora_atendimento, \'DD/MM/YYYY\') as data_hora_atendimento,
                                            to_char(prazo_final, \'DD/MM/YYYY\')  as prazo_final,
-                                           (id_usuario = %2$d) as permite_alterar
+                                           (id_usuario = %2$d) as permite_alterar,
+                                           id_checklist,
+                                           id_usuario
                                         from projeto
                                         where
                                           case when (%1$d = 7) then 

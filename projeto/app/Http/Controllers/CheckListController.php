@@ -107,4 +107,14 @@ class CheckListController extends Controller
 
         return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
     }
+
+    public function getAtividadesCheckList($iCheckList, $iUsuario) {
+        return DB::select(sprintf('select check_list_atividades.descricao
+                                     from check_lists
+                                     join check_list_atividades
+                                       on check_lists.id = check_list_atividades.id_checklist
+                                    where id_usuario = %d
+                                      and check_lists.id = %d
+                            ', $iUsuario, $iCheckList));
+    }
 }

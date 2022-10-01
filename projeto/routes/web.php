@@ -75,11 +75,6 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
 
 
-Route::get('/home', [HomeController::class, 'home'])->name('home'); //Ok
-/*
-Rotas da aplicação.
-*/
-
 Route::get('/', function () {
     return view('welcome');
 });

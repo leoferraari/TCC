@@ -42,6 +42,10 @@ Route::group(['prefix' => 'check_list_atividade'], function () {
     Route::put('', [CheckListAtividadeController::class, 'update']);
 });
 
+Route::group(['prefix' => 'check_list_visualizacao'], function () {
+    Route::get('/{id_checklist}/{id_usuario}', [CheckListController::class, 'getAtividadesCheckList']);
+});
+
 Route::group(['prefix' => 'projeto'], function () {
     Route::patch('/cancelar', [ProjetoController::class, 'cancelar']);
     Route::patch('/aceitar', [ProjetoController::class, 'aceitar']);
@@ -55,8 +59,6 @@ Route::group(['prefix' => 'usuario_atendimento_js'], function () {
 Route::group(['prefix' => 'usuario_atendimento_remove_todos'], function () {
     Route::delete('/{id_usuario}',  [UsuarioAtendimentoController::class, 'delete_todos'])->name('api.usuario_atendimento_remove_todos.delete_todos');
 });
-
-
 
 Route::group(['middleware' => ['apiJwt']], function () {
     Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok

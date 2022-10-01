@@ -30,7 +30,7 @@
                         @endswitch
                     </h3>
                     <div class="card-body">
-                        <a href="{{route('projeto.create')}}" class="btn btn-lg btn-success">Criar Projeto</a>
+                        <!-- <a href="{{route('projeto.create')}}" class="btn btn-lg btn-success">Criar Projeto</a> -->
                   
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -63,7 +63,9 @@
                                         @if ($iSituacao == 7)
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                    @if($oProjeto->permite_alterar)
+                                                        <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                    @endif
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 </div>
                                             </td>
@@ -74,8 +76,10 @@
                                                 <div class="btn-group">
                                                     <button type="submit" id="aceitar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Aceitar</button>     
                                                     <button type="submit" id="recusar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Recusar</button> 
-                                                    <button type="button" class="btn btn-sm btn-primary" onclick="consultaAtividades()">Visualizar Atividades</button>
-    
+
+                                                    @if($oProjeto->id_checklist)
+                                                        <button type="button" class="btn btn-sm btn-primary" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Visualizar Atividades</button>
+                                                    @endif
                                                 </div>
                                             </td>
                                         @endif
@@ -83,8 +87,9 @@
                                         @if ($iSituacao == 1 || $iSituacao == 2)
                                             <td>
                                                 <div class="btn-group">
-                                                <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
-
+                                                @if($oProjeto->permite_alterar)
+                                                    <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                @endif
                                                 </div>
                                             </td>
                                         @endif
@@ -122,8 +127,6 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="{{ URL::asset('/js/projeto/maintenance.js')}}"></script>
     <script>
-
-
         $( window ).on( "load", function() {
             const oBotaoAlterar = document.getElementsByName("button_alterar");
 
@@ -137,4 +140,60 @@
         function redirecionaProjeto(iProjeto) {
             window.location.href = 'http://localhost:8000/projeto_alteracao/'+iProjeto;
         }
-    </script>
+
+        function visualizarAtividades(id_usuario, id_checklist) {
+            let bAltera = id_checklist ? true : false;
+
+            oModal = document.querySelector('.modal_leo');
+
+            //Limpa o Modal (Isso serve para quando ficar clicando no botão "Novo")
+            while (oModal.firstChild) {
+                oModal.removeChild(oModal.lastChild);
+            }
+
+            oModal.style.display = 'block';
+
+            oDivFechar = document.createElement('div');
+            oDivFechar.setAttribute('class', 'fechar');
+            oDivFechar.setAttribute('onclick', 'fechar()');
+            oDivFechar.innerHTML = 'X';
+            oModal.appendChild(oDivFechar);
+            
+            oH1 = document.createElement('h1');
+            oH1.innerHTML = 'Atividades';
+            oH1.style.textAlign = 'center';
+
+            oLista = document.createElement('ol');
+            oLista.setAttribute('id', 'lista');
+    
+            buscaAtividadesCheckList(id_usuario, id_checklist);
+ 
+            oModal.appendChild(oH1);
+            oModal.appendChild(document.createElement('br'));
+
+            oModal.appendChild(oLista);
+        }
+
+        function fechar() {
+            let modal = document.querySelector('.modal_leo');
+            modal.style.display = 'none';
+        }
+
+        function buscaAtividadesCheckList(id_usuario, id_checklist) {
+            $.ajax({
+                url: '/api/check_list_visualizacao/'+id_checklist+'/'+id_usuario,
+                type: 'GET',
+                success: function(atividades) {
+                    console.log(atividades);
+                    if(atividades) {
+
+                        for (let index = 0; index < atividades.length; index++) {
+                            var oLi = document.createElement('li');
+                                oLi.innerHTML = index+1 +' - ' +atividades[index]['descricao'];
+                                document.getElementById('lista').appendChild(oLi);
+                        }
+                    };
+                }
+            });
+        }
+</script>
