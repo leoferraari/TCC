@@ -64,7 +64,6 @@
                                             <td>
                                                 <div class="btn-group">
                                                     <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
-                        
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 </div>
                                             </td>
@@ -73,9 +72,10 @@
                                         @if ($iSituacao == 8)
                                             <td>
                                                 <div class="btn-group">
-                                                    
+                                                    <button type="submit" id="aceitar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Aceitar</button>     
+                                                    <button type="submit" id="recusar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Recusar</button> 
                                                     <button type="button" class="btn btn-sm btn-primary" onclick="consultaAtividades()">Visualizar Atividades</button>
-                                                    <button type="submit" check_list="{{$iCodigoCheckList}}" atividade="{{$oAtividade->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+    
                                                 </div>
                                             </td>
                                         @endif

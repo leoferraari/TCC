@@ -43,7 +43,9 @@ Route::group(['prefix' => 'check_list_atividade'], function () {
 });
 
 Route::group(['prefix' => 'projeto'], function () {
-     Route::patch('/cancelar', [ProjetoController::class, 'cancelar']);
+    Route::patch('/cancelar', [ProjetoController::class, 'cancelar']);
+    Route::patch('/aceitar', [ProjetoController::class, 'aceitar']);
+    Route::patch('/recusar', [ProjetoController::class, 'recusar']);
 });
 
 Route::group(['prefix' => 'usuario_atendimento_js'], function () {

@@ -147,7 +147,7 @@ class ProjetoController extends Controller
                                         else 
                                             (situacao = %1$d and (id_usuario = %2$d or id_terceirizado = %2$d)) 
                                         end
-                                    order by data_hora_atendimento
+                                    order by data_hora_atendimento desc
 
                             ', $iCodigoSituacao, session('id_user')));
     }
@@ -191,6 +191,28 @@ class ProjetoController extends Controller
 
         return $this->responseJsonSuccess([
             'message' => 'Projeto Cancelado!',
+            'data'    => $request
+        ]);
+    }
+
+    public function aceitar(Request $request) {
+        $update = Projeto::where('id', $request->id_projeto)->update([
+            'situacao' => 1,
+        ]);
+
+        return $this->responseJsonSuccess([
+            'message' => 'Projeto Aceito!',
+            'data'    => $request
+        ]);
+    }
+
+    public function recusar(Request $request) {
+        $update = Projeto::where('id', $request->id_projeto)->update([
+            'situacao' => 5,
+        ]);
+
+        return $this->responseJsonSuccess([
+            'message' => 'Projeto Recusado!',
             'data'    => $request
         ]);
     }
