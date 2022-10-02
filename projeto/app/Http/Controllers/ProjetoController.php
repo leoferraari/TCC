@@ -218,4 +218,15 @@ class ProjetoController extends Controller
             'data'    => $request
         ]);
     }
+
+    public function concluir(Request $request) {
+        $update = Projeto::where('id', $request->id_projeto)->update([
+            'situacao' => 4,
+        ]);
+
+        return $this->responseJsonSuccess([
+            'message' => 'Projeto Concluído!',
+            'data'    => $request
+        ]);
+    }
 }

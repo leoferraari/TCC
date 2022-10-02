@@ -71,6 +71,8 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/projeto_alteracao/{iCodigoProjeto}',  [ProjetoController::class, 'alterar'])->name('projeto.alterar');
 
     Route::get('/comodo/create/{id_projeto}', [ComodoController::class, 'create'])->name('comodo.create');
+
+    Route::get('/comodos/{id_projeto}', [ComodoController::class, 'index'])->name('comodos.index'); //Ok
 });
 
 

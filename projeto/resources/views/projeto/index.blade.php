@@ -89,6 +89,9 @@
                                                 <div class="btn-group">
                                                 @if($oProjeto->permite_alterar)
                                                     <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                    <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
+                                                    <button type="submit" id="concluir_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Concluir</button> 
+                                                    <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 @endif
                                                 </div>
                                             </td>
@@ -139,6 +142,10 @@
 
         function redirecionaProjeto(iProjeto) {
             window.location.href = 'http://localhost:8000/projeto_alteracao/'+iProjeto;
+        }
+
+        function redirecionaComodoProjeto(iProjeto) {
+            window.location.href = 'http://localhost:8000/comodos/'+iProjeto;
         }
 
         function visualizarAtividades(id_usuario, id_checklist) {

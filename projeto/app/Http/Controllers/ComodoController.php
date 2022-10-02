@@ -25,9 +25,9 @@ use Exception;
 class ComodoController extends Controller
 {
 
-    public function index()
+    public function index($iProjeto)
     {
-        $oProjetos = $this->getProjetos();
+        // dd($iProjeto);
         return view('comodo.index', compact('oProjetos'));
     }
 

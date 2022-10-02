@@ -64,6 +64,22 @@ $(document).ready(function () {
             });
         });
 
+        $(document).on('click', '#concluir_projeto', function(event){
+            event.preventDefault();  
+            var oListagem = document.getElementById('listagem_projeto');
+            ajaxRequest({
+                url: `${URL_PATH_API}/${SECTION}/concluir`,
+                type: 'PATCH',
+                data: {id_projeto: this.getAttribute('id_projeto')},
+                success: function (response) {
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/projeto/'+oListagem.getAttribute('id_situacao'));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        });
+
 
         $(document).on('click', '#checklist', function(event){
             event.preventDefault();
