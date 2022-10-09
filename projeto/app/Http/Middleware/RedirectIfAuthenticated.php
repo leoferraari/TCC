@@ -23,7 +23,6 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ...$guards)
     {
 
-        // dd(session()->has('id_user'));
         if (session()->has('jwt-token')) {
             return $next($request);
         }

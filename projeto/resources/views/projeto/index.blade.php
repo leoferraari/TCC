@@ -1,5 +1,21 @@
 @include("header")
     <div class="container">
+        <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="fechar()"></button>
+                    </div>
+                    <div  id="conteudo_modal" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  onclick="fechar()" data-bs-dismiss="modal">Fechar</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
  
         <div id="listagem_projeto" class="row justify-content-center" id_situacao="{{$iSituacao}}">
             <div class="col-md-12">
@@ -58,8 +74,6 @@
                                         <td>{{$oProjeto->data_hora_atendimento}}</td>
                                         <td>{{$oProjeto->prazo_final}}</td>
 
-                                        
-
                                         @if ($iSituacao == 7)
                                             <td>
                                                 <div class="btn-group">
@@ -89,7 +103,10 @@
                                                 <div class="btn-group">
                                                 @if($oProjeto->permite_alterar)
                                                     <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                @endif
                                                     <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
+                                                
+                                                    @if($oProjeto->permite_alterar)
                                                     <button type="submit" id="concluir_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Concluir</button> 
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 @endif
@@ -149,41 +166,34 @@
         }
 
         function visualizarAtividades(id_usuario, id_checklist) {
-            let bAltera = id_checklist ? true : false;
 
-            oModal = document.querySelector('.modal_leo');
+            let oModal = document.getElementById('modal'),
+            conteudo = document.getElementById('conteudo_modal');
 
-            //Limpa o Modal (Isso serve para quando ficar clicando no botão "Novo")
-            while (oModal.firstChild) {
-                oModal.removeChild(oModal.lastChild);
-            }
-
-            oModal.style.display = 'block';
-
-            oDivFechar = document.createElement('div');
-            oDivFechar.setAttribute('class', 'fechar');
-            oDivFechar.setAttribute('onclick', 'fechar()');
-            oDivFechar.innerHTML = 'X';
-            oModal.appendChild(oDivFechar);
-            
-            oH1 = document.createElement('h1');
-            oH1.innerHTML = 'Atividades';
-            oH1.style.textAlign = 'center';
+            document.getElementById('staticBackdropLabel').innerHTML = 'Atividades';
 
             oLista = document.createElement('ol');
             oLista.setAttribute('id', 'lista');
     
             buscaAtividadesCheckList(id_usuario, id_checklist);
  
-            oModal.appendChild(oH1);
-            oModal.appendChild(document.createElement('br'));
 
-            oModal.appendChild(oLista);
+
+            conteudo.appendChild(oLista);
+
+            newModal = new bootstrap.Modal(oModal).show();
+            newModal.show();
         }
 
         function fechar() {
-            let modal = document.querySelector('.modal_leo');
+            let modal = document.getElementById('modal');
             modal.style.display = 'none';
+
+            oModal = document.getElementById('conteudo_modal');
+
+            while (oModal.firstChild) {
+                oModal.removeChild(oModal.lastChild);
+            }
         }
 
         function buscaAtividadesCheckList(id_usuario, id_checklist) {

@@ -3,13 +3,24 @@
 
     <div class="container">
  
+        <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="fechar()"></button>
+                </div>
+                <div  id="conteudo_modal" class="modal-body">
+                </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row justify-content-center">
             <div class="col-md-12">
 
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{route('check_list_atividade.create', ['iCodigoCheckList'=>$iCodigoCheckList])}}" class="btn btn-lg btn-success">Adicionar</a>
                         <button type="button" onclick="criaFormulario({{$iCodigoCheckList}})" class="btn btn-info">Adicionar Atividade</button>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -45,38 +56,21 @@
         </div>
     </div>
 
-    <div class="modal_leo">
-        </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function criaFormulario(id_checklist, id_atividade = null, bAlteracao = false) {
         let bAltera = bAlteracao;
 
-        oModal = document.querySelector('.modal_leo');
+        let oModal = document.getElementById('modal'),
+            conteudo = document.getElementById('conteudo_modal');
 
-    //Limpa o Modal (Isso serve para quando ficar clicando no botão "Novo")
-        while (oModal.firstChild) {
-            oModal.removeChild(oModal.lastChild);
-        }
+        document.getElementById('staticBackdropLabel').innerHTML = bAltera ? 'Altere a Atividade' : 'Cadastre a(s) atividade(s)';
 
-        oModal.style.display = 'block';
-
-        oDivFechar = document.createElement('div');
-        oDivFechar.setAttribute('class', 'fechar');
-        oDivFechar.setAttribute('onclick', 'fechar()');
-        oDivFechar.innerHTML = 'X';
-        oModal.appendChild(oDivFechar);
-        
-        oH1 = document.createElement('h1');
         oForm = document.createElement('form');
         oForm.setAttribute('id', 'formulario');
         oForm.setAttribute('atividade', id_atividade);
         
-        oH1.innerHTML = bAltera ? 'Alteração da Atividade': 'Cadastro de Atividades';
-        oH1.style.textAlign = 'center';
-
         oLabel = document.createElement('label');
         oLabel.setAttribute('for', 'id_checklist');
         oLabel.innerHTML = 'CheckList:';
@@ -131,7 +125,6 @@
         oSubmit.style.marginTop = '50px';
         oSubmit.style.marginLeft = '40%';
         
-        oForm.appendChild(oH1);
         oForm.appendChild(oLabel);
         oForm.appendChild(oInput);
         oForm.appendChild(document.createElement('br'));
@@ -144,7 +137,11 @@
         }
         oForm.appendChild(oSubmit);
 
-        oModal.appendChild(oForm);
+        conteudo.appendChild(oForm);
+
+        newModal = new bootstrap.Modal(oModal).show();
+        newModal.show();
+
     }
 
     function preencheInformacoesFormulario(id_checklist, id_atividade) {
@@ -176,8 +173,14 @@
         }
 
     function fechar() {
-        let modal = document.querySelector('.modal_leo');
+        let modal = document.getElementById('modal');
         modal.style.display = 'none';
+
+        oModal = document.getElementById('conteudo_modal');
+
+        while (oModal.firstChild) {
+            oModal.removeChild(oModal.lastChild);
+        }
     }
 
     function getQuantidadeAtividade() {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComodosTable extends Migration
+class CreateChecklistAtividadeProjetoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateComodosTable extends Migration
      */
     public function up()
     {
-        Schema::create('comodos', function (Blueprint $table) {
+        Schema::create('checklist_atividade_projeto', function (Blueprint $table) {
             $table->integer('id');
             $table->unsignedBigInteger('id_projeto');
             $table->integer('id_checklist');
+            $table->smallInteger('concluido');
 
-            $table->primary(['id', 'id_projeto']);
+            $table->primary(['id', 'id_projeto', 'id_checklist']);
 
             $table->foreign('id_projeto')->references('id')->on('projeto')->onDelete('cascade')->constrained();
+            $table->foreign('id_checklist')->references('id')->on('check_lists')->onDelete('cascade')->constrained();
         });
     }
 
@@ -31,6 +33,6 @@ class CreateComodosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comodos');
+        Schema::dropIfExists('checklist_atividade_projeto');
     }
 }

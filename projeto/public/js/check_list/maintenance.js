@@ -17,12 +17,17 @@ $(document).ready(function () {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var oFormulario = document.getElementById('formulario');
             let data = getInputValues(NAME_INPUTS);
-  
+            var atividades = [];
+
+            for (let i = 1; i <= document.getElementsByName("descricao[]").length; i++) {
+                atividades.push(document.getElementById(i).value);
+            }
+
             ajaxRequest({
                 
                 url: `${URL_PATH_API}/${SECTION}`,
                 type: 'POST',
-                data: {_token: CSRF_TOKEN, nome: data.nome, descricao: data.descricao, id_usuario: oFormulario.getAttribute('usuario')},
+                data: {_token: CSRF_TOKEN, nome: data.nome, descricao: data.descricao, id_usuario: oFormulario.getAttribute('usuario'), atividades: atividades},
                 success: function (response) {
                     insertedSuccessSweetAlert(response.message, 'check_list');
                 },

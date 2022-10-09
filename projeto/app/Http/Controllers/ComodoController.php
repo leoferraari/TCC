@@ -27,8 +27,8 @@ class ComodoController extends Controller
 
     public function index($iProjeto)
     {
-        // dd($iProjeto);
-        return view('comodo.index', compact('oProjetos'));
+
+        return view('comodo.index', ['iProjeto' => $iProjeto, 'aComodos' => $this->getComodosFromProjeto($iProjeto)]);
     }
 
     public function create($iProjeto)
@@ -62,26 +62,19 @@ class ComodoController extends Controller
         return redirect()->route('usuario_atendimento.index');
     }
 
-    public function destroy($id_municipio)
-    {
-        //fazer
-        $users = DB::table('usuario_atendimentos')->where([
-            ['id_usuario', '=', session('id_user')],
-            ['id_municipio', '=', $id_municipio],
-        ])->delete();
-
-        return redirect()->route('checklistatividade.index');
-    }
-
-    private function getCheckListUsuario() {
-        $oQuery = CheckList::query()->select(['check_lists.id', 'check_lists.nome'])->join('users', 'check_lists.id_usuario', '=', 'users.id')
-                                            ->where('users.id', '=', session('id_user'));
-        return $oQuery->get();
-    }
-
     private function getMaxCodigo($iIdProjeto) {
         return DB::table('comodo')->where([
             ['id_projeto', '=',$iIdProjeto]
         ])->groupBy(['id_projeto'])->max('id');
+    }
+
+
+    private function getComodosFromProjeto($iProjeto) {
+        return DB::select(sprintf('select id,
+                                          nome,
+                                          descricao
+                                    from comodos
+                                   where id_projeto = %d
+                            ', $iProjeto));
     }
 }

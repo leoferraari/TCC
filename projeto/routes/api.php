@@ -11,7 +11,7 @@ use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\UsuarioAtendimentoController;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\HomeController;
+use App\Http\Controllers\ComodoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,13 +27,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::group(['prefix' => 'check_list_js'], function () {
-    Route::post('', [CheckListController::class, 'addCheckList']);
-    Route::delete('/{id_checklist}/{id_usuario}', [CheckListController::class, 'destroy']);
-    Route::get('/{id_checklist}/{id_usuario}', [CheckListController::class, 'getCheckList']);
-    Route::put('', [CheckListController::class, 'update']);
-});
+// Route::group(['middleware'=> ['apiJwt']],function(){
+    Route::group(['prefix' => 'check_list_js'], function () {
+        Route::post('', [CheckListController::class, 'addCheckList']);
+        Route::delete('/{id_checklist}/{id_usuario}', [CheckListController::class, 'destroy']);
+        Route::get('/{id_checklist}/{id_usuario}', [CheckListController::class, 'getCheckList']);
+        Route::put('', [CheckListController::class, 'update']);
+    });
+// });
 
 Route::group(['prefix' => 'check_list_atividade'], function () {
     Route::post('', [CheckListAtividadeController::class, 'addAtividadeCheckList']);
@@ -44,6 +45,13 @@ Route::group(['prefix' => 'check_list_atividade'], function () {
 
 Route::group(['prefix' => 'check_list_visualizacao'], function () {
     Route::get('/{id_checklist}/{id_usuario}', [CheckListController::class, 'getAtividadesCheckList']);
+});
+
+Route::group(['prefix' => 'comodo'], function () {
+    Route::post('', [ComodoController::class, 'addComodo']);
+    Route::delete('/{id_projeto}', [ComodoController::class, 'destroy']);
+    Route::get('/{id_checklist}', [ComodoController::class, 'getCheckList']);
+    Route::put('', [ComodoController::class, 'update']);
 });
 
 Route::group(['prefix' => 'projeto'], function () {

@@ -10,7 +10,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    
+    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="{{ asset('/styles.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">  
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -26,7 +29,6 @@
                 <nav class="nav">
                     <ul class="nav__list"> <!-- Elemento modificador -->
                         <li><a href="{{route('projeto.create')}}" class="nav__link">Novo Projeto</a></li>
-                        <li><a href="{{route('check_list.create')}}" class="nav__link">Check-List</a></li>
                         
                         <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></li>
                         <li><a href="/comodo/create/1" class="nav__link">Cômodos</a></li>  <!-- Não vai ficar no MENU -->
@@ -37,6 +39,7 @@
                         <li><a href="{{route('logout')}}" class="nav__link">Sair</a></li>
                     </ul> <!-- .nav__list -->
                 </nav> <!-- .nav -->
+                <!-- <input type="hidden" id="jwttoken"  value="{{session('jwt-token')->original['access_token']}}"> -->
             </div> <!-- .menu -->
         </div> <!-- .menu-bg -->
     </header>

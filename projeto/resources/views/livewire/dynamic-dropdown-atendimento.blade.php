@@ -11,35 +11,21 @@
             <div class="invalid-feedback">Exemplo de feedback invalido para o select</div>
         </div>
 
-
-   
-     
-            
-
-            
-            
-   
-                 
-      
                     @if($this->estado)
-                        @foreach ($cidades as $municipio) 
-                    
-
-         
-                            <div class="col-md-3 mb-3" >
-                            <label for = "{{ $municipio->id }}"> {{ $municipio->nome }} </label>
-                       
-                            <input  type="checkbox" id ="{{ $municipio->id }}" value ="{{ $municipio->id }}" name = "municipios[]">
-                            </div>
+                        <div class="col-md-3 mb-3" >
+                            <label for = "todos"> Selecionar Todos </label>
+                            <input  type="checkbox" id ="selecionar_todos" onclick="selecionarTodos()" name ="todos">
+                        </div>
               
-                        
-                    
+                        @foreach ($cidades as $municipio) 
+                            <div class="col-md-3 mb-3" >
+                                <label for = "{{ $municipio->id }}"> {{ $municipio->nome }} </label>
+                                <input  type="checkbox" id ="{{ $municipio->id }}" value ="{{ $municipio->id }}" name= "municipios[]">
+                            </div>
                         @endforeach
                     @endif
             
-            
-                    <!-- </select> -->
-                    <div class="invalid-feedback">Exemplo de feedback invalido para o select</div>
+ 
          
      </div>
 

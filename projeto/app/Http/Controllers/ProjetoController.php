@@ -183,7 +183,7 @@ class ProjetoController extends Controller
     }
 
     public function update($iProjeto) {
-        dd('entrou');
+
     }
 
     public function cancelar(Request $request) {

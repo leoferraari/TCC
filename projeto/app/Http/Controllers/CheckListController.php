@@ -20,23 +20,6 @@ use Exception;
 class CheckListController extends Controller
 {
 
-     /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
-    {
-        //
-    }
-
-    private $checklist = null;
-
-    public function __construct(CheckList $checklist) {
-        $this->checklist = $checklist;
-    }
-
     public function index()
         //VER
     {
@@ -74,18 +57,43 @@ class CheckListController extends Controller
     public function addCheckList(Request $request) {
 
         try {
-            $this->checklist->addCheckList($request);
+            
+            $id =  $this->getMaxCodigo()+1;
+            DB::table('check_lists')->insert(
+                [
+                    'id' => $id ,
+                    'nome' => $request->nome,
+                    'descricao' => $request->descricao,
+                    'id_usuario' => $request->id_usuario
+                ]
+            );
+
+
+            foreach ($request->atividades as $value) {
+                DB::table('check_list_atividades')->insert(
+                    [
+                        'id' => $this->getMaxCodigoAtividadeFromCheckList($id)+1,
+                        'id_checklist' => $id,
+                        'descricao' => $value,
+                    ]
+                );
+    
+            }
+
+
             return $this->responseJsonSuccess([
                 'message' => 'CheckList inserido com sucesso!',
                 'data'    => $request
             ]);
         } catch (Exception $error) {
-            return $this->responseJsonFailed([
-                'message' => 'Houve um erro ao realizar ao realizar o seu cadastro!'
-            ], $error);
+            return response()->json($request->nome, 201)->header('Content-Type', 'application/json');
         }
 
-        // response()->json($this->checklist->addCheckList($request), 201)->header('Content-Type', 'application/json');
+        response()->json($request->nome, 201)->header('Content-Type', 'application/json');
+    }
+
+    private function getMaxCodigo() {
+        return DB::table('check_lists')->max('id');
     }
 
     public function getCheckList($iCheckList, $iUsuario) {
@@ -116,5 +124,11 @@ class CheckListController extends Controller
                                     where id_usuario = %d
                                       and check_lists.id = %d
                             ', $iUsuario, $iCheckList));
+    }
+
+    private function getMaxCodigoAtividadeFromCheckList($iIdCheckList) {
+        return DB::table('check_list_atividades')->where([
+            ['id_checklist', '=',$iIdCheckList]
+        ])->groupBy(['id_checklist'])->max('id');
     }
 }
