@@ -42,8 +42,8 @@
                                     
                                         <td>
                                             <div class="btn-group">
-                                            <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$iProjeto}}, true)">Alterar</button>
-                                                <button type="submit" id_projeto="{{$iProjeto}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$iProjeto}}, {{$aComodo->id}})">Alterar</button>
+                                             <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
                                             </div>
                                         </td>
                                     </tr>
@@ -60,12 +60,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
-    function mostrarModal(id_projeto, bAltera = false) {
+    function mostrarModal(id_projeto, id_comodo = null) {
         let oModal = document.getElementById('modal'),
             conteudo = document.getElementById('conteudo_modal');
+        let bAltera = id_comodo ? true : false;
 
         oForm = document.createElement('form');
         oForm.setAttribute('id_projeto', id_projeto);
+        oForm.setAttribute('id_comodo', id_comodo);
         oForm.setAttribute('id', 'formulario');
 
         oLabelProjeto = document.createElement('label');
@@ -103,9 +105,8 @@
         oDescricao.setAttribute('class', 'form-control');
 
         if (bAltera) {
-            preencheInformacoesFormulario(id_projeto);
+            preencheInformacoesFormulario(id_comodo, id_projeto);
         }
-
 
         oSubmit = document.createElement('input');
         oSubmit.setAttribute('type', 'submit');
@@ -114,7 +115,6 @@
         oSubmit.setAttribute('class', 'btn btn-primary');
         oSubmit.style.marginTop = '50px';
         oSubmit.style.marginLeft = '40%';
-
 
         oForm.appendChild(oLabelProjeto);
         oForm.appendChild(oProjeto);
@@ -134,13 +134,13 @@
         newModal.show();
     }
 
-    function preencheInformacoesFormulario(id_projeto) {
+    function preencheInformacoesFormulario(id_comodo, id_projeto) {
         $.ajax({
-            url: '/api/check_list_js/'+id_checklist+'/'+id_usuario,
+            url: '/api/comodo/'+id_comodo+'/'+id_projeto,
             type: 'GET',
             success: function(result) {
                 if(result) {
-                    console.log(result);
+                    document.getElementById('id_projeto').value = result.id_projeto;
                     document.getElementById('nome').value = result.nome;
                     document.getElementById('descricao').value = result.descricao;
                 };

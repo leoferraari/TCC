@@ -2,13 +2,15 @@ import { ID_FROM_URL_CRUD, URL_PATH_API } from '../structure/consts/consts.js';
 import { ajaxRequest } from '../structure/functions/ajax.js';
 import { getInputValues, hideModal } from '../structure/functions/functions.js';
 import { deleteLineOnDataTable } from '../structure/functions/datatable.js';
-import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSweetAlert } from '../structure/functions/sweetalert.js';
+import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSweetAlert, errorAlert } from '../structure/functions/sweetalert.js';
 
 
 $(document).ready(function () {
 
     const SECTION  = 'check_list_atividade';
     const NAME_INPUTS = ['id_checklist', 'descricao'];
+
+
 
     $(function () {
 
@@ -18,22 +20,28 @@ $(document).ready(function () {
                 atividades = [];
 
             for (let i = 1; i <= document.getElementsByName("descricao[]").length; i++) {
-                atividades.push(document.getElementById(i).value);
+                if (document.getElementById(i).value != '') {
+                    atividades.push(document.getElementById(i).value);
+                }
             }
 
-            ajaxRequest({
-                url: `${URL_PATH_API}/${SECTION}`,
-                type: 'POST',
-                data: {_token: CSRF_TOKEN, id_checklist: document.getElementById('id_checklist').value, atividades: atividades},
-                success: function (response) {
-                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/check_list_atividade/'+document.getElementById('id_checklist').value);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError);
-                }
-            }, {
-                inputs: NAME_INPUTS
-            });
+            if (atividades.length == 0) {
+                errorAlert('As atividades deverão ser informadas!');
+            } else {
+                ajaxRequest({
+                    url: `${URL_PATH_API}/${SECTION}`,
+                    type: 'POST',
+                    data: {_token: CSRF_TOKEN, id_checklist: document.getElementById('id_checklist').value, atividades: atividades},
+                    success: function (response) {
+                        insertedSuccessSweetAlert(response.message, 'http://localhost:8000/check_list_atividade/'+document.getElementById('id_checklist').value);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(thrownError);
+                    }
+                }, {
+                    inputs: NAME_INPUTS
+                });
+            }
         });
 
         $(document).on('click', '#button_update', function(event){

@@ -110,7 +110,7 @@
         oAtividade.setAttribute('name', bAltera ? 'descricao' : 'descricao[]');
         oAtividade.setAttribute('class', 'form-control');
         oAtividade.setAttribute('placeholder', 'Digite a atividade');
-      
+        oAtividade.required  = true;
 
         if (!bAltera) {
             oAtividade.setAttribute('id', getQuantidadeAtividade() == 0 ? 1 : getQuantidadeAtividade());
@@ -203,6 +203,7 @@
         oInput.setAttribute('class', 'form-control');
         oInput.setAttribute('placeholder', 'Digite a atividade');
         oInput.setAttribute('id', getQuantidadeAtividade()+1); 
+        oInput.required  = true;
 
         document.getElementById("atividades").appendChild(oBr);
         document.getElementById("atividades").appendChild(oInput);

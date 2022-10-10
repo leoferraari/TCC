@@ -2,7 +2,7 @@ import { ID_FROM_URL_CRUD, URL_PATH_API } from '../structure/consts/consts.js';
 import { ajaxRequest } from '../structure/functions/ajax.js';
 import { getInputValues, hideModal } from '../structure/functions/functions.js';
 import { deleteLineOnDataTable } from '../structure/functions/datatable.js';
-import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSweetAlert } from '../structure/functions/sweetalert.js';
+import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSweetAlert, errorAlert} from '../structure/functions/sweetalert.js';
 
 
 $(document).ready(function () {
@@ -10,33 +10,53 @@ $(document).ready(function () {
     const SECTION  = 'check_list_js';
     const NAME_INPUTS = ['nome', 'descricao'];
 
+    function camposValidos() {
+        let aCampos = ['Nome', 'Descrição'];
+        let data = getInputValues(NAME_INPUTS);
+
+        for (let index = 0; index < NAME_INPUTS.length; index++) {
+            if (data[NAME_INPUTS[index]] == '') {
+                errorAlert('O campo '+ aCampos[index]+' deve ser preenchido!');
+                return false;
+            }
+        }
+        return true;
+    }
+
     $(function () {
 
         $(document).on('click', '#checklist', function(event){
             event.preventDefault();
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var oFormulario = document.getElementById('formulario');
-            let data = getInputValues(NAME_INPUTS);
-            var atividades = [];
+            if (camposValidos()) {
+                var oFormulario = document.getElementById('formulario');
+                let data = getInputValues(NAME_INPUTS);
+                var atividades = [];
 
-            for (let i = 1; i <= document.getElementsByName("descricao[]").length; i++) {
-                atividades.push(document.getElementById(i).value);
-            }
-
-            ajaxRequest({
-                
-                url: `${URL_PATH_API}/${SECTION}`,
-                type: 'POST',
-                data: {_token: CSRF_TOKEN, nome: data.nome, descricao: data.descricao, id_usuario: oFormulario.getAttribute('usuario'), atividades: atividades},
-                success: function (response) {
-                    insertedSuccessSweetAlert(response.message, 'check_list');
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError);
+                for (let i = 1; i <= document.getElementsByName("descricao[]").length; i++) {
+                    if (document.getElementById(i).value != '') {
+                        atividades.push(document.getElementById(i).value);
+                    }
                 }
-            }, {
-                inputs: NAME_INPUTS
-            });
+
+                if (atividades.length == 0) {
+                    errorAlert('As atividades deverão ser informadas!');
+                } else {
+                    ajaxRequest({
+                        
+                        url: `${URL_PATH_API}/${SECTION}`,
+                        type: 'POST',
+                        data: {nome: data.nome, descricao: data.descricao, id_usuario: oFormulario.getAttribute('usuario'), atividades: atividades},
+                        success: function (response) {
+                            insertedSuccessSweetAlert(response.message, 'check_list');
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(thrownError);
+                        }
+                    }, {
+                        inputs: NAME_INPUTS
+                    });
+                }
+            }
         });
 
         $(document).on('click', '#button_update', function(event){

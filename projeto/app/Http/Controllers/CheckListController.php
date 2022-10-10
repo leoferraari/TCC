@@ -54,42 +54,33 @@ class CheckListController extends Controller
         return CheckList::query()->orderBy('id')->where('id_usuario', '=', session('id_user'))->get();
     }
     
-    public function addCheckList(Request $request) {
+    public function addCheckList(Request $request) {   
+        $id =  $this->getMaxCodigo()+1;
+        DB::table('check_lists')->insert(
+            [
+                'id' => $id ,
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'id_usuario' => $request->id_usuario
+            ]
+        );
 
-        try {
-            
-            $id =  $this->getMaxCodigo()+1;
-            DB::table('check_lists')->insert(
+
+        foreach ($request->atividades as $value) {
+            DB::table('check_list_atividades')->insert(
                 [
-                    'id' => $id ,
-                    'nome' => $request->nome,
-                    'descricao' => $request->descricao,
-                    'id_usuario' => $request->id_usuario
+                    'id' => $this->getMaxCodigoAtividadeFromCheckList($id)+1,
+                    'id_checklist' => $id,
+                    'descricao' => $value,
                 ]
             );
-
-
-            foreach ($request->atividades as $value) {
-                DB::table('check_list_atividades')->insert(
-                    [
-                        'id' => $this->getMaxCodigoAtividadeFromCheckList($id)+1,
-                        'id_checklist' => $id,
-                        'descricao' => $value,
-                    ]
-                );
-    
-            }
-
-
-            return $this->responseJsonSuccess([
-                'message' => 'CheckList inserido com sucesso!',
-                'data'    => $request
-            ]);
-        } catch (Exception $error) {
-            return response()->json($request->nome, 201)->header('Content-Type', 'application/json');
         }
 
-        response()->json($request->nome, 201)->header('Content-Type', 'application/json');
+        return $this->responseJsonSuccess([
+            'message' => 'CheckList inserido com sucesso!',
+            'data'    => $request
+        ]);
+
     }
 
     private function getMaxCodigo() {

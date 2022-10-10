@@ -31,7 +31,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::delete('/usuario_atendimento/destroy/{id_municipio}/{id_usuario}', [UsuarioAtendimentoController::class, 'destroy'])->name('usuario_atendimento.destroy');
 
     // Route::post('/check_list', [CheckListController::class, 'store'])->name('check_list.store');
-    Route::post('/check_list_js', [CheckListController::class, 'store'])->name('api.check_list.store');
+    // Route::post('/check_list_js', [CheckListController::class, 'store'])->name('api.check_list.store');
     Route::delete('/check_list/destroy/{iCodigoCheckList}', [CheckListController::class, 'destroy'])->name('check_list.destroy');
 
     // Route::post('/check_list_atividade', [CheckListAtividadeController::class, 'store'])->name('check_list_atividade.store');

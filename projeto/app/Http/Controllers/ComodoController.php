@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Handler;
-use App\Models\Projeto;
 use App\Models\Comodo;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
@@ -27,7 +26,6 @@ class ComodoController extends Controller
 
     public function index($iProjeto)
     {
-
         return view('comodo.index', ['iProjeto' => $iProjeto, 'aComodos' => $this->getComodosFromProjeto($iProjeto)]);
     }
 
@@ -36,34 +34,32 @@ class ComodoController extends Controller
         return view('comodo.create', ['iProjeto' => $iProjeto]);
     }
 
-    public function store(Request $request)
+    public function addComodo(Request $request)
+    {     
+        $id =  $this->getMaxCodigo($request['id_projeto'])+1;
+        DB::table('comodos')->insert(
+            [
+                'id' => $id,
+                'id_projeto' => $request['id_projeto'],
+                'nome' => $request['nome'],
+                'descricao' => $request['descricao']
+            ]
+        );
+
+        return $this->responseJsonSuccess([
+            'message' => 'Cômodo inserido com sucesso!',
+            'data'    => $request
+        ]);
+    }
+
+    public function destroy($iComodo, $iProjeto)
     {
-        $oData = $request->all();
-     
-        if (isset($oData['id_projeto'])) {
-
-
-                $iMaxIDComodoProjeto = $this->getMaxCodigo($request['id_projeto']);
-
-
-                DB::table('comodo')->insert(
-                    [
-                        'id' =>$iMaxIDComodoProjeto ? $iMaxIDComodoProjeto +1 : 1,
-                        'id_projeto' => $request['id_projeto'],
-                        'nome' => $request['nome'],
-                        'descricao' => $request['descricao']
-                    ]
-                );
-            
-        } else {
-            return response()->json( 'Não foi possível realizar o cadastro do cômodo!');
-        }
-
-        return redirect()->route('usuario_atendimento.index');
+        $users = DB::table('comodos')->where('id', '=', $iComodo)->where('id_projeto', '=', $iProjeto)->delete();        
+        return response()->json($iProjeto, 200)->header('Content-Type', 'application/json');
     }
 
     private function getMaxCodigo($iIdProjeto) {
-        return DB::table('comodo')->where([
+        return DB::table('comodos')->where([
             ['id_projeto', '=',$iIdProjeto]
         ])->groupBy(['id_projeto'])->max('id');
     }
@@ -76,5 +72,24 @@ class ComodoController extends Controller
                                     from comodos
                                    where id_projeto = %d
                             ', $iProjeto));
+    }
+
+    public function getComodo($iComodo, $iProjeto) {
+        return DB::select(sprintf('select *
+                                    from comodos
+                                   where id = %d
+                                     and id_projeto = %d
+                            ', $iComodo, $iProjeto))[0];
+    }
+
+    public function update(Request $request) {
+
+        $update = Comodo::where('id', $request->id)->where('id_projeto', $request->id_projeto)                
+        ->update([
+            'nome'     => $request->nome,
+            'descricao' => $request->descricao,
+        ]);
+
+        return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
     }
 }

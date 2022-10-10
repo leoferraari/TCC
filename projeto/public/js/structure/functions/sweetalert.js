@@ -17,6 +17,14 @@ export function insertedSuccessSweetAlert(sTexto, sRoute) {
 
 }
 
+export function errorAlert(sTexto) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: sTexto,
+    })
+}
+
 export function loadingScreenSweetAlert(sTexto) {
     return Swal.fire({
         title: sTexto,

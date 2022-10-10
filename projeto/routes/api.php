@@ -49,8 +49,8 @@ Route::group(['prefix' => 'check_list_visualizacao'], function () {
 
 Route::group(['prefix' => 'comodo'], function () {
     Route::post('', [ComodoController::class, 'addComodo']);
-    Route::delete('/{id_projeto}', [ComodoController::class, 'destroy']);
-    Route::get('/{id_checklist}', [ComodoController::class, 'getCheckList']);
+    Route::delete('/{id_comodo}/{id_projeto}', [ComodoController::class, 'destroy']);
+    Route::get('/{id_comodo}/{id_projeto}', [ComodoController::class, 'getComodo']);
     Route::put('', [ComodoController::class, 'update']);
 });
 
