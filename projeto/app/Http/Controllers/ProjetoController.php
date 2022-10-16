@@ -182,8 +182,18 @@ class ProjetoController extends Controller
         return $oQuery->get();
     }
 
-    public function update($iProjeto) {
+    public function update(Request $request, $iProjeto) {
 
+        $oData = $request->all();
+        // dd($oData);
+
+        $oProjeto = Projeto::find($iProjeto);
+        $oProjeto->update($oData);
+
+        
+        return redirect()->route('dashboard');
+
+        // return redirect()->route('body.blade');
     }
 
     public function cancelar(Request $request) {

@@ -30,10 +30,10 @@
                     <ul class="nav__list"> <!-- Elemento modificador -->
                         <li><a href="{{route('projeto.create')}}" class="nav__link">Novo Projeto</a></li>
                         
-                        <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></li>
-                        <li><a href="/comodo/create/1" class="nav__link">Cômodos</a></li>  <!-- Não vai ficar no MENU -->
+                        <!-- <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></li> -->
+                        <!-- <li><a href="/comodo/create/1" class="nav__link">Cômodos</a></li>   -->
                     
-                        <li><a href="#teste" class="nav__link">Teste 2</a></li>
+                
                         <li><a href="{{route('perfil')}}" class="nav__link">Meu Perfil</a></li>
                         <!-- <li><a href="{{route('dashboard')}}" class="nav__link">Mot</a></li> -->
                         <li><a href="{{route('logout')}}" class="nav__link">Sair</a></li>

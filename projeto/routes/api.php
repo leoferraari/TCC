@@ -41,6 +41,9 @@ Route::group(['prefix' => 'check_list_atividade'], function () {
     Route::get('/{id_checklist}/{id_atividade}', [CheckListAtividadeController::class, 'getAtividadeCheckList']);
     Route::delete('/{id_checklist}/{id_atividade}', [CheckListAtividadeController::class, 'destroy']);
     Route::put('', [CheckListAtividadeController::class, 'update']);
+
+    Route::get('/concluir_atividade/{id_checklist}/{id_projeto}', [CheckListAtividadeController::class, 'getAtividadesConcluidas']);
+    Route::post('/concluir_atividades', [CheckListAtividadeController::class, 'insereAtividadesConcluidas']);
 });
 
 Route::group(['prefix' => 'check_list_visualizacao'], function () {
@@ -69,10 +72,10 @@ Route::group(['prefix' => 'usuario_atendimento_remove_todos'], function () {
     Route::delete('/{id_usuario}',  [UsuarioAtendimentoController::class, 'delete_todos'])->name('api.usuario_atendimento_remove_todos.delete_todos');
 });
 
-Route::group(['middleware' => ['apiJwt']], function () {
+// Route::group(['middleware' => ['apiJwt']], function () {
     Route::get('/cidade_atendimento/{id}/{id_usuario}',   [UsuarioAtendimentoController::class, 'cid_atendimento'])->name('cidade_atendimento.cid_atendimento'); //Ok
     Route::get('/cidades/{id_estado}',   [MunicipioController::class, 'cidades'])->name('cidades.getMunicipiosFromEstado'); //Ok
-});
+// });
   
 
 

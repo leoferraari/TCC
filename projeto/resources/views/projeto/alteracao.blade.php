@@ -4,8 +4,9 @@
                 <div class="card mt-5">
                     <h1 style="text-align: center">Altere seu Projeto</h1>
                     <article class="card-body">
-                        <form method="POST" id="form" action="{{route('projeto/update', ['iProjeto' => $oProjeto->id])}}">
-                        {!! csrf_field() !!}
+                        <form method="post" id="form" action="{{route('projeto/update', ['iProjeto' => $oProjeto->id])}}">
+                            @csrf
+                            @method("PUT")
                                     
                             <div class="form-row">
                                 <div class="col-md-12 mb-3">
@@ -59,8 +60,8 @@
                             <div class="form-row">
                                 <div class="col-md-12 mb-3">
                                 <label>CheckList</label>
-                                    <select class="form-control" name="id_checklist" id="id_checklist" required value="{{old('id')}}">
-                                        <option value="0">Selecione...</option>
+                                    <select class="form-control" name="id_checklist" id="id_checklist" value="{{old('id')}}">
+                                        <option value="">Selecione...</option>
                                         @foreach($oCheckListUsuario as $oCheckList)
                                             <option value="{{$oCheckList->id}}">{{$oCheckList->nome}}</option>
                                         @endforeach
@@ -164,8 +165,10 @@
                         }
                     }         
                 
-                    projetoTerceirizado('{{$iUsuario}}', true);
-
+                    if ('{{$oProjeto->id_terceirizado}}') {
+                        projetoTerceirizado('{{$iUsuario}}', true);
+                    }
+                   
                     if('{{$oProjeto->id_checklist}}') {
                         var aCheckList = document.getElementById('id_checklist');
                             for (var index = 0; index < aCheckList.length; index++) {

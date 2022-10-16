@@ -15,8 +15,9 @@ class CreateComodosTable extends Migration
     {
         Schema::create('comodos', function (Blueprint $table) {
             $table->integer('id');
-            $table->unsignedBigInteger('id_projeto');
-            $table->integer('id_checklist');
+            $table->integer('id_projeto');
+            $table->string('nome');
+            $table->string('descricao');
 
             $table->primary(['id', 'id_projeto']);
 

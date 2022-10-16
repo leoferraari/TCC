@@ -19,10 +19,10 @@ class CreateChecklistAtividadeProjetoTable extends Migration
             $table->integer('id_checklist');
             $table->smallInteger('concluido');
 
-            $table->primary(['id', 'id_projeto', 'id_checklist']);
-
+            $table->primary(['id', 'id_checklist', 'id_projeto']);
+       
             $table->foreign('id_projeto')->references('id')->on('projeto')->onDelete('cascade')->constrained();
-            $table->foreign('id_checklist')->references('id')->on('check_lists')->onDelete('cascade')->constrained();
+            $table->foreign(['id', 'id_checklist'])->references(['id', 'id_checklist'])->on('check_list_atividades')->onDelete('cascade')->constrained();
         });
     }
 

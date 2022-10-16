@@ -47,8 +47,6 @@ $(document).ready(function () {
             }
         });
 
-
-
         $(document).on('click', '#button_update', function(event){
             event.preventDefault();
             var oFormulario = document.getElementById('formulario'),

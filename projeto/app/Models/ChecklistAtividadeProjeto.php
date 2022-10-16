@@ -17,11 +17,12 @@ class ChecklistAtividadeProjeto extends Model
     
     protected $fillable = ['id_checklist', 'id_projeto', 'concluido'];
 
-    public function check_lists() {
-        return $this->belongsTo(CheckList::class, 'id_checklist', 'id');
-    }
 
     public function projeto() {
         return $this->belongsTo(Projeto::class, 'id_projeto', 'id');
+    }
+
+    public function check_list_atividades() {
+        return $this->belongsTo(CheckListAtividade::class, 'id', 'id');
     }
 }

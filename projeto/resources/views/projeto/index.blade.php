@@ -9,10 +9,9 @@
                     </div>
                     <div  id="conteudo_modal" class="modal-body">
                     </div>
-                    <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  onclick="fechar()" data-bs-dismiss="modal">Fechar</button>
-
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -104,9 +103,11 @@
                                                 @if($oProjeto->permite_alterar)
                                                     <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
                                                 @endif
-                                                    <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
+
+                                                <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
+                                                <button type="button" name="button_concluir_atividades" onclick="concluirAtividades({{$oProjeto->id_checklist}}, {{$oProjeto->id}})" class="btn btn-info btn-sm" >Concluir Atividades</button>
                                                 
-                                                    @if($oProjeto->permite_alterar)
+                                                @if($oProjeto->permite_alterar)
                                                     <button type="submit" id="concluir_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Concluir</button> 
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 @endif
@@ -176,12 +177,77 @@
             oLista.setAttribute('id', 'lista');
     
             buscaAtividadesCheckList(id_usuario, id_checklist);
- 
-
 
             conteudo.appendChild(oLista);
 
             newModal = new bootstrap.Modal(oModal).show();
+            newModal.show();
+        }
+
+        function concluirAtividades(id_checklist, id_projeto) {
+
+            var oForm = document.createElement('form');
+                oForm.setAttribute('id_projeto', id_projeto);
+                oForm.setAttribute('id_checklist', id_checklist);
+                oForm.setAttribute('id', 'formulario');
+
+
+            let oModal = document.getElementById('modal'),
+            conteudo = document.getElementById('conteudo_modal');
+
+            document.getElementById('staticBackdropLabel').innerHTML = 'Atividades Concluídas';
+
+            oTable = document.createElement('table');
+            oTable.setAttribute('class', 'table table-borderless');
+
+            oThead = document.createElement('thead');
+
+            oCabecalho = document.createElement('tr');
+            oTh1 = document.createElement('th');
+            oTh2 = document.createElement('th');
+            oTh3 = document.createElement('th');
+
+            oTh1.setAttribute('scope', 'col'); 
+            oTh1.innerHTML = 'Código';
+            oTh2.setAttribute('scope', 'col'); 
+            oTh2.innerHTML = 'Descrição';
+            oTh3.setAttribute('scope', 'col'); 
+            oTh3.innerHTML = 'Concluído';
+
+            oThead.appendChild(oTh1);
+            oThead.appendChild(oTh2);
+            oThead.appendChild(oTh3);
+
+            oTbody = document.createElement('tbody');
+            oTbody.setAttribute('id', 'tabela');
+
+            oTable.appendChild(oThead);
+            oTable.appendChild(oTbody);
+
+            buscaAtividadesConclusao(id_checklist,id_projeto, '{{$oProjeto->permite_alterar}}');
+
+            if (!'{{$oProjeto->permite_alterar}}') {
+                oSubmit = document.createElement('input');
+                oSubmit.setAttribute('type', 'submit');
+                oSubmit.setAttribute('id', 'concluir_atividade');
+                oSubmit.setAttribute('value', 'Concluir');
+                oSubmit.setAttribute('class', 'btn btn-primary');
+                oSubmit.style.marginTop = '50px';
+                oSubmit.style.marginLeft = '40%';
+            }
+
+
+            oForm.appendChild(oTable);
+            oForm.appendChild(document.createElement('br'));
+
+
+            if (!'{{$oProjeto->permite_alterar}}') {
+                oForm.appendChild(oSubmit);
+            }
+
+            conteudo.appendChild(oForm);
+
+            var newModal = new bootstrap.Modal(oModal).show();
             newModal.show();
         }
 
@@ -201,13 +267,60 @@
                 url: '/api/check_list_visualizacao/'+id_checklist+'/'+id_usuario,
                 type: 'GET',
                 success: function(atividades) {
-                    console.log(atividades);
                     if(atividades) {
-
                         for (let index = 0; index < atividades.length; index++) {
                             var oLi = document.createElement('li');
                                 oLi.innerHTML = index+1 +' - ' +atividades[index]['descricao'];
                                 document.getElementById('lista').appendChild(oLi);
+                        }
+                    };
+                }
+            });
+        }
+
+
+        function buscaAtividadesConclusao(id_checklist, id_projeto, bPermiteAlterar) {
+            $.ajax({
+                url: '/api/check_list_atividade/concluir_atividade/'+id_checklist+'/'+id_projeto,
+                type: 'GET',
+                success: function(atividades) {
+                    if(atividades) {
+
+                        for (let index = 0; index < atividades.length; index++) {
+                            var oTr = document.createElement('tr');
+                            var oTh = document.createElement('th');
+
+                             oTh.setAttribute('scope', 'row'); 
+
+                            var oTdDesc = document.createElement('td');
+                            var oTdConc = document.createElement('td');
+                       
+                        
+                            if (!bPermiteAlterar) {
+                                var oInputCheckbox = document.createElement('input');                     
+                                oInputCheckbox.setAttribute('type', 'checkbox');
+                                oInputCheckbox.setAttribute('name', 'concluido[]');
+                                oInputCheckbox.setAttribute('id', atividades[index]['id']);
+                            }
+
+                            oTh.innerHTML = atividades[index]['id'];
+                            oTdDesc.innerHTML = atividades[index]['descricao'];
+   
+                            if (!bPermiteAlterar && atividades[index]['concluido'] == 1) {
+                                oInputCheckbox.checked = true;
+                            }
+
+                            if (!bPermiteAlterar) {
+                                oTdConc.appendChild(oInputCheckbox);
+                            } else {
+                                oTdConc.innerHTML = atividades[index]['concluido'] == 1 ? 'Sim' : 'Não';
+                            }
+
+                            oTr.appendChild(oTh);
+                            oTr.appendChild(oTdDesc);
+                            oTr.appendChild(oTdConc);
+
+                            document.getElementById('tabela').appendChild(oTr);
                         }
                     };
                 }

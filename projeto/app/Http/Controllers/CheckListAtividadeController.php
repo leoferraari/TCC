@@ -128,8 +128,56 @@ class CheckListAtividadeController extends Controller
            
         ])->delete();
 
-
         return response()->json('Removido com sucesso!', 200)->header('Content-Type', 'application/json');
     
+    }
+
+
+    public function getAtividadesConcluidas($iCheckList, $iProjeto) {
+        return DB::select(sprintf('select check_list_atividades.id,
+                                            check_list_atividades.descricao,
+                                            coalesce(checklist_atividade_projeto.concluido, 0) as concluido
+                                     from check_list_atividades 
+                                     left join checklist_atividade_projeto     
+                                       on check_list_atividades.id = checklist_atividade_projeto.id
+                                      and check_list_atividades.id_checklist = checklist_atividade_projeto.id_checklist
+                                      and checklist_atividade_projeto.id_projeto = %d
+                                    where check_list_atividades.id_checklist = %d
+                            ', $iProjeto, $iCheckList));
+    }
+
+    public function insereAtividadesConcluidas(Request $request) {
+
+
+        $aAtividades = $request->atividades;
+
+        $iCheckList = $request->id_checklist;
+        $iProjeto  = $request->id_projeto;
+
+
+        DB::table('checklist_atividade_projeto')->where([
+            ['id_checklist', '=', $iCheckList],
+            ['id_projeto', '=', $iProjeto],
+        ])->delete();
+
+
+        foreach ($aAtividades as $iAtividade => $iConcluido) {
+            if ($iAtividade != 0) {
+                DB::table('checklist_atividade_projeto')->insert(
+                    [
+                        'id' => $iAtividade,
+                        'id_checklist' => $iCheckList,
+                        'id_projeto' => $iProjeto,
+                        'concluido' => $iConcluido
+                    ]
+                );
+             
+            }
+        }
+
+        return $this->responseJsonSuccess([
+            'message' => 'Atividades Atualizadas!',
+            'data'    => $request
+        ]);
     }
 }

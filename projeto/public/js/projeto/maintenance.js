@@ -123,5 +123,37 @@ $(document).ready(function () {
                 }
             });
         });
+
+
+
+        $(document).on('click', '#concluir_atividade', function(event){
+            event.preventDefault();
+            var aValores = [];
+            var oForm = document.getElementById('formulario');
+
+            for (let i = 1; i <= document.getElementsByName("concluido[]").length; i++) {
+                aValores[document.getElementsByName("concluido[]").item(i-1).id] = document.getElementsByName("concluido[]").item(i-1).checked ? 1 : 0;
+            }
+
+
+            ajaxRequest({
+                url: '/api/check_list_atividade/concluir_atividades',
+                type: 'POST',
+                data: {id_checklist: oForm.getAttribute('id_checklist'), 
+                        id_projeto: oForm.getAttribute('id_projeto'), 
+                        atividades: aValores},
+                success: function (response) {
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/projeto/'+oForm.getAttribute('id_projeto'));
+                   
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            }, {
+                inputs: NAME_INPUTS
+            });
+            
+        });
+     
     });
 });

@@ -19,7 +19,7 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/register', [LoginController::class, 'register'])->name('register');
 
 
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+// Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::post('/login',       [AuthController::class, 'login'])->name('authenticate');
     Route::post('/register',    [AuthController::class, 'register']);
@@ -43,7 +43,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::put('/usuario/update/{iCodigoUsuario}', [PerfilController::class, 'update'])->name('usuario/update');
 
     Route::put('/projeto/update/{iProjeto}', [ProjetoController::class, 'update'])->name('projeto/update');
-});
+// });
 
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
