@@ -16,7 +16,7 @@
             </div>
         </div>
  
-        <div id="listagem_projeto" class="row justify-content-center" id_situacao="{{$iSituacao}}">
+        <div teste="{{$bPossuiProjeto}}"  id="listagem_projeto" class="row justify-content-center" id_situacao="{{$iSituacao}}">
             <div class="col-md-12">
                 <div class="card">
                     <h3>
@@ -44,9 +44,7 @@
                                 @break
                         @endswitch
                     </h3>
-                    <div class="card-body">
-                        <!-- <a href="{{route('projeto.create')}}" class="btn btn-lg btn-success">Criar Projeto</a> -->
-                  
+                    <div class="card-body">                  
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -100,33 +98,55 @@
                                         @if ($iSituacao == 1 || $iSituacao == 2)
                                             <td>
                                                 <div class="btn-group">
-                                                @if($oProjeto->permite_alterar)
-                                                    <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
-                                                @endif
+                                                    @if($oProjeto->permite_alterar)
+                                                        <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                    @endif
 
-                                                <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
-                                                <button type="button" name="button_concluir_atividades" onclick="concluirAtividades({{$oProjeto->id_checklist}}, {{$oProjeto->id}})" class="btn btn-info btn-sm" >Concluir Atividades</button>
-                                                
-                                                @if($oProjeto->permite_alterar)
-                                                    <button type="submit" id="concluir_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Concluir</button> 
-                                                    <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
-                                                @endif
+                                                    <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
+                                                    
+                                                    @if($oProjeto->id_checklist)
+                                                        <button type="button" id="{{$oProjeto->id}}" permite_concluir_atividade="{{$oProjeto->permite_concluir_atividade}}" name="button_concluir_atividades" onclick="concluirAtividades({{$oProjeto->id_checklist}}, {{$oProjeto->id}})" class="btn btn-info btn-sm" >Atividades CheckList</button>
+                                                    @endif
+
+                                                    @if(!$oProjeto->permite_alterar)
+                                                        <button type="submit" id="concluir_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Concluir</button> 
+                                                    @endif
+
+                                                    @if($oProjeto->permite_alterar)
+                                                        <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
+                                                    @endif
+
+                                                    <button type="button" onclick="redirecionaArquivosProjeto({{$oProjeto->id}})" class="btn btn-dark btn-sm">Arquivos</button> 
+                                               
                                                 </div>
                                             </td>
                                         @endif
 
                                         @if ($iSituacao == 3)
-                                            <td>
+                                            <!-- <td>
                                                 <div class="btn-group">
-                                                    <button type="submit" check_list="{{$iCodigoCheckList}}" atividade="{{$oAtividade->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                                    <button type="submit" id_projeto="{{$oProjeto->id}}" situacao="3" id="button-confirm-delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
                                                 </div>
-                                            </td>
+                                            </td> -->
                                         @endif
 
                                         @if ($iSituacao == 4)
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="submit" check_list="{{$iCodigoCheckList}}" atividade="{{$oAtividade->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                                    @if($oProjeto->permite_alterar)
+                                                        <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
+                                                    @endif
+
+                                                    <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
+                                                    
+                                                    
+                                                    @if($oProjeto->id_checklist)
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Visualizar Atividades</button>
+                                                    @endif
+
+
+
+                                                    <button type="button" onclick="redirecionaArquivosProjeto({{$oProjeto->id}})" class="btn btn-dark btn-sm">Arquivos</button>  
                                                 </div>
                                             </td>
                                         @endif
@@ -164,6 +184,10 @@
 
         function redirecionaComodoProjeto(iProjeto) {
             window.location.href = 'http://localhost:8000/comodos/'+iProjeto;
+        }
+
+        function redirecionaArquivosProjeto(iProjeto) {
+            window.location.href = 'http://localhost:8000/arquivo_projeto/'+iProjeto;
         }
 
         function visualizarAtividades(id_usuario, id_checklist) {
@@ -224,9 +248,10 @@
             oTable.appendChild(oThead);
             oTable.appendChild(oTbody);
 
-            buscaAtividadesConclusao(id_checklist,id_projeto, '{{$oProjeto->permite_alterar}}');
+            buscaAtividadesConclusao(id_checklist,id_projeto, Number(document.getElementById(id_projeto).getAttribute('permite_concluir_atividade')) == 1);
+                
 
-            if (!'{{$oProjeto->permite_alterar}}') {
+            if (Number(document.getElementById(id_projeto).getAttribute('permite_concluir_atividade')) == 1) {
                 oSubmit = document.createElement('input');
                 oSubmit.setAttribute('type', 'submit');
                 oSubmit.setAttribute('id', 'concluir_atividade');
@@ -235,13 +260,11 @@
                 oSubmit.style.marginTop = '50px';
                 oSubmit.style.marginLeft = '40%';
             }
-
-
+            
             oForm.appendChild(oTable);
             oForm.appendChild(document.createElement('br'));
 
-
-            if (!'{{$oProjeto->permite_alterar}}') {
+            if (Number(document.getElementById(id_projeto).getAttribute('permite_concluir_atividade')) == 1) {
                 oForm.appendChild(oSubmit);
             }
 
@@ -296,7 +319,7 @@
                             var oTdConc = document.createElement('td');
                        
                         
-                            if (!bPermiteAlterar) {
+                            if (bPermiteAlterar) {
                                 var oInputCheckbox = document.createElement('input');                     
                                 oInputCheckbox.setAttribute('type', 'checkbox');
                                 oInputCheckbox.setAttribute('name', 'concluido[]');
@@ -306,11 +329,11 @@
                             oTh.innerHTML = atividades[index]['id'];
                             oTdDesc.innerHTML = atividades[index]['descricao'];
    
-                            if (!bPermiteAlterar && atividades[index]['concluido'] == 1) {
+                            if (bPermiteAlterar && atividades[index]['concluido'] == 1) {
                                 oInputCheckbox.checked = true;
                             }
 
-                            if (!bPermiteAlterar) {
+                            if (bPermiteAlterar) {
                                 oTdConc.appendChild(oInputCheckbox);
                             } else {
                                 oTdConc.innerHTML = atividades[index]['concluido'] == 1 ? 'Sim' : 'Não';
@@ -326,4 +349,4 @@
                 }
             });
         }
-</script>
+</script>  

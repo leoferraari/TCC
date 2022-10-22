@@ -109,17 +109,18 @@ $(document).ready(function () {
 
         $(document).on('click', '#button-confirm-delete', function(event){
 
-            let id = $('#button-confirm-delete').data('value');
+            let id = this.getAttribute('id_projeto'),
+                situacao = this.getAttribute('situacao');
+            
+            
             ajaxRequest({
                 url: `${URL_PATH_API}/${SECTION}`,
                 type: 'DELETE',
                 data: {
-                    id: id
+                    id_projeto: id
                 },
                 success: function (response) {
-                    hideModal('#modalDelete');
-                    deleteLineOnDataTable('#data-table', id);
-                    deletedSuccessSweetAlert(response.message);
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/projeto/'+situacao);
                 }
             });
         });

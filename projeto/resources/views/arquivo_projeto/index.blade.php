@@ -22,29 +22,27 @@
             <div class="card">
         
                 <div class="card-body">
-                    <button type="button" onclick="mostrarModal({{$iProjeto}})" class="btn btn-info">Adicionar</button>
+                    <button type="button" onclick="mostrarModal({{$iProjeto}})" class="btn btn-info">Adicionar Arquivo</button>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>Nome</th>
                                     <th>Descrição</th>
+                                    <th>Endereço URL</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($aComodos as $aComodo)
+                                @foreach($aArquivos as $aArquivo)
                                     <tr>
-                                        <td>{{$aComodo->id}}</td>
-                                        <td>{{$aComodo->nome}}</td>
-                                        <td>{{$aComodo->descricao}}</td>
-                                    
+                                        <td>{{$aArquivo->id}}</td>
+                                        <td>{{$aArquivo->descricao}}</td>
+                                        <td>{{$aArquivo->endereco_url}}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$iProjeto}}, {{$aComodo->id}})">Alterar</button>
-                                                <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
-                                                <button type="button" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" onclick="redirecionaMedida({{$iProjeto}}, {{$aComodo->id}})" class="btn btn-secondary btn-sm" >Medidas</button>
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$iProjeto}}, {{$aArquivo->id}})">Alterar</button>
+                                             <button type="submit" id_projeto="{{$iProjeto}}" id_arquivo="{{$aArquivo->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
                                             </div>
                                         </td>
                                     </tr>
@@ -61,14 +59,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
-    function mostrarModal(id_projeto, id_comodo = null) {
+    function mostrarModal(id_projeto, id_arquivo = null) {
         let oModal = document.getElementById('modal'),
             conteudo = document.getElementById('conteudo_modal');
-        let bAltera = id_comodo ? true : false;
+        let bAltera = id_arquivo ? true : false;
 
         oForm = document.createElement('form');
         oForm.setAttribute('id_projeto', id_projeto);
-        oForm.setAttribute('id_comodo', id_comodo);
+        oForm.setAttribute('id_arquivo', id_arquivo);
         oForm.setAttribute('id', 'formulario');
 
         oLabelProjeto = document.createElement('label');
@@ -87,14 +85,7 @@
         oLabel.setAttribute('for', 'nome');
         oLabel.innerHTML = 'Nome:';
 
-        document.getElementById('staticBackdropLabel').innerHTML = bAltera ? 'Altere seu Cômodo' : 'Cadastre seu Cômodo';
-
-        oInput = document.createElement('input');
-        oInput.setAttribute('type', 'text');
-        oInput.setAttribute('name', 'nome');
-        oInput.setAttribute('id', 'nome');
-        oInput.setAttribute('class', 'form-control');
-        oInput.setAttribute('placeholder', 'Digite o Nome do Cômodo');
+        document.getElementById('staticBackdropLabel').innerHTML = bAltera ? 'Altere o Endereço' : 'Cadastre seu Endereço';
 
         oLabelDescricao = document.createElement('label');
         oLabelDescricao.setAttribute('for', 'descricao');
@@ -105,13 +96,24 @@
         oDescricao.setAttribute('name', 'descricao');
         oDescricao.setAttribute('class', 'form-control');
 
+        oLabel = document.createElement('label');
+        oLabel.setAttribute('for', 'endereco');
+        oLabel.innerHTML = 'Endereço URL:';
+
+        oInput = document.createElement('input');
+        oInput.setAttribute('type', 'text');
+        oInput.setAttribute('name', 'endereco_url');
+        oInput.setAttribute('id', 'endereco_url');
+        oInput.setAttribute('class', 'form-control');
+        oInput.setAttribute('placeholder', 'Endereço do arquivo');
+
         if (bAltera) {
-            preencheInformacoesFormulario(id_comodo, id_projeto);
+            preencheInformacoesFormulario(id_arquivo, id_projeto);
         }
 
         oSubmit = document.createElement('input');
         oSubmit.setAttribute('type', 'submit');
-        oSubmit.setAttribute('id', bAltera ? 'button_update' : 'comodo');
+        oSubmit.setAttribute('id', bAltera ? 'button_update' : 'arquivo_projeto');
         oSubmit.setAttribute('value', bAltera ? 'Alterar': 'Cadastrar');
         oSubmit.setAttribute('class', 'btn btn-primary');
         oSubmit.style.marginTop = '50px';
@@ -135,14 +137,14 @@
         newModal.show();
     }
 
-    function preencheInformacoesFormulario(id_comodo, id_projeto) {
+    function preencheInformacoesFormulario(id_arquivo, id_projeto) {
         $.ajax({
-            url: '/api/comodo/'+id_comodo+'/'+id_projeto,
+            url: '/api/arquivo_projeto/'+id_arquivo+'/'+id_projeto,
             type: 'GET',
             success: function(result) {
                 if(result) {
                     document.getElementById('id_projeto').value = result.id_projeto;
-                    document.getElementById('nome').value = result.nome;
+                    document.getElementById('endereco_url').value = result.endereco_url;
                     document.getElementById('descricao').value = result.descricao;
                 };
             }
@@ -159,14 +161,10 @@
             oModal.removeChild(oModal.lastChild);
         }
     }
-
-    function redirecionaMedida(iProjeto, iComodo) {
-            window.location.href = 'http://localhost:8000/area_medicoes/'+iProjeto+'/'+iComodo;
-    }
 </script>
 
 @yield('javaScript')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="{{ URL::asset('/js/comodo/maintenance.js')}}"></script>
+<script type="module" src="{{ URL::asset('/js/arquivo_projeto/maintenance.js')}}"></script>

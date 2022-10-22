@@ -12,16 +12,8 @@ use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\UsuarioAtendimentoController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\ComodoController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\ArquivoProjetoController;
+use App\Http\Controllers\MedidaController;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -57,11 +49,28 @@ Route::group(['prefix' => 'comodo'], function () {
     Route::put('', [ComodoController::class, 'update']);
 });
 
+Route::group(['prefix' => 'arquivo_projeto'], function () {
+    Route::post('', [ArquivoProjetoController::class, 'addArquivo']);
+    Route::delete('/{id_arquivo}/{id_projeto}', [ArquivoProjetoController::class, 'destroy']);
+    Route::get('/{id_arquivo}/{id_projeto}', [ArquivoProjetoController::class, 'getArquivo']);
+    Route::put('', [ArquivoProjetoController::class, 'update']);
+});
+
+Route::group(['prefix' => 'area_medicoes'], function () {
+    Route::post('', [MedidaController::class, 'addAreaMedicao']);
+    Route::delete('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'destroy']);
+    Route::get('/{id_projeto}/{id_comodo}', [MedidaController::class, 'getArquivo']);
+    Route::get('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'getDescricaoMedida']);
+    Route::put('', [MedidaController::class, 'update_area_medicao']);
+});
+
 Route::group(['prefix' => 'projeto'], function () {
     Route::patch('/cancelar', [ProjetoController::class, 'cancelar']);
     Route::patch('/aceitar', [ProjetoController::class, 'aceitar']);
     Route::patch('/recusar', [ProjetoController::class, 'recusar']);
     Route::patch('/concluir', [ProjetoController::class, 'concluir']);
+    Route::delete('', [ProjetoController::class, 'delete']);
+    Route::get('/{id_projeto}', [ProjetoController::class, 'getDescricaoProjeto']);
 });
 
 Route::group(['prefix' => 'usuario_atendimento_js'], function () {

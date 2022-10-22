@@ -12,8 +12,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\ProjetoController;
+use App\Http\Controllers\ArquivoProjetoController;
+use App\Http\Controllers\MedidaController;
 use App\Http\Middleware\RedirectIfAuthenticated;
-
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/register', [LoginController::class, 'register'])->name('register');
@@ -43,6 +44,7 @@ Route::get('/register', [LoginController::class, 'register'])->name('register');
     Route::put('/usuario/update/{iCodigoUsuario}', [PerfilController::class, 'update'])->name('usuario/update');
 
     Route::put('/projeto/update/{iProjeto}', [ProjetoController::class, 'update'])->name('projeto/update');
+
 // });
 
 
@@ -73,6 +75,11 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     // Route::get('/comodo/create/{id_projeto}', [ComodoController::class, 'create'])->name('comodo.create');
 
     Route::get('/comodos/{id_projeto}', [ComodoController::class, 'index'])->name('comodos.index'); //Ok
+
+
+    Route::get('/arquivo_projeto/{id_projeto}', [ArquivoProjetoController::class, 'index'])->name('arquivo_projeto.index'); //Ok
+
+    Route::get('/area_medicoes/{codigo_projeto}/{codigo_comodo}', [MedidaController::class, 'areas_medicoes'])->name('medidas.areas_medicoes'); //Ok
 });
 
 

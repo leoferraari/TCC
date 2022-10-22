@@ -39,7 +39,7 @@ class ProjetoController extends Controller
     {
  
         $oProjetos = $this->getProjetosUsuario($iCodigoSituacao);
-        return view('projeto.index', ['iSituacao' => $iCodigoSituacao, 'oProjetos' => $oProjetos]);
+        return view('projeto.index', ['iSituacao' => $iCodigoSituacao, 'oProjetos' => $oProjetos, 'bPossuiProjeto' => $oProjetos ? true : false]);
     }
 
     public function alterar($iCodigoProjeto) {
@@ -139,7 +139,8 @@ class ProjetoController extends Controller
                                            to_char(prazo_final, \'DD/MM/YYYY\')  as prazo_final,
                                            (id_usuario = %2$d) as permite_alterar,
                                            id_checklist,
-                                           id_usuario
+                                           id_usuario,
+                                           case when (coalesce(id_terceirizado, id_usuario) = %2$d) then 1 else 0 end as permite_concluir_atividade
                                         from projeto
                                         where
                                           case when (%1$d = 7) then 
@@ -238,5 +239,22 @@ class ProjetoController extends Controller
             'message' => 'Projeto Concluído!',
             'data'    => $request
         ]);
+    }
+
+    public function delete(Request $request) {
+        $update = Projeto::where('id', $request->id_projeto)->delete();
+
+        return $this->responseJsonSuccess([
+            'message' => 'Projeto removido!',
+            'data'    => $request
+        ]);
+    }
+
+    public function getDescricaoProjeto($iProjeto) {
+        return DB::select('
+                select nome
+                  from projeto
+                 where id = '. $iProjeto.'
+            ')[0];
     }
 }
