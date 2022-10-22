@@ -22,9 +22,9 @@ class CreateMedidasTable extends Migration
             $table->smallInteger('tipo_ponto')->nullable();
 
             $table->string('descricao_medida');
-            $table->float('medicao', 17, 2)->nullable();
+            $table->string('medicao')->nullable();
 
-            $table->string('descricao_ponto')->nullable();
+            // $table->string('descricao_ponto')->nullable();
             $table->integer('id_medida_pai')->nullable();
 
             $table->primary(['id_medida', 'id_projeto', 'id_comodo']);

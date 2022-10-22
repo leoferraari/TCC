@@ -53,6 +53,30 @@ class MedidaController extends Controller
         ]);
     }
 
+    public function addMedida(Request $request) {
+        $id =  $this->getMaxCodigo($request['id_projeto'], $request['id_comodo'])+1;
+
+
+        DB::table('medidas')->insert(
+            [
+                'id_medida' => $id,
+                'id_projeto' => $request['id_projeto'],
+                'id_comodo' => $request['id_comodo'],
+                'tipo_unidade_medida' => $request['tipo_unidade_medida'],
+                'tipo_medida' => $request['tipo_medida'],
+                'descricao_medida' => $request['descricao_medida'],
+                'medicao' => $request['medicao'],
+                'tipo_ponto' => $request['tipo_ponto'],
+                'id_medida_pai' => $request['id_medida_pai'],
+            ]
+        );
+
+        return $this->responseJsonSuccess([
+            'message' => 'Medida inserida com sucesso!',
+            'data'    => $request
+        ]);
+    }
+
     public function destroy($iProjeto, $iComodo, $iMedida)
     {
         $users = DB::table('medidas')->where('id_medida', '=', $iMedida)->where('id_projeto', '=', $iProjeto)->where('id_comodo', '=', $iComodo)->delete();        

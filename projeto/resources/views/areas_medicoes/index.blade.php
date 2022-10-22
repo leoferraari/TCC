@@ -43,6 +43,7 @@
                                         <td>{{$aArquivo->descricao_medida}}</td>
                                         <td>
                                             <div class="btn-group">
+                                                <button type="submit" onclick="modalIncluirMedida({{$iProjeto}}, {{$iComodo}}, {{$aArquivo->id_medida}})" class="btn btn-info btn-sm">Incluir Medida</button> 
                                                 <button type="button" class="btn btn-warning btn-sm" onclick="modalArea({{$iProjeto}}, {{$iComodo}}, {{$aArquivo->id_medida}})">Alterar</button>
                                                 <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$iComodo}}" id_medida="{{$aArquivo->id_medida}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
                                             </div>
@@ -63,7 +64,6 @@
 <script>
 
     function modalArea(id_projeto, id_comodo, id_medida = null) {
-
         let oModal = document.getElementById('modal'),
             conteudo = document.getElementById('conteudo_modal');
 
@@ -101,7 +101,7 @@
         newModal.show();
 
         pushCampoProjeto(id_projeto);
-        pushCampoComodo(id_projeto, id_comodo, id_medida);
+        pushCampos(id_projeto, id_comodo, id_medida, true);
     }
 
     function pushCampoProjeto(id_projeto) {
@@ -115,9 +115,9 @@
                     var oTr = document.createElement('tr');
 
                     var oTdLabel = document.createElement('td');
-                    oTdLabel.style.width  = '15%';
+                        oTdLabel.style.width  = '15%';
                     var oTdId = document.createElement('td');
-                    oTdId.style.width  = '15%';
+                        oTdId.style.width  = '15%';
                     var oTdDesc = document.createElement('td');
 
                     oLabelProjeto = document.createElement('label');
@@ -154,9 +154,7 @@
         });
     }
 
-
-    function pushCampoComodo(id_projeto, id_comodo, id_medida) {
-
+    function pushCampos(id_projeto, id_comodo, id_medida, bIncluirArea = false) {
         $.ajax({
             url: '/api/comodo/'+id_comodo+'/'+id_projeto,
             type: 'GET',
@@ -199,13 +197,27 @@
                     oTr.appendChild(oTdDesc);
 
                     document.getElementById('tabela').appendChild(oTr);
-                    pushCampoDescricao(id_projeto, id_comodo, id_medida);
+                    
+                    if (bIncluirArea) {
+                        pushCampoDescricao(id_projeto, id_comodo, id_medida);
+                    } 
                 }
+            },
+            
+            complete: function(data) {
+                if (!bIncluirArea) {
+                    pushCampoTipoUnidadeMedida();
+                    pushCampoTipoMedida();
+                    pushCampoTipoPonto();
+                    pushCampoDescricao(id_projeto, id_comodo, null, true);
+                    pushCampoMedicao();
+                }
+  
             }
         });
     }
 
-    function pushCampoDescricao(id_projeto, id_comodo, id_medida) {
+    function pushCampoDescricao(id_projeto, id_comodo, id_medida, bIncluirMedida = false) {
         var oTr = document.createElement('tr');
 
         var oTdLabel = document.createElement('td');
@@ -216,7 +228,7 @@
 
         var oLabeDescricao = document.createElement('label');
         oLabeDescricao.setAttribute('for', 'descricao_medida');
-        oLabeDescricao.innerHTML = 'Área:';
+        oLabeDescricao.innerHTML = bIncluirMedida ? 'Descrição' : 'Área:';
 
         var oDescricao = document.createElement('input');
         oDescricao.setAttribute('type', 'text');
@@ -236,7 +248,6 @@
         document.getElementById('tabela').appendChild(oTr);
     }
 
-
     function preencheInformacoesFormulario(id_projeto, id_comodo, id_medida) {
         $.ajax({
             url: '/api/area_medicoes/'+id_projeto+'/'+id_comodo+'/'+id_medida,
@@ -249,6 +260,253 @@
             }
         });
     }
+
+    function modalIncluirMedida(id_projeto, id_comodo, id_medida) {
+        let oModal = document.getElementById('modal'),
+            conteudo = document.getElementById('conteudo_modal');
+
+        var oForm = document.createElement('form');
+            oForm.setAttribute('id', 'formulario');
+
+        document.getElementById('staticBackdropLabel').innerHTML = 'Incluir Medida';
+
+        var oTable = document.createElement('table');
+            oTable.setAttribute('class', 'table table-borderless');
+
+        var oTbody = document.createElement('tbody');
+            oTbody.setAttribute('id', 'tabela');
+        
+        oTable.appendChild(oTbody);
+
+        var oSubmit = document.createElement('input');
+            oSubmit.setAttribute('type', 'submit');
+            oSubmit.setAttribute('id',  'incluir_medida');
+            oSubmit.setAttribute('value', 'Cadastrar');
+            oSubmit.setAttribute('class', 'btn btn-primary');
+            oSubmit.style.marginTop = '50px';
+            oSubmit.style.marginLeft = '40%';
+
+            oForm.appendChild(oTable);
+            oForm.appendChild(document.createElement('br'));
+         
+
+            oForm.appendChild(oSubmit);
+
+            conteudo.appendChild(oForm);
+    
+        newModal = new bootstrap.Modal(oModal);
+        newModal.show();
+
+        pushCampoMedida(id_projeto, id_comodo, id_medida);
+        pushCampoProjeto(id_projeto);
+        pushCampos(id_projeto, id_comodo, id_medida);       
+    }
+
+    function pushCampoMedida(id_projeto, id_comodo, id_medida) {
+        $.ajax({
+            url: '/api/area_medicoes/'+id_projeto+'/'+id_comodo+'/'+id_medida,
+            type: 'GET',
+            success: function(result) {
+          
+                if(result) {
+                    var oTr = document.createElement('tr');
+
+                    var oTdLabel = document.createElement('td');
+                        oTdLabel.style.width  = '15%';
+                    var oTdId = document.createElement('td');
+                        oTdId.style.width  = '15%';
+                    var oTdDesc = document.createElement('td');
+
+                    oLabelMedida = document.createElement('label');
+                    oLabelMedida.setAttribute('for', 'id_medida_pai');
+                    oLabelMedida.style.textAlign  = 'center';
+                    oLabelMedida.innerHTML = 'Medida Pai:';
+
+                    oMedidaId = document.createElement('input');
+                    oMedidaId.setAttribute('type', 'text');
+                    oMedidaId.setAttribute('name', 'id_medida_pai');
+                    oMedidaId.setAttribute('id', 'id_medida_pai');
+                    oMedidaId.setAttribute('class', 'form-control');
+                    oMedidaId.setAttribute('disabled', 'true');
+                    oMedidaId.value = id_medida;
+
+                    oMedidaDesc = document.createElement('input');
+                    oMedidaDesc.setAttribute('type', 'text');
+                    oMedidaDesc.setAttribute('name', 'desc_medida');
+                    oMedidaDesc.setAttribute('class', 'form-control');
+                    oMedidaDesc.setAttribute('disabled', 'true');
+                    oMedidaDesc.value = result.descricao_medida;
+
+                    oTdLabel.appendChild(oLabelMedida);
+                    oTdId.appendChild(oMedidaId);
+                    oTdDesc.appendChild(oMedidaDesc);
+
+                    oTr.appendChild(oTdLabel);
+                    oTr.appendChild(oTdId);
+                    oTr.appendChild(oTdDesc);
+
+                    document.getElementById('tabela').appendChild(oTr);
+                };
+            }
+        });
+    }
+
+
+    function pushCampoTipoUnidadeMedida() {
+        var oTr = document.createElement('tr');
+
+        var oTdLabel = document.createElement('td');
+        oTdLabel.setAttribute('colspan', 2);
+        var oTdTipo  = document.createElement('td');
+
+        let oLabelSelect = document.createElement("label"),
+            oSelect = document.createElement("select");
+
+        oLabelSelect.setAttribute('id', 'tipo_unidade_medida_name');
+        oLabelSelect.innerHTML = 'Tipo Unidade Medida:';
+
+        oSelect.setAttribute('name', 'tipo_unidade_medida_name');
+        oSelect.setAttribute('id', 'tipo_unidade_medida');
+        oSelect.setAttribute('class', 'form-control');
+        
+        const aTipos = [
+            { codigo: 1, descricao: 'Metro (m)'},
+            { codigo: 2, descricao: 'Centímetro (cm)'},
+            { codigo: 3, descricao: 'Milímetro (mm)'}
+        ];
+
+        aTipos.forEach(element => {
+            const oOption = document.createElement('option');
+                
+            oOption.setAttribute('value', element.codigo);
+            oOption.innerHTML =  element.descricao;
+
+            oSelect.appendChild(oOption);
+        });
+
+        oTdLabel.appendChild(oLabelSelect);
+        oTdTipo.appendChild(oSelect);
+
+        oTr.appendChild(oTdLabel);
+        oTr.appendChild(oTdTipo);
+
+
+        document.getElementById('tabela').appendChild(oTr);
+    }
+
+
+ 
+
+    function pushCampoTipoMedida() {
+        var oTr = document.createElement('tr');
+
+        var oTdLabel = document.createElement('td');
+        oTdLabel.setAttribute('colspan', 2);
+        var oTdTipo  = document.createElement('td');
+
+        let oLabelSelect = document.createElement("label"),
+            oSelect = document.createElement("select");
+
+        oLabelSelect.setAttribute('id', 'tipo_medida_name');
+        oLabelSelect.innerHTML = 'Tipo Medida:';
+
+        oSelect.setAttribute('name', 'tipo_medida_name');
+        oSelect.setAttribute('id', 'tipo_medida');
+        oSelect.setAttribute('class', 'form-control');
+        
+        const aTipos = [
+            { codigo: 1, descricao: 'Altura (Vertical)'},
+            { codigo: 2, descricao: 'Largura (Horizontal)'},
+            { codigo: 3, descricao: 'Profundidade'},
+            { codigo: 4, descricao: 'Inclinada'}
+        ];
+
+        aTipos.forEach(element => {
+            const oOption = document.createElement('option');
+                
+            oOption.setAttribute('value', element.codigo);
+            oOption.innerHTML =  element.descricao;
+
+            oSelect.appendChild(oOption);
+        });
+
+        oTdLabel.appendChild(oLabelSelect);
+        oTdTipo.appendChild(oSelect);
+
+        oTr.appendChild(oTdLabel);
+        oTr.appendChild(oTdTipo);
+
+        document.getElementById('tabela').appendChild(oTr);
+    }
+
+    function pushCampoMedicao() {
+        var oTr = document.createElement('tr');
+
+            var oTdLabel = document.createElement('td');
+            oTdLabel.style.width  = '15%';
+
+            var oTdDesc = document.createElement('td');
+            oTdDesc.setAttribute('colspan', 2);
+
+            var oLabeMedicao = document.createElement('label');
+            oLabeMedicao.setAttribute('for', 'medicao');
+            oLabeMedicao.innerHTML = 'Medição';
+
+            var oMedicao = document.createElement('input');
+            oMedicao.setAttribute('type', 'text');
+            oMedicao.setAttribute('name', 'medicao');
+            oMedicao.setAttribute('id', 'medicao');
+            oMedicao.setAttribute('class', 'form-control');
+
+            oTdLabel.appendChild(oLabeMedicao);
+            oTdDesc.appendChild(oMedicao);
+
+            oTr.appendChild(oTdLabel);
+            oTr.appendChild(oTdDesc);
+            document.getElementById('tabela').appendChild(oTr);
+    }
+
+    function pushCampoTipoPonto() {
+        var oTr = document.createElement('tr');
+
+        var oTdLabel = document.createElement('td');
+        oTdLabel.setAttribute('colspan', 2);
+        var oTdTipo  = document.createElement('td');
+
+        let oLabelSelect = document.createElement("label"),
+            oSelect = document.createElement("select");
+
+        oLabelSelect.setAttribute('id', 'tipo_ponto_name');
+        oLabelSelect.innerHTML = 'Tipo Ponto:';
+
+        oSelect.setAttribute('name', 'tipo_ponto_name');
+        oSelect.setAttribute('id', 'tipo_ponto');
+        oSelect.setAttribute('class', 'form-control');
+        
+        const aTipos = [
+            { codigo: null, descricao: 'Selecione...'},
+            { codigo: 1, descricao: 'Hidráulico'},
+            { codigo: 2, descricao: 'Elétrico'},
+        ];
+
+        aTipos.forEach(element => {
+            const oOption = document.createElement('option');
+                
+            oOption.setAttribute('value', element.codigo);
+            oOption.innerHTML =  element.descricao;
+
+            oSelect.appendChild(oOption);
+        });
+
+        oTdLabel.appendChild(oLabelSelect);
+        oTdTipo.appendChild(oSelect);
+
+        oTr.appendChild(oTdLabel);
+        oTr.appendChild(oTdTipo);
+
+        document.getElementById('tabela').appendChild(oTr);
+    }
+
 
     function fechar() {
         let modal = document.getElementById('modal');
@@ -267,3 +525,4 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" src="{{ URL::asset('/js/area_medicoes/maintenance.js')}}"></script>
+<script type="module" src="{{ URL::asset('/js/medidas/maintenance.js')}}"></script>

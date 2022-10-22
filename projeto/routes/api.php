@@ -59,10 +59,17 @@ Route::group(['prefix' => 'arquivo_projeto'], function () {
 Route::group(['prefix' => 'area_medicoes'], function () {
     Route::post('', [MedidaController::class, 'addAreaMedicao']);
     Route::delete('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'destroy']);
-    Route::get('/{id_projeto}/{id_comodo}', [MedidaController::class, 'getArquivo']);
     Route::get('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'getDescricaoMedida']);
     Route::put('', [MedidaController::class, 'update_area_medicao']);
 });
+
+Route::group(['prefix' => 'medidas'], function () {
+    Route::post('', [MedidaController::class, 'addMedida']);
+    Route::delete('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'destroy']);
+    Route::get('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'getDescricaoMedida']);
+    Route::put('', [MedidaController::class, 'update_area_medicao']);
+});
+
 
 Route::group(['prefix' => 'projeto'], function () {
     Route::patch('/cancelar', [ProjetoController::class, 'cancelar']);

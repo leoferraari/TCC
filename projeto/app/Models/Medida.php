@@ -9,9 +9,9 @@ class Medida extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = ['id_medida', 'id_sequencia'];
+    protected $primaryKey = ['id_medida'];
 
-    protected $fillable = ['id_projeto', 'id_comodo', 'tipo_unidade_medida', 'tipo_medida', 'tipo_ponto', 'descricao_medida', 'medicao', 'descricao_ponto', 'id_medida_pai'];
+    protected $fillable = ['id_projeto', 'id_comodo', 'tipo_unidade_medida', 'tipo_medida', 'tipo_ponto', 'descricao_medida', 'medicao', 'id_medida_pai'];
     
     public $timestamps = false;
 

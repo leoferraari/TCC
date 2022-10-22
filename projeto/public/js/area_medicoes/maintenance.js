@@ -64,25 +64,5 @@ $(document).ready(function () {
                 }
             });
         });
-
-        
-        $(document).on('click', '#button_delete', function(event){
-            event.preventDefault();
-            var id_comodo  = this.getAttribute('id_comodo'),
-                id_projeto = this.getAttribute('id_projeto'),
-                id_medida = this.getAttribute('id_medida');
-     
-            ajaxRequest({
-                url: '/api/area_medicoes/'+id_projeto+'/'+id_comodo+'/'+id_medida,
-                type: 'DELETE',
-                success: function (response) {
-                    console.log(response);
-                    deletedSuccessSweetAlert('Área removida!', 'http://localhost:8000/area_medicoes/'+id_projeto+'/'+id_comodo);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError);
-                }
-            });
-        });
     });
 });
