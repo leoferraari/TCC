@@ -80,6 +80,8 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/arquivo_projeto/{id_projeto}', [ArquivoProjetoController::class, 'index'])->name('arquivo_projeto.index'); //Ok
 
     Route::get('/area_medicoes/{codigo_projeto}/{codigo_comodo}', [MedidaController::class, 'areas_medicoes'])->name('medidas.areas_medicoes'); //Ok
+
+    Route::get('/medidas/{codigo_projeto}/{codigo_comodo}/{codigo_medida}', [MedidaController::class, 'medidas'])->name('medidas.medidas'); //Ok
 });
 
 

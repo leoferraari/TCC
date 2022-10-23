@@ -26,27 +26,27 @@
             <div class="card">
         
                 <div class="card-body">
-                    <button type="button"data-toggle="modal" data-target="#meuModal" onclick="modalArea({{$iProjeto }}, {{$iComodo}})" class="btn btn-info">Cadastrar Área de Medição</button>
+                    <h1>Medidas</h1>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Código Área</th>
+                                    <th>Código Medida</th>
                                     <th>Descrição</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($aAreasMedicoes as $aArea)
+                                @foreach($aMedidas as $aMedida)
                                     <tr>
-                                        <td>{{$aArea->id_medida}}</td>
-                                        <td>{{$aArea->descricao_medida}}</td>
+                                        <td>{{$aMedida->id_medida}}</td>
+                                        <td>{{$aMedida->descricao_medida}}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="submit" onclick="modalIncluirMedida({{$iProjeto}}, {{$iComodo}}, {{$aArea->id_medida}})" class="btn btn-info btn-sm">Incluir Medida</button> 
-                                                <button type="button" onclick="redirecionaMedida({{$iProjeto}}, {{$iComodo}}, {{$aArea->id_medida}})" class="btn btn-secondary btn-sm" >Medidas</button>
-                                                <button type="button" class="btn btn-warning btn-sm" onclick="modalArea({{$iProjeto}}, {{$iComodo}}, {{$aArea->id_medida}})">Alterar</button>
-                                                <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$iComodo}}" id_medida="{{$aArea->id_medida}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
+                                                <button type="submit" onclick="modalIncluirMedida({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}})" class="btn btn-info btn-sm">Incluir Medida</button> 
+                                                <button type="button" onclick="redirecionaMedida({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}})" class="btn btn-secondary btn-sm" >Medidas</button>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="modalArea({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}})">Alterar</button>
+                                                <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$iComodo}}" id_medida="{{$aMedida->id_medida}}" id_medida_anterior="{{$iMedida}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
                                             </div>
                                         </td>
                                     </tr>
@@ -529,5 +529,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="{{ URL::asset('/js/area_medicoes/maintenance.js')}}"></script>
 <script type="module" src="{{ URL::asset('/js/medidas/maintenance.js')}}"></script>

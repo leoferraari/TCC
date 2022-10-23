@@ -29,6 +29,16 @@ class MedidaController extends Controller
                                              'aAreasMedicoes' => $this->getAreasMedicoesFromProjetoComodo($iProjeto, $iComodo)]);
     }
 
+    public function medidas($iProjeto, $iComodo, $iMedida) {
+
+        $aMedidas = $this->getMedicoesFromProjetoComodo($iProjeto, $iComodo, $iMedida);
+
+        return view('medidas.index', ['iProjeto' => $iProjeto, 
+                                      'iComodo'  => $iComodo,
+                                      'iMedida'  => $iMedida,
+                                      'aMedidas' => $aMedidas]);
+    }
+
     public function create($iProjeto)
     {
         return view('comodo.create', ['iProjeto' => $iProjeto]);
@@ -99,6 +109,21 @@ class MedidaController extends Controller
                                      and id_comodo = %d
                                      and id_medida_pai is null
                             ', $iProjeto, $iComodo));
+    }
+
+    private function getMedicoesFromProjetoComodo($iProjeto, $iComodo, $iMedida) {
+        return DB::select(sprintf('select id_medida,
+                                          tipo_unidade_medida,
+                                          tipo_medida,
+                                          descricao_medida,
+                                          medicao,
+                                          tipo_ponto,
+                                          id_medida_pai
+                                    from medidas
+                                   where id_projeto = %d
+                                     and id_comodo = %d
+                                     and id_medida_pai = %d
+                            ', $iProjeto, $iComodo, $iMedida));
     }
 
 

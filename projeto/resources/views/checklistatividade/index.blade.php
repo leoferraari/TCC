@@ -40,8 +40,8 @@
                                         <td>{{$oAtividade->descricao}}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-outline-warning btn-sm" onclick="criaFormulario({{$iCodigoCheckList}}, {{$oAtividade->id}}, true)">Alterar</button>
-                                                <button type="submit" check_list="{{$iCodigoCheckList}}" atividade="{{$oAtividade->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="criaFormulario({{$iCodigoCheckList}}, {{$oAtividade->id}}, true)">Alterar</button>
+                                                <button type="submit" check_list="{{$iCodigoCheckList}}" atividade="{{$oAtividade->id}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
                                             </div>
                                         </td>
                                     </tr>
@@ -70,10 +70,6 @@
         oForm = document.createElement('form');
         oForm.setAttribute('id', 'formulario');
         oForm.setAttribute('atividade', id_atividade);
-        
-        oLabel = document.createElement('label');
-        oLabel.setAttribute('for', 'id_checklist');
-        oLabel.innerHTML = 'CheckList:';
 
         oInput = document.createElement('input');
         oInput.setAttribute('type', 'text');
@@ -81,6 +77,7 @@
         oInput.setAttribute('id', 'id_checklist');
         oInput.setAttribute('class', 'form-control');
         oInput.setAttribute('disabled', 'true');
+        oInput.setAttribute('hidden', 'true');
         oInput.value = id_checklist;
 
         oDivAtividades = document.createElement('div');
@@ -125,7 +122,7 @@
         oSubmit.style.marginTop = '50px';
         oSubmit.style.marginLeft = '40%';
         
-        oForm.appendChild(oLabel);
+      
         oForm.appendChild(oInput);
         oForm.appendChild(document.createElement('br'));
         oForm.appendChild(oDivAtividades);

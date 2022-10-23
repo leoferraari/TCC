@@ -29,7 +29,7 @@
                 {{$aInfoProjetos[5]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                6 - Pendente (Aguardando aceitação de terceiros)
+                  Pendente (Aguardando aceitação de terceiros)
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -44,7 +44,7 @@
                   {{$aInfoProjetos[6]->numero_projetos}}
                 </div>
                 <div class="card-footer d-flex">
-                6- Pendente (Aguardando minha aceitação)
+                  Pendente (Aguardando minha aceitação)
                   <span class="ms-auto">
                     <i class="bi bi-chevron-right"></i>
                   </span>
@@ -59,7 +59,7 @@
               {{$aInfoProjetos[0]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                1 - Em Andamento
+                  Em Andamento
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -73,7 +73,7 @@
                 {{$aInfoProjetos[1]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                2 - Em Alteração 
+                  Em Alteração 
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -87,7 +87,7 @@
                 {{$aInfoProjetos[2]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                3 - Cancelado
+                  Cancelado
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -101,7 +101,7 @@
                 {{$aInfoProjetos[3]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                4 - Concluído 
+                  Concluído 
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
@@ -115,15 +115,13 @@
               {{$aInfoProjetos[4]->numero_projetos}}
               </div>
               <div class="card-footer d-flex">
-                5 - Recusado 
+                  Recusado 
                 <span class="ms-auto">
                   <i class="bi bi-chevron-right"></i>
                 </span>
               </div>
             </div>
-          </div>
-
-          
+          </div>  
         </div>
         </div>
       </div>

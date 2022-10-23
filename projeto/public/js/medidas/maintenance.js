@@ -30,7 +30,7 @@ $(document).ready(function () {
             event.preventDefault();
     
             let data = getInputValues(NAME_INPUTS_OBRIGATORIOS);
-            
+
             if (camposValidos()) {
                 ajaxRequest({
                     url: `${URL_PATH_API}/${SECTION}`,
@@ -46,7 +46,7 @@ $(document).ready(function () {
                         medicao: data.medicao
                     },
                     success: function (response) {
-                        insertedSuccessSweetAlert(response.message, 'http://localhost:8000/area_medicoes/'+data.id_projeto+'/'+data.id_comodo);
+                        insertedSuccessSweetAlert(response.message, 'http://localhost:8000/medidas/'+data.id_projeto+'/'+data.id_comodo+'/'+data.id_medida_pai);
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         console.log(thrownError);
@@ -58,38 +58,39 @@ $(document).ready(function () {
         });
 
 
-        $(document).on('click', '#update_area_medicao', function(event){
-            event.preventDefault();
-            var oForm = document.getElementById('formulario'),
-                dataValues = getInputValues(NAME_INPUTS);
+        // $(document).on('click', '#update_area_medicao', function(event){
+        //     event.preventDefault();
+        //     var oForm = document.getElementById('formulario'),
+        //         dataValues = getInputValues(NAME_INPUTS);
 
-            dataValues['id_medida'] = oForm.getAttribute('id_medida');
-            ajaxRequest({
-                url: `${URL_PATH_API}/${SECTION}`,
-                type: 'PUT',
-                data: {
-                    ...dataValues
-                },
-                success: function (response) {
-                    console.log(response);
-                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/area_medicoes/'+ dataValues['id_projeto']+'/'+dataValues['id_comodo']);
-                }
-            });
-        });
+        //     dataValues['id_medida'] = oForm.getAttribute('id_medida');
+        //     ajaxRequest({
+        //         url: `${URL_PATH_API}/${SECTION}`,
+        //         type: 'PUT',
+        //         data: {
+        //             ...dataValues
+        //         },
+        //         success: function (response) {
+        //             console.log(response);
+        //             insertedSuccessSweetAlert(response.message, 'http://localhost:8000/area_medicoes/'+ dataValues['id_projeto']+'/'+dataValues['id_comodo']);
+        //         }
+        //     });
+        // });
 
         
         $(document).on('click', '#button_delete', function(event){
             event.preventDefault();
             var id_comodo  = this.getAttribute('id_comodo'),
                 id_projeto = this.getAttribute('id_projeto'),
-                id_medida = this.getAttribute('id_medida');
+                id_medida =  this.getAttribute('id_medida'),
+                id_medida_anterior = this.getAttribute('id_medida_anterior');
      
             ajaxRequest({
                 url: '/api/area_medicoes/'+id_projeto+'/'+id_comodo+'/'+id_medida,
                 type: 'DELETE',
                 success: function (response) {
                     console.log(response);
-                    deletedSuccessSweetAlert('Área removida!', 'http://localhost:8000/area_medicoes/'+id_projeto+'/'+id_comodo);
+                    deletedSuccessSweetAlert('Medida removida!',  'http://localhost:8000/medidas/'+id_projeto+'/'+id_comodo+'/'+id_medida_anterior);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);

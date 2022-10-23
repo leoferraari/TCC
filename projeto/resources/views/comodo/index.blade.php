@@ -22,7 +22,7 @@
             <div class="card">
         
                 <div class="card-body">
-                    <button type="button" onclick="mostrarModal({{$iProjeto}})" class="btn btn-info">Adicionar</button>
+                    <button type="button" onclick="mostrarModal({{$iProjeto}})" class="btn btn-info">Incluir</button>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -43,8 +43,8 @@
                                         <td>
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$iProjeto}}, {{$aComodo->id}})">Alterar</button>
-                                                <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
-                                                <button type="button" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" onclick="redirecionaMedida({{$iProjeto}}, {{$aComodo->id}})" class="btn btn-secondary btn-sm" >Medidas</button>
+                                                <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
+                                                <button type="button" id_projeto="{{$iProjeto}}" id_comodo="{{$aComodo->id}}" onclick="redirecionaMedida({{$iProjeto}}, {{$aComodo->id}})" class="btn btn-secondary btn-sm" >Áreas de Medição</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -71,9 +71,7 @@
         oForm.setAttribute('id_comodo', id_comodo);
         oForm.setAttribute('id', 'formulario');
 
-        oLabelProjeto = document.createElement('label');
-        oLabelProjeto.setAttribute('for', 'id_projeto');
-        oLabelProjeto.innerHTML = 'Projeto:';
+     
 
         oProjeto = document.createElement('input');
         oProjeto.setAttribute('type', 'text');
@@ -81,6 +79,7 @@
         oProjeto.setAttribute('id', 'id_projeto');
         oProjeto.setAttribute('class', 'form-control');
         oProjeto.setAttribute('disabled', 'true');
+        oProjeto.setAttribute('hidden', 'true');
         oProjeto.value = id_projeto;
 
         oLabel = document.createElement('label');
@@ -117,7 +116,7 @@
         oSubmit.style.marginTop = '50px';
         oSubmit.style.marginLeft = '40%';
 
-        oForm.appendChild(oLabelProjeto);
+
         oForm.appendChild(oProjeto);
         oForm.appendChild(document.createElement('br'));
         oForm.appendChild(oLabel);

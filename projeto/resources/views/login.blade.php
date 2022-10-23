@@ -13,75 +13,44 @@
 <body>
 
     <div class="container">
-
         <div class="d-flex justify-content-center align-items-center">
-
-            <div class="card mt-5">
-
+            <div class="card mt-5" style="width: 40%">
                 <article class="card-body">
-
                     <form method="POST" action="{{route('authenticate')}}">
                         @csrf
-
                         <div class="form-row mx-3 my-2">
-
-                            <div class="form-group">
-
+                            <div class="form-group" style="width: 100%">
                                 <label for="inputEmail">
                                     E-mail
                                 </label>
                                 <input type="email" class="form-control" id="email"
-                                        name="email" placeholder="nome@gmail.com">
-
+                                        name="email" placeholder="nome@gmail.com" style="width: 100%">
                             </div>
-
                         </div>
-
                         <div class="form-row mx-3 my-2">
-
-                            <div class="form-group">
-
+                            <div class="form-group" style="width: 100%">
                                 <label id="inputSenha">
                                     Senha
                                 </label>
                                 <input type="password" class="form-control" id="password"
                                     name="password" placeholder="******">
-
-
                             </div>
-
                         </div>
-
-                  
-
                         <div class="form-row mx-3 my-2">
-
                             <div class="form-group">
-
                                 <input type="submit" value="Logar"
                                 class="btn btn-primary py-2">
-
                             </div>
-
                         </div>
-
                     </form>
-
                 </article>
-
-
                 <div class="card-footer bg-transparent">
-
                     <div class="row mx-3 my-2">
                         <a href="/register"> Registre-se </a>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
 

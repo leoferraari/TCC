@@ -59,13 +59,12 @@
                                     <input name="data_hora_atendimento" type="date" class="form-control" id="validationCustom6" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
+                                    <label>Hora</label>
+                                    <input name="hora_atendimento" type="time" class="form-control" id="validationCustom6" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
                                     <label for="validationCustom7">Prazo Final</label>
                                     <input name="prazo_final" type="date" class="form-control" id="validationCustom7" required>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label for="validationCustom7">Data Conclusão</label>
-                                    <input name="data_conclusao" type="date" class="form-control" id="validationCustom7" disabled>
                                 </div>
                             </div>
 

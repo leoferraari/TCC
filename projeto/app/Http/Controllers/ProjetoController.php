@@ -135,11 +135,13 @@ class ProjetoController extends Controller
                                            nome,
                                            nome_cliente,
                                            numero_tel_cliente,
+                                           email_cliente,
                                            to_char(data_hora_atendimento, \'DD/MM/YYYY\') as data_hora_atendimento,
                                            to_char(prazo_final, \'DD/MM/YYYY\')  as prazo_final,
                                            (id_usuario = %2$d) as permite_alterar,
                                            id_checklist,
                                            id_usuario,
+                                           id_terceirizado,
                                            case when (coalesce(id_terceirizado, id_usuario) = %2$d) then 1 else 0 end as permite_concluir_atividade
                                         from projeto
                                         where

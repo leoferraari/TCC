@@ -19,7 +19,7 @@
         <div class="d-flex justify-content-center align-items-center">
             
             <div class="card mt-5">
-                <h1 style="text-align: center">Atendimento</h1>
+                <h1 style="text-align: center">Área de Atuação</h1>
                 <article class="card-body">
                     <form method="POST" action="{{route('usuario_atendimento.store')}}">
                         {!! csrf_field() !!}

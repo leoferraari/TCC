@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="{{ asset('/styles.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">  
@@ -31,15 +31,16 @@
                 </div> <!-- .menu__logo -->
                 <nav class="nav">
                     <ul class="nav__list"> <!-- Elemento modificador -->
+                        <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Área de Atuação (Arquitetos)</a></li>
                         <li><a href="{{route('projeto.create')}}" class="nav__link">Novo Projeto</a></li>
                         
-                        <!-- <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Atendimento</a></li> -->
+                        
                         <!-- <li><a href="/comodo/create/1" class="nav__link">Cômodos</a></li>   -->
                     
                 
                         <li><a href="{{route('perfil')}}" class="nav__link">Meu Perfil</a></li>
                         <!-- <li><a href="{{route('dashboard')}}" class="nav__link">Mot</a></li> -->
-                        <li><a href="{{route('logout')}}" class="nav__link">Sair</a></li>
+                        <li><a href="{{route('logout')}}" class="nav__link">Logout</a></li>
                     </ul> <!-- .nav__list -->
                 </nav> <!-- .nav -->
                 <!-- <input type="hidden" id="jwttoken"  value="{{session('jwt-token')->original['access_token']}}"> -->

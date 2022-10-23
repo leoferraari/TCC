@@ -1,5 +1,5 @@
 @include("header")
-    <div class="container">
+    <div class="container" >
         <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -16,7 +16,7 @@
             </div>
         </div>
  
-        <div teste="{{$bPossuiProjeto}}"  id="listagem_projeto" class="row justify-content-center" id_situacao="{{$iSituacao}}">
+        <div teste="{{$bPossuiProjeto}}" id="listagem_projeto" class="row justify-content-center" id_situacao="{{$iSituacao}}">
             <div class="col-md-12">
                 <div class="card">
                     <h3>
@@ -53,8 +53,9 @@
                                     <th>Código</th>
                                     <th>Nome</th>
                                     <th>Cliente</th>
-                                    <th>N. Telefone (Cliente)</th>
-                                    <th>Data Atendimento</th>
+                                    <th>E-mail</th>
+                                    <th>Data</th>
+                                    <th>Hora</th>
                                     <th>Prazo Final</th>
                                     @if ($iSituacao != 5)
                                     <th>Ações</th>
@@ -67,8 +68,9 @@
                                         <td>{{$oProjeto->id}}</td>
                                         <td>{{$oProjeto->nome}}</td>
                                         <td>{{$oProjeto->nome_cliente}}</td>
-                                        <td>{{$oProjeto->numero_tel_cliente}}</td>
+                                        <td>{{$oProjeto->email_cliente}}</td>
                                         <td>{{$oProjeto->data_hora_atendimento}}</td>
+                                        <td>15:00</td>
                                         <td>{{$oProjeto->prazo_final}}</td>
 
                                         @if ($iSituacao == 7)
@@ -77,6 +79,11 @@
                                                     @if($oProjeto->permite_alterar)
                                                         <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
                                                     @endif
+
+                                                    @if($oProjeto->id_terceirizado)
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                    @endif
+
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 </div>
                                             </td>
@@ -87,6 +94,10 @@
                                                 <div class="btn-group">
                                                     <button type="submit" id="aceitar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Aceitar</button>     
                                                     <button type="submit" id="recusar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Recusar</button> 
+
+                                                    @if($oProjeto->id_terceirizado)
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                    @endif
 
                                                     @if($oProjeto->id_checklist)
                                                         <button type="button" class="btn btn-sm btn-primary" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Visualizar Atividades</button>
@@ -105,7 +116,11 @@
                                                     <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
                                                     
                                                     @if($oProjeto->id_checklist)
-                                                        <button type="button" id="{{$oProjeto->id}}" permite_concluir_atividade="{{$oProjeto->permite_concluir_atividade}}" name="button_concluir_atividades" onclick="concluirAtividades({{$oProjeto->id_checklist}}, {{$oProjeto->id}})" class="btn btn-info btn-sm" >Atividades CheckList</button>
+                                                        <button type="button" id="{{$oProjeto->id}}" permite_concluir_atividade="{{$oProjeto->permite_concluir_atividade}}" name="button_concluir_atividades" onclick="concluirAtividades({{$oProjeto->id_checklist}}, {{$oProjeto->id}})" class="btn btn-secondary btn-sm" >Atividades</button>
+                                                    @endif
+
+                                                    @if($oProjeto->id_terceirizado)
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
                                                     @endif
 
                                                     @if(!$oProjeto->permite_alterar)
@@ -139,12 +154,13 @@
 
                                                     <button type="button" name="button_comodos" onclick="redirecionaComodoProjeto({{$oProjeto->id}})" class="btn btn-primary btn-sm" >Cômodos</button>
                                                     
-                                                    
                                                     @if($oProjeto->id_checklist)
-                                                    <button type="button" class="btn btn-sm btn-primary" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Visualizar Atividades</button>
+                                                        <button type="button" class="btn btn-sm btn-primary" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Visualizar Atividades</button>
                                                     @endif
 
-
+                                                    @if($oProjeto->id_terceirizado)
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                    @endif
 
                                                     <button type="button" onclick="redirecionaArquivosProjeto({{$oProjeto->id}})" class="btn btn-dark btn-sm">Arquivos</button>  
                                                 </div>

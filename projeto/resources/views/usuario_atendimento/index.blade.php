@@ -6,8 +6,7 @@
                 <div class="card">
            
                     <div class="card-body">
-                        <a href="{{route('usuario_atendimento.create')}}" class="btn btn-lg btn-success">Inclusão Múltipla</a>
-                        <button type="button" onclick="testeForm({{$iUsuario}})" class="btn btn-info">Inclusão Individual</button>
+                        <a href="{{route('usuario_atendimento.create')}}" class="btn btn-lg btn-success">Incluir</a>
                         <button type="button" id="excluir_todos" codigo_usuario="{{$iUsuario}}" class="btn btn-danger">Excluir todos</button>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -42,15 +41,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal_leo">
-    </div>
-
-
-    <script>
-
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

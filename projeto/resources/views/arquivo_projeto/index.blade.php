@@ -22,7 +22,7 @@
             <div class="card">
         
                 <div class="card-body">
-                    <button type="button" onclick="mostrarModal({{$iProjeto}})" class="btn btn-info">Adicionar Arquivo</button>
+                    <button type="button" onclick="mostrarModal({{$iProjeto}})" class="btn btn-info">Incluir Arquivo</button>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -42,7 +42,7 @@
                                         <td>
                                             <div class="btn-group">
                                             <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$iProjeto}}, {{$aArquivo->id}})">Alterar</button>
-                                             <button type="submit" id_projeto="{{$iProjeto}}" id_arquivo="{{$aArquivo->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                             <button type="submit" id_projeto="{{$iProjeto}}" id_arquivo="{{$aArquivo->id}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
                                             </div>
                                         </td>
                                     </tr>
@@ -85,7 +85,7 @@
         oLabel.setAttribute('for', 'nome');
         oLabel.innerHTML = 'Nome:';
 
-        document.getElementById('staticBackdropLabel').innerHTML = bAltera ? 'Altere o Endereço' : 'Cadastre seu Endereço';
+        document.getElementById('staticBackdropLabel').innerHTML = bAltera ? 'Altere o Arquivo' : 'Cadastre seu Arquivo';
 
         oLabelDescricao = document.createElement('label');
         oLabelDescricao.setAttribute('for', 'descricao');

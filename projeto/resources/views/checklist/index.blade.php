@@ -22,7 +22,7 @@
             <div class="card">
         
                 <div class="card-body">
-                    <button type="button" onclick="mostrarModal({{$id_usuario}})" class="btn btn-info">Adicionar</button>
+                    <button type="button" onclick="mostrarModal({{$id_usuario}})" class="btn btn-info">Incluir</button>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -42,7 +42,7 @@
                                 
                                     <td>
                                         <div class="btn-group">
-                                            <button type="submit" id_usuario="{{$id_usuario}}" id_checklist="{{$oCheckList->id}}" id="button_delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                            <button type="submit" id_usuario="{{$id_usuario}}" id_checklist="{{$oCheckList->id}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
                                             <button type="button" class="btn btn-warning btn-sm" onclick="mostrarModal({{$id_usuario}}, {{$oCheckList->id}})">Alterar</button>
                                             <button type="button" class="btn btn-sm btn-primary" onclick="consultaAtividades({{$oCheckList->id}})">Atividades</button>
                                         </div>
@@ -194,7 +194,6 @@
     }
 
     function adicionarAtividade() {
-        alert('{{$id_usuario}}');
         var oInput = document.createElement("input"),
             oBr = document.createElement("br");
 
