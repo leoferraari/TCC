@@ -8,12 +8,12 @@
                 <div style="background-color: black">
                     <ul class="nav__list" id="nav_perfil">
                         <li>
-                            <button type="button" class="btn btn-secondary btn-sm"> <a href="{{route('check_list')}}" class="nav__link">CheckList's</a></button>
+                            <button type="button" class="btn btn-primary"> <a href="{{route('check_list')}}">CheckList's</a></button>
                         </li>
 
                         @if ($oUsuario->permite_projeto_terceirizado)
                             <li id="nav_atendimento">
-                                <button type="button"  class="btn btn-secondary btn-sm"> <a href="{{route('usuario_atendimento.index')}}" class="nav__link">Atendimento</a></button>
+                                <button type="button"   class="btn btn-primary"> <a href="{{route('usuario_atendimento.index')}}">Área de Atuação</a></button>
                             </li>
                         @endif
                     </ul>
@@ -240,15 +240,17 @@
                                 if (oPermiteTerceirizacao.checked) {
                                     let oItem = document.createElement("li"); //nav_atendimento
                                         oButton = document.createElement("button"),
+                                        oButton.setAttribute('class', "btn btn-primary");
+                                        
                                         a = document.createElement('a'); 
 
                                         a.href = "{{route('usuario_atendimento.create')}}"; 
                                         a.setAttribute('class', 'nav__link');
-                                        a.innerHTML = 'Atendimento';
+                                        a.innerHTML = 'Área de Atuação';
 
                                         oItem.setAttribute('id', 'nav_atendimento');
 
-                                        oButton.setAttribute('class', 'btn btn-secondary btn-sm');
+                                       
                                         oButton.setAttribute('type', 'button');
 
                                         oButton.appendChild(a);

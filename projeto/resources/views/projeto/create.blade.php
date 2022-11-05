@@ -56,7 +56,7 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="validationCustom6">Data Atendimento</label>
-                                    <input name="data_hora_atendimento" type="date" class="form-control" id="validationCustom6" required>
+                                    <input name="data_atendimento" type="date" class="form-control" id="validationCustom6" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label>Hora</label>

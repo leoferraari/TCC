@@ -66,8 +66,8 @@ Route::group(['prefix' => 'area_medicoes'], function () {
 Route::group(['prefix' => 'medidas'], function () {
     Route::post('', [MedidaController::class, 'addMedida']);
     Route::delete('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'destroy']);
-    Route::get('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'getDescricaoMedida']);
-    Route::put('', [MedidaController::class, 'update_area_medicao']);
+    Route::get('/{id_projeto}/{id_comodo}/{id_medida}', [MedidaController::class, 'getInformacoesMedida']);
+    Route::put('', [MedidaController::class, 'update_medida']);
 });
 
 
@@ -76,8 +76,11 @@ Route::group(['prefix' => 'projeto'], function () {
     Route::patch('/aceitar', [ProjetoController::class, 'aceitar']);
     Route::patch('/recusar', [ProjetoController::class, 'recusar']);
     Route::patch('/concluir', [ProjetoController::class, 'concluir']);
+    Route::patch('/reabrir', [ProjetoController::class, 'reabrir']);
     Route::delete('', [ProjetoController::class, 'delete']);
     Route::get('/{id_projeto}', [ProjetoController::class, 'getDescricaoProjeto']);
+
+    Route::get('/atividade_pendente/{id_projeto}', [ProjetoController::class, 'getPossuiProjetoPendente']);
 });
 
 Route::group(['prefix' => 'usuario_atendimento_js'], function () {
@@ -86,6 +89,11 @@ Route::group(['prefix' => 'usuario_atendimento_js'], function () {
 
 Route::group(['prefix' => 'usuario_atendimento_remove_todos'], function () {
     Route::delete('/{id_usuario}',  [UsuarioAtendimentoController::class, 'delete_todos'])->name('api.usuario_atendimento_remove_todos.delete_todos');
+});
+
+Route::group(['prefix' => 'info_arquiteto'], function () {
+    Route::get('/{iArquiteto}',  [ProjetoController::class, 'getInfoArquiteto']);
+
 });
 
 // Route::group(['middleware' => ['apiJwt']], function () {

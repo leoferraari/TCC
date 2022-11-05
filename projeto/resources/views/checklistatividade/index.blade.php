@@ -21,7 +21,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" onclick="criaFormulario({{$iCodigoCheckList}})" class="btn btn-info">Adicionar Atividade</button>
+                        <button type="button" onclick="criaFormulario({{$iCodigoCheckList}})" class="btn btn-info">Incluir Atividade</button>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>

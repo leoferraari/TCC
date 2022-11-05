@@ -1,5 +1,5 @@
 @include("header")
-    <div class="container" >
+    <div class="container">
         <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -50,28 +50,29 @@
                                 <thead>
                                     <!-- VER -->
                                 <tr>
-                                    <th>Código</th>
+                                <!-- <th>Código</th> -->
                                     <th>Nome</th>
                                     <th>Cliente</th>
                                     <th>E-mail</th>
                                     <th>Data</th>
                                     <th>Hora</th>
-                                    <th>Prazo Final</th>
-                                    @if ($iSituacao != 5)
+               
+                                
                                     <th>Ações</th>
-                                    @endif
+                                    
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($oProjetos as $oProjeto)
                                     <tr>
-                                        <td>{{$oProjeto->id}}</td>
+                                     
+                                    <!-- <td>{{$oProjeto->id}}</td> -->
                                         <td>{{$oProjeto->nome}}</td>
                                         <td>{{$oProjeto->nome_cliente}}</td>
                                         <td>{{$oProjeto->email_cliente}}</td>
-                                        <td>{{$oProjeto->data_hora_atendimento}}</td>
-                                        <td>15:00</td>
-                                        <td>{{$oProjeto->prazo_final}}</td>
+                                        <td>{{$oProjeto->data_atendimento}}</td>
+                                        <td>{{$oProjeto->hora_atendimento}}</td>
+                                 
 
                                         @if ($iSituacao == 7)
                                             <td>
@@ -81,7 +82,7 @@
                                                     @endif
 
                                                     @if($oProjeto->id_terceirizado)
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
                                                     @endif
 
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
@@ -96,7 +97,8 @@
                                                     <button type="submit" id="recusar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Recusar</button> 
 
                                                     @if($oProjeto->id_terceirizado)
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
+                                                        <button type="button" class="btn btn-secondary btn-sm" onclick="redirecionaInfoProjeto({{$oProjeto->id}})">Info. Projeto</button>
                                                     @endif
 
                                                     @if($oProjeto->id_checklist)
@@ -120,10 +122,11 @@
                                                     @endif
 
                                                     @if($oProjeto->id_terceirizado)
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
+                                                        <button type="button" class="btn btn-secondary btn-sm" onclick="redirecionaInfoProjeto({{$oProjeto->id}})">Info. Projeto</button>
                                                     @endif
 
-                                                    @if(!$oProjeto->permite_alterar)
+                                                    @if(!$oProjeto->permite_alterar || !$oProjeto->id_terceirizado)
                                                         <button type="submit" id="concluir_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Concluir</button> 
                                                     @endif
 
@@ -137,12 +140,12 @@
                                             </td>
                                         @endif
 
-                                        @if ($iSituacao == 3)
-                                            <!-- <td>
+                                        @if ($iSituacao == 3 || $iSituacao == 5)
+                                            <td>
                                                 <div class="btn-group">
-                                                    <button type="submit" id_projeto="{{$oProjeto->id}}" situacao="3" id="button-confirm-delete" class="btn btn-outline-danger btn-sm">Deletar</button> 
+                                                    <button type="submit" id_projeto="{{$oProjeto->id}}" situacao="3" id="button-confirm-reabrir" class="btn btn-warning btn-sm">Reabrir</button> 
                                                 </div>
-                                            </td> -->
+                                            </td>
                                         @endif
 
                                         @if ($iSituacao == 4)
@@ -159,7 +162,7 @@
                                                     @endif
 
                                                     @if($oProjeto->id_terceirizado)
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Info. Arquiteto</button>
+                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
                                                     @endif
 
                                                     <button type="button" onclick="redirecionaArquivosProjeto({{$oProjeto->id}})" class="btn btn-dark btn-sm">Arquivos</button>  
@@ -198,12 +201,103 @@
             window.location.href = 'http://localhost:8000/projeto_alteracao/'+iProjeto;
         }
 
+        function redirecionaInfoProjeto(iProjeto) {
+            window.location.href = 'http://localhost:8000/projeto_informacao/'+iProjeto;
+        }
+
         function redirecionaComodoProjeto(iProjeto) {
             window.location.href = 'http://localhost:8000/comodos/'+iProjeto;
         }
 
         function redirecionaArquivosProjeto(iProjeto) {
             window.location.href = 'http://localhost:8000/arquivo_projeto/'+iProjeto;
+        }
+
+        function visualizarInfoArquiteto(iArquitetoTerceirizado) {
+       
+            let oModal = document.getElementById('modal'),
+            conteudo = document.getElementById('conteudo_modal');
+
+            document.getElementById('staticBackdropLabel').innerHTML = 'Informações do Arquiteto Terceirizado';
+
+            oLabelNome = document.createElement('label');
+            oLabelNome.setAttribute('for', 'nome');
+            oLabelNome.innerHTML = 'Nome Completo:';
+
+            oNome = document.createElement('input');
+            oNome.setAttribute('type', 'text');
+            oNome.setAttribute('name', 'nome');
+            oNome.setAttribute('id', 'nome');
+            oNome.setAttribute('class', 'form-control');
+            oNome.setAttribute('disabled', 'true');
+
+            oLabelEmail = document.createElement('label');
+            oLabelEmail.setAttribute('for', 'email');
+            oLabelEmail.innerHTML = 'E-mail:';
+         
+            oEmail = document.createElement('input');
+            oEmail.setAttribute('type', 'text');
+            oEmail.setAttribute('name', 'email');
+            oEmail.setAttribute('id', 'email');
+            oEmail.setAttribute('class', 'form-control');
+            oEmail.setAttribute('disabled', 'true');
+
+            oLabelCrea = document.createElement('label');
+            oLabelCrea.setAttribute('for', 'crea');
+            oLabelCrea.innerHTML = 'CREA:';
+         
+            oCrea = document.createElement('input');
+            oCrea.setAttribute('type', 'text');
+            oCrea.setAttribute('name', 'crea');
+            oCrea.setAttribute('id', 'crea');
+            oCrea.setAttribute('class', 'form-control');
+            oCrea.setAttribute('disabled', 'true');
+
+            oLabelTelFixo = document.createElement('label');
+            oLabelTelFixo.setAttribute('for', 'telefone_fixo');
+            oLabelTelFixo.innerHTML = 'Telefone Fixo:';
+         
+            oTelFixo = document.createElement('input');
+            oTelFixo.setAttribute('type', 'text');
+            oTelFixo.setAttribute('name', 'telefone_fixo');
+            oTelFixo.setAttribute('id', 'telefone_fixo');
+            oTelFixo.setAttribute('class', 'form-control');
+            oTelFixo.setAttribute('disabled', 'true');
+
+            oLabelCelular = document.createElement('label');
+            oLabelCelular.setAttribute('for', 'celular');
+            oLabelCelular.innerHTML = 'Telefone Fixo:';
+         
+            oCelular = document.createElement('input');
+            oCelular.setAttribute('type', 'text');
+            oCelular.setAttribute('name', 'celular');
+            oCelular.setAttribute('id', 'celular');
+            oCelular.setAttribute('class', 'form-control');
+            oCelular.setAttribute('disabled', 'true');
+
+
+            buscaArquiteto(iArquitetoTerceirizado);
+            
+            conteudo.appendChild(oLabelNome);
+            conteudo.appendChild(oNome);
+            conteudo.appendChild(document.createElement('br'));
+            conteudo.appendChild(oLabelEmail);
+            conteudo.appendChild(oEmail);
+            conteudo.appendChild(document.createElement('br'));
+            conteudo.appendChild(oLabelCrea);
+            conteudo.appendChild(oCrea);
+            conteudo.appendChild(document.createElement('br'));
+            conteudo.appendChild(oLabelTelFixo);
+            conteudo.appendChild(oTelFixo);
+            conteudo.appendChild(document.createElement('br'));
+            conteudo.appendChild(oLabelCelular);
+            conteudo.appendChild(oCelular);
+
+        
+
+            newModal = new bootstrap.Modal(oModal);
+            newModal.show();
+
         }
 
         function visualizarAtividades(id_usuario, id_checklist) {
@@ -220,7 +314,7 @@
 
             conteudo.appendChild(oLista);
 
-            newModal = new bootstrap.Modal(oModal).show();
+            newModal = new bootstrap.Modal(oModal);
             newModal.show();
         }
 
@@ -299,6 +393,23 @@
             while (oModal.firstChild) {
                 oModal.removeChild(oModal.lastChild);
             }
+        }
+
+        function buscaArquiteto(iArquiteto) {
+            $.ajax({
+                url: '/api/info_arquiteto/'+iArquiteto,
+                type: 'GET',
+                success: function(info_arquiteto) {
+                    console.log(info_arquiteto);
+                    if(info_arquiteto) {
+                        document.getElementById('nome').value = info_arquiteto.nome;
+                        document.getElementById('email').value = info_arquiteto.email;
+                        document.getElementById('crea').value = info_arquiteto.crea;
+                        document.getElementById('celular').value = info_arquiteto.celular;
+                        document.getElementById('telefone_fixo').value = info_arquiteto.telefone_fixo;
+                    };
+                }
+            });
         }
 
         function buscaAtividadesCheckList(id_usuario, id_checklist) {

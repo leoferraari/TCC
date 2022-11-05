@@ -2,7 +2,7 @@ import { ID_FROM_URL_CRUD, URL_PATH_API } from '../structure/consts/consts.js';
 import { ajaxRequest } from '../structure/functions/ajax.js';
 import { getInputValues, hideModal } from '../structure/functions/functions.js';
 import { deleteLineOnDataTable } from '../structure/functions/datatable.js';
-import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSweetAlert } from '../structure/functions/sweetalert.js';
+import { deletedSuccessSweetAlert, insertedSuccessSweetAlert, updatedSuccessSweetAlert, errorAlert } from '../structure/functions/sweetalert.js';
 
 
 $(document).ready(function () {
@@ -13,6 +13,24 @@ $(document).ready(function () {
     
 
     $(function () {
+
+
+
+        $(document).on('click', '#button-confirm-reabrir', function(event){
+            event.preventDefault();  
+         
+            ajaxRequest({
+                url: `${URL_PATH_API}/${SECTION}/reabrir`,
+                type: 'PATCH',
+                data: {id_projeto: this.getAttribute('id_projeto')},
+                success: function (response) {
+                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/dashboard');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        });
 
         $(document).on('click', '#cancelar_projeto', function(event){
             event.preventDefault();  
@@ -66,16 +84,37 @@ $(document).ready(function () {
 
         $(document).on('click', '#concluir_projeto', function(event){
             event.preventDefault();  
-            var oListagem = document.getElementById('listagem_projeto');
-            ajaxRequest({
-                url: `${URL_PATH_API}/${SECTION}/concluir`,
-                type: 'PATCH',
-                data: {id_projeto: this.getAttribute('id_projeto')},
-                success: function (response) {
-                    insertedSuccessSweetAlert(response.message, 'http://localhost:8000/projeto/'+oListagem.getAttribute('id_situacao'));
+            var oListagem = document.getElementById('listagem_projeto'),
+                bPermiteConcluir = true,
+                id_projeto = this.getAttribute('id_projeto');
+
+            
+            $.ajax({
+                url: '/api/projeto/atividade_pendente/'+id_projeto,
+                type: 'GET',
+                success: function(result) {
+                    console.log(result);
+                    if(result.length > 0) {
+                        bPermiteConcluir = false;
+                        errorAlert('Existem atividades para serem concluídas ainda.');
+                    }
                 },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError);
+                
+                complete: function(data) {
+                    if (bPermiteConcluir) {
+                        ajaxRequest({
+                            url: `${URL_PATH_API}/${SECTION}/concluir`,
+                            type: 'PATCH',
+                            data: {id_projeto: id_projeto},
+                            success: function (response) {
+                                insertedSuccessSweetAlert(response.message, 'http://localhost:8000/projeto/'+oListagem.getAttribute('id_situacao'));
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log(thrownError);
+                            }
+                        });
+
+                    }
                 }
             });
         });

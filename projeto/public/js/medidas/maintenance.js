@@ -57,25 +57,38 @@ $(document).ready(function () {
             }
         });
 
+  
 
-        // $(document).on('click', '#update_area_medicao', function(event){
-        //     event.preventDefault();
-        //     var oForm = document.getElementById('formulario'),
-        //         dataValues = getInputValues(NAME_INPUTS);
 
-        //     dataValues['id_medida'] = oForm.getAttribute('id_medida');
-        //     ajaxRequest({
-        //         url: `${URL_PATH_API}/${SECTION}`,
-        //         type: 'PUT',
-        //         data: {
-        //             ...dataValues
-        //         },
-        //         success: function (response) {
-        //             console.log(response);
-        //             insertedSuccessSweetAlert(response.message, 'http://localhost:8000/area_medicoes/'+ dataValues['id_projeto']+'/'+dataValues['id_comodo']);
-        //         }
-        //     });
-        // });
+        $(document).on('click', '#update_medida', function(event){
+            event.preventDefault();
+            var oForm = document.getElementById('formulario'),
+                id_medida_anterior = oForm.getAttribute('id_medida_anterior');
+
+                let data = getInputValues(NAME_INPUTS_OBRIGATORIOS);
+
+            if (camposValidos()) {
+                ajaxRequest({
+                    url: `${URL_PATH_API}/${SECTION}`,
+                    type: 'PUT',
+                    data: {
+                        id_medida: oForm.getAttribute('id_medida'),
+                        id_medida_pai: data.id_medida_pai,
+                        id_projeto: data.id_projeto, 
+                        id_comodo: data.id_comodo, 
+                        tipo_unidade_medida: data.tipo_unidade_medida,
+                        tipo_medida: data.tipo_medida,
+                        tipo_ponto: data.tipo_ponto,
+                        descricao_medida: data.descricao_medida,
+                        medicao: data.medicao
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        insertedSuccessSweetAlert(response.message, 'http://localhost:8000/medidas/'+data.id_projeto+'/'+data.id_comodo+'/'+id_medida_anterior);
+                    }
+                });
+            }
+        });
 
         
         $(document).on('click', '#button_delete', function(event){

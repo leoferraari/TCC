@@ -44,13 +44,31 @@ class ProjetoController extends Controller
 
     public function alterar($iCodigoProjeto) {
 
-        $oProjeto = Projeto::find($iCodigoProjeto);
+        $oProjeto = $this->getAlteracaoProjeto($iCodigoProjeto);
         $oEndereco = $this->getEnderecoProjeto($iCodigoProjeto);     
         $oEstados = Estado::all();
         $oCheckListUsuario = $this->getCheckListUsuario($oProjeto->id_usuario);
 
         $oMunicipios = $this->getMunicipiosEstado($oEndereco->estado_usuario);
         return view('projeto.alteracao', [
+            'oProjeto' => $oProjeto,
+            'oEndereco' => $oEndereco,
+            'oEstados' => $oEstados,
+            'oMunicipios' => $oMunicipios,
+            'oCheckListUsuario' => $oCheckListUsuario,
+            'iUsuario' => $oProjeto->id_usuario
+        ]);
+    }
+
+    public function visualizar($iCodigoProjeto) {
+
+        $oProjeto = $this->getAlteracaoProjeto($iCodigoProjeto);
+        $oEndereco = $this->getEnderecoProjeto($iCodigoProjeto);     
+        $oEstados = Estado::all();
+        $oCheckListUsuario = $this->getCheckListUsuario($oProjeto->id_usuario);
+
+        $oMunicipios = $this->getMunicipiosEstado($oEndereco->estado_usuario);
+        return view('projeto.visualizar', [
             'oProjeto' => $oProjeto,
             'oEndereco' => $oEndereco,
             'oEstados' => $oEstados,
@@ -80,7 +98,8 @@ class ProjetoController extends Controller
             'email_cliente' => $request['email_cliente'],
             'numero_tel_cliente' => $request['numero_tel_cliente'],
             'situacao'=> $request['id_terceirizado'] ? 6 : 1,
-            'data_hora_atendimento'=> $request['data_hora_atendimento'],
+            'data_atendimento'=> $request['data_atendimento'],
+            'hora_atendimento'=> $request['hora_atendimento'],
             'prazo_final' => $request['prazo_final'],
             'data_conclusao' => $request['data_conclusao'],
             'id_usuario' => session('id_user'),
@@ -136,7 +155,8 @@ class ProjetoController extends Controller
                                            nome_cliente,
                                            numero_tel_cliente,
                                            email_cliente,
-                                           to_char(data_hora_atendimento, \'DD/MM/YYYY\') as data_hora_atendimento,
+                                           to_char(data_atendimento, \'DD/MM/YYYY\') as data_atendimento,
+                                           hora_atendimento,
                                            to_char(prazo_final, \'DD/MM/YYYY\')  as prazo_final,
                                            (id_usuario = %2$d) as permite_alterar,
                                            id_checklist,
@@ -152,7 +172,7 @@ class ProjetoController extends Controller
                                         else 
                                             (situacao = %1$d and (id_usuario = %2$d or id_terceirizado = %2$d)) 
                                         end
-                                    order by data_hora_atendimento desc
+                                    order by data_atendimento, hora_atendimento desc
 
                             ', $iCodigoSituacao, session('id_user')));
     }
@@ -210,6 +230,18 @@ class ProjetoController extends Controller
         ]);
     }
 
+    public function reabrir(Request $request) {
+        $update = Projeto::where('id', $request->id_projeto)->update([
+            'situacao' => 1,
+            'id_terceirizado' => null,
+        ]);
+
+        return $this->responseJsonSuccess([
+            'message' => 'Projeto Reaberto. A situação foi alterada para "Em Andamento"!',
+            'data'    => $request
+        ]);
+    }
+
     public function aceitar(Request $request) {
         $update = Projeto::where('id', $request->id_projeto)->update([
             'situacao' => 1,
@@ -235,6 +267,7 @@ class ProjetoController extends Controller
     public function concluir(Request $request) {
         $update = Projeto::where('id', $request->id_projeto)->update([
             'situacao' => 4,
+            'data_conclusao' => date('d-m-Y')
         ]);
 
         return $this->responseJsonSuccess([
@@ -258,5 +291,53 @@ class ProjetoController extends Controller
                   from projeto
                  where id = '. $iProjeto.'
             ')[0];
+    }
+
+    public function getPossuiProjetoPendente($iProjeto) {
+        return DB::select(sprintf('select check_list_atividades.id,
+                        check_list_atividades.descricao,
+                        coalesce(checklist_atividade_projeto.concluido, 0) as concluido
+                from check_list_atividades 
+                left join checklist_atividade_projeto     
+                on check_list_atividades.id = checklist_atividade_projeto.id
+                and check_list_atividades.id_checklist = checklist_atividade_projeto.id_checklist
+                and checklist_atividade_projeto.id_projeto = %d
+              where coalesce(checklist_atividade_projeto.concluido, 0) = 0
+           
+            ', $iProjeto));
+    }
+
+    public function getInfoArquiteto($iArquiteto) {
+        return DB::select(sprintf('select nome || \' \' || sobrenome as nome,
+                                          email,
+                                          crea, 
+                                          celular,
+                                          telefone_fixo
+
+                                          from users
+                                    where id = %d
+                            ', $iArquiteto))[0];
+    }
+
+
+    private function getAlteracaoProjeto($iProjeto) {
+        return DB::select('select id,
+                                  nome,
+                                  descricao,
+                                  nome_cliente,
+                                  email_cliente,
+                                  numero_tel_cliente,
+                                  situacao,
+                                  to_char(data_criacao, \'YYYY-MM-DD\') as data_criacao,
+                                  to_char(data_atendimento, \'YYYY-MM-DD\') as data_atendimento,
+                                  hora_atendimento,
+                                  to_char(prazo_final, \'YYYY-MM-DD\') as prazo_final,
+                                  to_char(data_conclusao, \'YYYY-MM-DD\') as data_conclusao, 
+                                  id_usuario,
+                                  id_terceirizado,
+                                  id_checklist
+                             from projeto
+                            where id = '. $iProjeto.'
+                        ')[0];
     }
 }

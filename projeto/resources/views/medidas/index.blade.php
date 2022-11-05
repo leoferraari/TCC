@@ -31,8 +31,13 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Código Medida</th>
+                                    <th>Código</th>
                                     <th>Descrição</th>
+                                    <th>Und. Medida</th>
+                                    <th>Tipo Medida</th>
+                                    <th>Tipo Ponto</th>
+                                    <th>Descrição</th>
+                                    <th>Medição</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -41,11 +46,61 @@
                                     <tr>
                                         <td>{{$aMedida->id_medida}}</td>
                                         <td>{{$aMedida->descricao_medida}}</td>
+                                        
+                                        <td>
+                                            @switch($aMedida->tipo_unidade_medida)
+                                                @case(1)
+                                                    Metro (m)
+                                                    @break
+                                                @case(2)
+                                                    Centímetro (cm)
+                                                    @break
+                                                @case(3)
+                                                    Milímetro (mm)
+                                                    @break
+                                            @endswitch
+                                        </td>
+
+                                        <td>
+                                            @switch($aMedida->tipo_medida)
+                                                @case(1)
+                                                    Altura (Vertical)
+                                                    @break
+                                                @case(2)
+                                                    Largura
+                                                    @break
+                                                @case(3)
+                                                    Profundidade
+                                                    @break
+                                                @case(4)
+                                                    Inclinada
+                                                    @break
+                                            @endswitch
+                                        </td>
+
+                                        
+                                        <td>
+                                            @switch($aMedida->tipo_ponto)
+                                                @case(null)
+                                                    Não informado
+                                                    @break
+                                                @case(1)
+                                                    Hidráulico
+                                                    @break
+                                                @case(2)
+                                                    Elétrico
+                                                    @break
+                                            @endswitch
+                                        </td>
+
+                                        <td>{{$aMedida->descricao_medida}}</td>
+                                        <td>{{$aMedida->medicao}}</td>
+
                                         <td>
                                             <div class="btn-group">
                                                 <button type="submit" onclick="modalIncluirMedida({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}})" class="btn btn-info btn-sm">Incluir Medida</button> 
                                                 <button type="button" onclick="redirecionaMedida({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}})" class="btn btn-secondary btn-sm" >Medidas</button>
-                                                <button type="button" class="btn btn-warning btn-sm" onclick="modalArea({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}})">Alterar</button>
+                                                <button type="button" id_projeto="{{$iProjeto}}" id_comodo="{{$iComodo}}" id_medida="{{$aMedida->id_medida}}" id_medida_anterior="{{$iMedida}}" class="btn btn-warning btn-sm" onclick="modalAlteracao({{$iProjeto}}, {{$iComodo}}, {{$aMedida->id_medida}}, {{$iMedida}})">Alterar</button>
                                                 <button type="submit" id_projeto="{{$iProjeto}}" id_comodo="{{$iComodo}}" id_medida="{{$aMedida->id_medida}}" id_medida_anterior="{{$iMedida}}" id="button_delete" class="btn btn-danger btn-sm">Deletar</button> 
                                             </div>
                                         </td>
@@ -64,15 +119,16 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-    function modalArea(id_projeto, id_comodo, id_medida = null) {
+    function modalAlteracao(id_projeto, id_comodo, id_medida, id_medida_anterior) {
         let oModal = document.getElementById('modal'),
             conteudo = document.getElementById('conteudo_modal');
 
         var oForm = document.createElement('form');
             oForm.setAttribute('id', 'formulario');
             oForm.setAttribute('id_medida', id_medida);
-
-        document.getElementById('staticBackdropLabel').innerHTML = id_medida ? 'Alterar Área' : 'Incluir Área';
+            oForm.setAttribute('id_medida_anterior', id_medida_anterior);
+      
+        document.getElementById('staticBackdropLabel').innerHTML = 'Alterar Medida';
 
         var oTable = document.createElement('table');
             oTable.setAttribute('class', 'table table-borderless');
@@ -84,23 +140,21 @@
 
         var oSubmit = document.createElement('input');
             oSubmit.setAttribute('type', 'submit');
-            oSubmit.setAttribute('id', id_medida ? 'update_area_medicao' :'area_medicao');
-            oSubmit.setAttribute('value', id_medida ? 'Alterar' : 'Cadastrar');
+            oSubmit.setAttribute('id', 'update_medida');
+            oSubmit.setAttribute('value', 'Alterar');
             oSubmit.setAttribute('class', 'btn btn-primary');
             oSubmit.style.marginTop = '50px';
             oSubmit.style.marginLeft = '40%';
 
             oForm.appendChild(oTable);
             oForm.appendChild(document.createElement('br'));
-         
-
             oForm.appendChild(oSubmit);
-
-            conteudo.appendChild(oForm);
+        conteudo.appendChild(oForm);
     
         newModal = new bootstrap.Modal(oModal);
         newModal.show();
 
+        pushCampoMedida(id_projeto, id_comodo, id_medida);
         pushCampoProjeto(id_projeto);
         pushCampos(id_projeto, id_comodo, id_medida, true);
     }
@@ -155,7 +209,7 @@
         });
     }
 
-    function pushCampos(id_projeto, id_comodo, id_medida, bIncluirArea = false) {
+    function pushCampos(id_projeto, id_comodo, id_medida, bAltera = false) {
         $.ajax({
             url: '/api/comodo/'+id_comodo+'/'+id_projeto,
             type: 'GET',
@@ -198,22 +252,19 @@
                     oTr.appendChild(oTdDesc);
 
                     document.getElementById('tabela').appendChild(oTr);
-                    
-                    if (bIncluirArea) {
-                        pushCampoDescricao(id_projeto, id_comodo, id_medida);
-                    } 
                 }
             },
             
             complete: function(data) {
-                if (!bIncluirArea) {
-                    pushCampoTipoUnidadeMedida();
-                    pushCampoTipoMedida();
-                    pushCampoTipoPonto();
-                    pushCampoDescricao(id_projeto, id_comodo, null, true);
-                    pushCampoMedicao();
+                pushCampoTipoUnidadeMedida();
+                pushCampoTipoMedida();
+                pushCampoTipoPonto();
+                pushCampoDescricao(id_projeto, id_comodo, null, true);
+                pushCampoMedicao();
+
+                if (bAltera) {
+                    preencheInformacoesFormulario(id_projeto, id_comodo, id_medida);
                 }
-  
             }
         });
     }
@@ -251,12 +302,16 @@
 
     function preencheInformacoesFormulario(id_projeto, id_comodo, id_medida) {
         $.ajax({
-            url: '/api/area_medicoes/'+id_projeto+'/'+id_comodo+'/'+id_medida,
+            url: '/api/medidas/'+id_projeto+'/'+id_comodo+'/'+id_medida,
             type: 'GET',
             success: function(result) {
                 console.log(result);
                 if(result) {
+                    document.getElementById('tipo_unidade_medida').value = result.tipo_unidade_medida;
+                    document.getElementById('tipo_medida').value = result.tipo_medida;
+                    document.getElementById('tipo_ponto').value = result.tipo_ponto;
                     document.getElementById('descricao_medida').value = result.descricao_medida;
+                    document.getElementById('medicao').value = result.medicao;
                 };
             }
         });
@@ -394,9 +449,6 @@
 
         document.getElementById('tabela').appendChild(oTr);
     }
-
-
- 
 
     function pushCampoTipoMedida() {
         var oTr = document.createElement('tr');

@@ -135,6 +135,15 @@ class MedidaController extends Controller
                                         and id_medida = %d', $iProjeto, $iComodo, $iMedida))[0];
     }
 
+    public function getInformacoesMedida($iProjeto, $iComodo, $iMedida) {
+        return DB::select(sprintf('select *
+                                        from medidas
+                                    where id_projeto = %d
+                                        and id_comodo = %d
+                                        and id_medida = %d', $iProjeto, $iComodo, $iMedida))[0];
+    }
+
+
     public function update_area_medicao(Request $request) {
 
         $update = Medida::where('id_medida', $request->id_medida)->where('id_projeto', $request->id_projeto)->where('id_comodo', $request->id_comodo)               
@@ -144,6 +153,23 @@ class MedidaController extends Controller
 
         return $this->responseJsonSuccess([
             'message' => 'Área alterada com sucesso!',
+            'data'    => $request
+        ]);
+    }
+
+    public function update_medida(Request $request) {
+
+        $update = Medida::where('id_medida', $request->id_medida)->where('id_projeto', $request->id_projeto)->where('id_comodo', $request->id_comodo)               
+        ->update([
+            'tipo_unidade_medida' => $request->tipo_unidade_medida,
+            'tipo_medida' => $request->tipo_medida,
+            'tipo_ponto' => $request->tipo_ponto,
+            'descricao_medida' => $request->descricao_medida,
+            'medicao'=> $request->medicao,
+        ]);
+
+        return $this->responseJsonSuccess([
+            'message' => 'Medida alterada com sucesso!',
             'data'    => $request
         ]);
     }

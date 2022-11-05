@@ -31,7 +31,7 @@
                 </div> <!-- .menu__logo -->
                 <nav class="nav">
                     <ul class="nav__list"> <!-- Elemento modificador -->
-                        <li><a href="{{route('usuario_atendimento.create')}}" class="nav__link">Área de Atuação (Arquitetos)</a></li>
+                        <li><a href="{{route('area_atuacao')}}" class="nav__link">Área de Atuação (Arquitetos)</a></li>
                         <li><a href="{{route('projeto.create')}}" class="nav__link">Novo Projeto</a></li>
                         
                         

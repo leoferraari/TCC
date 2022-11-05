@@ -22,7 +22,8 @@ class CreateProjetosTable extends Migration
             $table->string('numero_tel_cliente', 11);
             $table->smallInteger('situacao');
             $table->timestamp('data_criacao')->default('now()');
-            $table->timestamp('data_hora_atendimento');
+            $table->timestamp('data_atendimento');
+            $table->string('hora_atendimento', 6);
             $table->timestamp('prazo_final');
             $table->timestamp('data_conclusao')->nullable();
             $table->unsignedBigInteger('id_usuario');

@@ -14,6 +14,7 @@ use App\Http\Controllers\CheckListAtividadeController;
 use App\Http\Controllers\ProjetoController;
 use App\Http\Controllers\ArquivoProjetoController;
 use App\Http\Controllers\MedidaController;
+use App\Http\Controllers\AreaAtuacaoController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
@@ -72,6 +73,8 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
     Route::get('/projeto_alteracao/{iCodigoProjeto}',  [ProjetoController::class, 'alterar'])->name('projeto.alterar');
 
+    Route::get('/projeto_informacao/{iCodigoProjeto}',  [ProjetoController::class, 'visualizar'])->name('projeto.visualizar');
+
     // Route::get('/comodo/create/{id_projeto}', [ComodoController::class, 'create'])->name('comodo.create');
 
     Route::get('/comodos/{id_projeto}', [ComodoController::class, 'index'])->name('comodos.index'); //Ok
@@ -82,6 +85,9 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
     Route::get('/area_medicoes/{codigo_projeto}/{codigo_comodo}', [MedidaController::class, 'areas_medicoes'])->name('medidas.areas_medicoes'); //Ok
 
     Route::get('/medidas/{codigo_projeto}/{codigo_comodo}/{codigo_medida}', [MedidaController::class, 'medidas'])->name('medidas.medidas'); //Ok
+
+    Route::get('/area_atuacao', [AreaAtuacaoController::class, 'area_atuacao'])->name('area_atuacao'); //Ok
+    Route::get('/area_atuacao/search/{codigo_municipio}/{nome_arquiteto}', [AreaAtuacaoController::class, 'area_atuacao_loc'])->name('area_atuacao_loc'); //Ok
 });
 
 
