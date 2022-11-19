@@ -37,7 +37,8 @@ class AreaAtuacaoController extends Controller
 
 
     public function getAreasAtuacao() {
-        return DB::select('select users.id as codigo_usuario,
+        $iCodigoUsuario = session('id_user');
+        return DB::select(sprintf('select users.id as codigo_usuario,
                                   users.nome || \' \' || users.sobrenome as nome,
                                   celular,
                                   email,
@@ -50,7 +51,8 @@ class AreaAtuacaoController extends Controller
                              join municipios 
                                on municipios.id = usuario_atendimentos.id_municipio
                              join estados
-                               on estados.id = municipios.estado_id'
+                               on estados.id = municipios.estado_id 
+                            where users.id <> %d', $iCodigoUsuario)
                            );
     }
 
@@ -73,18 +75,16 @@ class AreaAtuacaoController extends Controller
 
         if ($iMunicipio != 'null') {
             $bAplicouFiltro = true;
-            $sSql.= ' where municipios.id = '+ $iMunicipio;
+            $sSql.= sprintf(' where municipios.id = %d', $iMunicipio);
         }
         
         if ($sNomeArquiteto != 'null') {
-            $sSql.=  $bAplicouFiltro ? ' and' : ' where';
-            $sSql.= '(users.nome || \' \' || users.sobrenome) ilike '. '\'%'.$sNomeArquiteto.'%\'';
+            $sSql.=  $bAplicouFiltro ? ' and' : ' where ';
+            $sSql.= ' (users.nome || \' \' || users.sobrenome) ilike '. '\'%'.$sNomeArquiteto.'%\'';
         }
-    
 
+        $sSql.= sprintf(' and users.id <> %d', $iCodigoUsuario);
+        
         return DB::select($sSql);
     }
-
-    
-    
 }

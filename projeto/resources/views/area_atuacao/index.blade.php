@@ -85,7 +85,7 @@ function visualizarInfoArquiteto(iArquitetoTerceirizado) {
        let oModal = document.getElementById('modal'),
        conteudo = document.getElementById('conteudo_modal');
 
-       document.getElementById('staticBackdropLabel').innerHTML = 'Informações do Arquitet';
+       document.getElementById('staticBackdropLabel').innerHTML = 'Informações do Arquiteto';
 
        oLabelNome = document.createElement('label');
        oLabelNome.setAttribute('for', 'nome');
@@ -133,7 +133,7 @@ function visualizarInfoArquiteto(iArquitetoTerceirizado) {
 
        oLabelCelular = document.createElement('label');
        oLabelCelular.setAttribute('for', 'celular');
-       oLabelCelular.innerHTML = 'Telefone Fixo:';
+       oLabelCelular.innerHTML = 'Celular:';
     
        oCelular = document.createElement('input');
        oCelular.setAttribute('type', 'text');

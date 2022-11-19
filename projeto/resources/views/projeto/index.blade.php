@@ -266,7 +266,7 @@
 
             oLabelCelular = document.createElement('label');
             oLabelCelular.setAttribute('for', 'celular');
-            oLabelCelular.innerHTML = 'Telefone Fixo:';
+            oLabelCelular.innerHTML = 'Celular:';
          
             oCelular = document.createElement('input');
             oCelular.setAttribute('type', 'text');
