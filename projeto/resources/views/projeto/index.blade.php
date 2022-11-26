@@ -81,9 +81,9 @@
                                                         <button type="button" permite_alterar="{{$oProjeto->permite_alterar}}" name="button_alterar" onclick="redirecionaProjeto({{$oProjeto->id}})" class="btn btn-warning btn-sm" >Alterar</button>
                                                     @endif
 
-                                                    @if($oProjeto->id_terceirizado)
-                                                        <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
-                                                    @endif
+                                                    @if($oProjeto->permite_alterar && $oProjeto->id_terceirizado)
+                                                    <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
+                                                    @endif 
 
                                                     <button type="submit" id="cancelar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Cancelar</button> 
                                                 </div>
@@ -96,8 +96,13 @@
                                                     <button type="submit" id="aceitar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-success btn-sm">Aceitar</button>     
                                                     <button type="submit" id="recusar_projeto" id_projeto="{{$oProjeto->id}}" class="btn btn-danger btn-sm">Recusar</button> 
 
-                                                    @if($oProjeto->id_terceirizado)
+
+                                                    @if($oProjeto->permite_alterar && $oProjeto->id_terceirizado)
                                                         <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
+                                                    @endif
+
+                                                    @if(!$oProjeto->permite_alterar)
+                                                        
                                                         <button type="button" class="btn btn-secondary btn-sm" onclick="redirecionaInfoProjeto({{$oProjeto->id}})">Info. Projeto</button>
                                                     @endif
 
@@ -121,8 +126,11 @@
                                                         <button type="button" id="{{$oProjeto->id}}" permite_concluir_atividade="{{$oProjeto->permite_concluir_atividade}}" name="button_concluir_atividades" onclick="concluirAtividades({{$oProjeto->id_checklist}}, {{$oProjeto->id}})" class="btn btn-secondary btn-sm" >Atividades</button>
                                                     @endif
 
-                                                    @if($oProjeto->id_terceirizado)
+                                                    @if($oProjeto->permite_alterar && $oProjeto->id_terceirizado)
                                                         <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
+                                                    @endif
+
+                                                    @if(!$oProjeto->permite_alterar)
                                                         <button type="button" class="btn btn-secondary btn-sm" onclick="redirecionaInfoProjeto({{$oProjeto->id}})">Info. Projeto</button>
                                                     @endif
 
@@ -161,7 +169,7 @@
                                                         <button type="button" class="btn btn-sm btn-primary" onclick="visualizarAtividades({{$oProjeto->id_usuario}}, {{$oProjeto->id_checklist}})">Visualizar Atividades</button>
                                                     @endif
 
-                                                    @if($oProjeto->id_terceirizado)
+                                                    @if($oProjeto->permite_alterar && $oProjeto->id_terceirizado)
                                                         <button type="button" class="btn btn-info btn-sm" onclick="visualizarInfoArquiteto({{$oProjeto->id_terceirizado}})">Info. Arquiteto</button>
                                                     @endif
 

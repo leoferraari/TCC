@@ -90,6 +90,8 @@ class ProjetoController extends Controller
 
         $oData = $request->all();
 
+        $iSituacao = $request['id_terceirizado'] ? 6 : 1;
+
         $aInsert = [
             'id' => $this->getMaxCodigo() +1,
             'nome' => $request['nome'],
@@ -111,7 +113,8 @@ class ProjetoController extends Controller
 
         $this->insereEndereco($request, $projeto);
 
-        return redirect()->route('usuario_atendimento.index');
+        $oProjetos = $this->getProjetosUsuario($iSituacao);
+        return view('projeto.index', ['iSituacao' => $iSituacao, 'oProjetos' => $oProjetos, 'bPossuiProjeto' => $oProjetos ? true : false]);
     }
 
     private function insereEndereco(Request $request, $projeto) {
