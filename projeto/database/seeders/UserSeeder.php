@@ -16,10 +16,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'nome' => 'Leonardo',
-            'sobrenome' => 'Ferrari',
-            'apelido' => 'Léo',
-            'email' => 'leonardo.ferrari@unidavi.edu.br',
+            'nome' => 'Arquiteto 1',
+            'sobrenome' => '1',
+            'apelido' => 'Arquiteto 1',
+            'email' => 'arquiteto1@hotmail.com',
             'data_nasc' => '05/04/1999',
             'cpf' => '999.999.999-99',
             'crea' => '250.678',
@@ -39,10 +39,10 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'nome' => 'Marisa',
-            'sobrenome' => 'Ferrari',
-            'apelido' => 'Mari',
-            'email' => 'marisa.ferrari@hotmail.com',
+            'nome' => 'Arquiteto 2',
+            'sobrenome' => '2',
+            'apelido' => 'Arquiteto 2',
+            'email' => 'arquiteto2@hotmail.com',
             'data_nasc' => '14/11/1974',
             'cpf' => '999.999.999-99',
             'crea' => '251.678',
